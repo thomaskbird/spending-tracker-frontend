@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "./compiled",
+        "sourceMap": false,
+        "strict": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "target": "es5",
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ES6",
+            "ScriptHost"
+        ],
+        "allowSyntheticDefaultImports": false
+    },
+    "include": [
+        "./src/*"
+    ]
+}
