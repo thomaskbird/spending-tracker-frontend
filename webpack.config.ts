@@ -86,7 +86,7 @@ const URL_PATHS = {
  * config for webpack-dev-server
  */
 const DEV_SERVER = {
-    port: 8000,
+    port: 8050,
     hot: true,
     hotOnly: false,
     overlay: true,
@@ -204,7 +204,7 @@ export default (env: Env = {}) => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                title: isSandbox ? "The Sandbox" : "PDS Web App",
+                title: isSandbox ? "The Sandbox" : "SpendingTracker",
                 template: PATHS.src + "/index.ejs",
                 publicPath: URL_PATHS.publicStatic
             }),
@@ -220,10 +220,6 @@ export default (env: Env = {}) => {
                     ),
                     API_BASE_URL: JSON.stringify(env.apiBaseUrl),
                     VEHICLE_API_BASE_URL: JSON.stringify(env.vehicleApiBaseUrl),
-                    AG_GRID_LICENSE_KEY: JSON.stringify(
-                        "Control-Tec_PDS_Web_App_4Devs9_March_2019__" +
-                            "MTU1MjA4OTYwMDAwMA==137d993909f4bf81fd198c6c37ee3d03"
-                    ),
                     WEB_APP_VERSION: JSON.stringify(packageJson.version),
                     WEB_APP_COPYRIGHT_YEAR: JSON.stringify(String(2017))
                 }

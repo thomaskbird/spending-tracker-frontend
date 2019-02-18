@@ -1,7 +1,10 @@
 import * as React from "react";
 import "./App.scss";
+import {Route, Switch} from "react-router";
 
-export interface AppProps {
+import { LoginView } from "./views/LoginView";
+
+interface AppProps {
   config?: object;
 }
 
@@ -18,10 +21,9 @@ export class App extends React.Component<AppProps, State> {
 
   public render(): JSX.Element {
     return (
-        <div>
-            <h1>Welcome To Your Blank Starter App</h1>
-            <p>This repo utilizes webpack for build and development server. It combines sass for css, typescript and react for a seamless easy to use starting point for any single page app.</p>
-        </div>
+        <Switch>
+          <Route path={"/login"} component={LoginView} />
+        </Switch>
     );
   }
 }
