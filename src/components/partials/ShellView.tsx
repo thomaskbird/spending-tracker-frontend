@@ -32,8 +32,8 @@ export class ShellView extends React.Component<ShellViewProps, State> {
         </div>
         <div className={"BodyPartial"}>
           <Switch>
-            <Route path={"/add"} component={AddTransactionView} />
-            <Route path={"/insights"} component={InsightPickerView} />
+            <Route path={"/admin/add"} component={AddTransactionView} />
+            <Route path={"/admin/insights"} component={InsightPickerView} />
             <Route component={TransactionListView} />
           </Switch>
         </div>

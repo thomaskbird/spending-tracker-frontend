@@ -30,7 +30,7 @@ export class LoginView extends React.Component<LoginViewProps, State> {
 
           <div className={"FormGroup"}>
             <label htmlFor="password">Password:</label>
-            <input type={"password"} id={"password"} />
+            <input type={"password"} id={"password"} placeholder={"Enter password..."} />
           </div>
 
           <button type="submit">Login</button>
