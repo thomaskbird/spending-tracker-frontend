@@ -1,9 +1,7 @@
 import * as React from "react";
 import "./LoginView.scss";
 
-interface LoginViewProps {
-
-}
+interface LoginViewProps {}
 
 interface State {}
 

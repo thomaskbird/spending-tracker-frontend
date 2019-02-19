@@ -4,19 +4,19 @@ This repo utilizes webpack for build and development server. It combines sass fo
 
 ## Table of Contents
 
--   [Getting Started](#getting-started)
--   [WebStorm Settings](#webstorm-idea-settings)
--   [Project Overview](#project-overview)
-    -   [Folder Structure](#folder-structure)
--   [Code Validation](#code-validation)
--   [Gotchas](#gotchas)
--   [BEM Methodology for CSS](#bem)
+- [Getting Started](#getting-started)
+- [WebStorm Settings](#webstorm-idea-settings)
+- [Project Overview](#project-overview)
+  - [Folder Structure](#folder-structure)
+- [Code Validation](#code-validation)
+- [Gotchas](#gotchas)
+- [BEM Methodology for CSS](#bem)
 
--   Additional Documentation
-    -   [NPM Scripts](docs/npm-scripts.md)
-    -   [Static Analysis with Coverity](docs/coverity.md)
-    -   [The Sandbox](src/sandbox/README.md)
-    -   [Generated API Code](swagger-codegen/README.md)
+- Additional Documentation
+  - [NPM Scripts](docs/npm-scripts.md)
+  - [Static Analysis with Coverity](docs/coverity.md)
+  - [The Sandbox](src/sandbox/README.md)
+  - [Generated API Code](swagger-codegen/README.md)
 
 ## <a name="getting-started"/>Getting Started
 
@@ -54,39 +54,39 @@ line" and set "Strip trailing spaces on Save" to "All".
 
 ### <a name="folder-structure"/>Folder Structure
 
--   **.githooks/** - Custom scripts that fire when certain Git actions occur.
--   **.idea/** - IntelliJ IDEA project files. Only files that contain common project settings should be checked into git.
-    You may need to add specific files or subfolders to the .gitignore file when adding plugins, etc., to preven your
-    user-specific customizations from being checked in.
--   **\_\_mocks\_\_/** - File/module mocks used by Jest for unit testing.
--   **dictionaries** - Project dictionary used by WebStorm/IDEA.
--   **coverage/** - Unit test code coverage results. See [test-coverage](docs/npm-scripts.md#test-coverage) script.
--   **dist/** - Distribution files are output here when building the project. Omitted from git.
--   **docs/** - Additional documentation about this project. There should be links to these files from the
-    [Table of Contents](#table-of-contents).
--   **node_modules/** - Third party dependencies managed by npm. Omitted from git.
--   **out/** - TypeScript compiler output. Used only for [Static Analysis with Coverity](#docs/coverity.md).
-    Omitted from git.
--   **public/** - Static files that will be transferred as-is to `dist/public` when building the project so that they can
-    be served to the web app.
--   **src/** - Our project source code.
--   **swagger-codegen/** - Everything needed to [generate API Code](swagger-codegen/README.md).
--   **tslint-rules/** - Custom TSLint rules.
--   **.browserslistrc** - Single configuration for all tools (i.e. POSTCSS) that need to know what browsers are supported.
--   **.gitignore** - Hides files from git so that unwanted files are not checked in.
--   **.prettierignore** - Hide files from Prettier so that they are not processed.
--   **.prettierrc.json** - Prettier configuration file.
--   **.sass-lint.yml** - Sass-lint configuration file.
--   **ak-coverity.it.control-tec.com** - Auth key for Coverity. Necessary to run Coverity on Bamboo.
--   **jest.setup.ts** - Test environment initialization. [Scripts](docs/npm-scripts.md).
--   **package.json** - Defines what NPM modules our project depends on, and defines some useful [scripts](docs/npm-scripts.md).
--   **package-lock.json** - NPM package lock file that ensures the same version of every node module is consistently
--   **sonar-project.properties** - SonarQube configuration file.
--   **tsconfig.json** - Configuration file for the typeScript compiler.
--   **tslint.json** - Configuration file for tslint.
-    installed every time.
--   **web-app.iml** - An Intellij IDEA project file.
--   **webpack.config.ts** - Webpack configuration file.
+- **.githooks/** - Custom scripts that fire when certain Git actions occur.
+- **.idea/** - IntelliJ IDEA project files. Only files that contain common project settings should be checked into git.
+  You may need to add specific files or subfolders to the .gitignore file when adding plugins, etc., to preven your
+  user-specific customizations from being checked in.
+- **\_\_mocks\_\_/** - File/module mocks used by Jest for unit testing.
+- **dictionaries** - Project dictionary used by WebStorm/IDEA.
+- **coverage/** - Unit test code coverage results. See [test-coverage](docs/npm-scripts.md#test-coverage) script.
+- **dist/** - Distribution files are output here when building the project. Omitted from git.
+- **docs/** - Additional documentation about this project. There should be links to these files from the
+  [Table of Contents](#table-of-contents).
+- **node_modules/** - Third party dependencies managed by npm. Omitted from git.
+- **out/** - TypeScript compiler output. Used only for [Static Analysis with Coverity](#docs/coverity.md).
+  Omitted from git.
+- **public/** - Static files that will be transferred as-is to `dist/public` when building the project so that they can
+  be served to the web app.
+- **src/** - Our project source code.
+- **swagger-codegen/** - Everything needed to [generate API Code](swagger-codegen/README.md).
+- **tslint-rules/** - Custom TSLint rules.
+- **.browserslistrc** - Single configuration for all tools (i.e. POSTCSS) that need to know what browsers are supported.
+- **.gitignore** - Hides files from git so that unwanted files are not checked in.
+- **.prettierignore** - Hide files from Prettier so that they are not processed.
+- **.prettierrc.json** - Prettier configuration file.
+- **.sass-lint.yml** - Sass-lint configuration file.
+- **ak-coverity.it.control-tec.com** - Auth key for Coverity. Necessary to run Coverity on Bamboo.
+- **jest.setup.ts** - Test environment initialization. [Scripts](docs/npm-scripts.md).
+- **package.json** - Defines what NPM modules our project depends on, and defines some useful [scripts](docs/npm-scripts.md).
+- **package-lock.json** - NPM package lock file that ensures the same version of every node module is consistently
+- **sonar-project.properties** - SonarQube configuration file.
+- **tsconfig.json** - Configuration file for the typeScript compiler.
+- **tslint.json** - Configuration file for tslint.
+  installed every time.
+- **web-app.iml** - An Intellij IDEA project file.
+- **webpack.config.ts** - Webpack configuration file.
 
 ## <a name="code-validation"/>Code Validation
 

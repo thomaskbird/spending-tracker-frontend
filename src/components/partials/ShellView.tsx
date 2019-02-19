@@ -1,17 +1,15 @@
 import * as React from "react";
 import "./ShellView.scss";
-import { Switch, Route, Link } from "react-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Switch, Route, Link } from "react-router-dom";
 
 import { AddTransactionView } from "./AddTransactionView";
 import { TransactionListView } from "./TransactionListView";
+import { InsightPickerView } from "./InsightPickerView";
 
-interface ShellViewProps {
+interface ShellViewProps {}
 
-}
-
-interface State {
-
-}
+interface State {}
 
 const COMPONENT_NAME = "ShellView";
 
@@ -28,13 +26,15 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     return (
       <div className={COMPONENT_NAME}>
         <div className={"HeaderPartial"}>
-          <Link to={"/admin/add"}><FontAwesomeIcon icon={"add"} /></Link>
+          <Link to={"/admin/add"}>
+            <FontAwesomeIcon icon={"plus"} />
+          </Link>
         </div>
         <div className={"BodyPartial"}>
           <Switch>
             <Route path={"/add"} component={AddTransactionView} />
-            <Route path={"*"} component={TransactionListView} />
             <Route path={"/insights"} component={InsightPickerView} />
+            <Route component={TransactionListView} />
           </Switch>
         </div>
       </div>

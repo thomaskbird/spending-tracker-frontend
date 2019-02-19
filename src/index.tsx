@@ -5,8 +5,8 @@
 import "./index.scss";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {BrowserRouter} from "react-router-dom";
-import {App} from "./components/App";
+import { BrowserRouter } from "react-router-dom";
+import { App } from "./components/App";
 
 /**
  * Creates the entire top-level structure of the application, using the specified root component.
@@ -14,7 +14,7 @@ import {App} from "./components/App";
 function createAppElement(): JSX.Element {
   return (
     <BrowserRouter>
-      <App/>
+      <App />
     </BrowserRouter>
   );
 }

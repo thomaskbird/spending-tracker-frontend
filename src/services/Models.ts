@@ -13,6 +13,7 @@ export interface Transaction extends Timestamps {
   id: number;
   name: string;
   slug: string;
+  amount: number;
   description: string;
   type: TransactionType;
 }
@@ -36,5 +37,5 @@ export interface PaginatedListResults {
   prev_page_url: string | null;
   path: string | null;
   first_page_url: string | null;
-  data: Tag[] | Transaction[] | null;
+  data: any;
 }

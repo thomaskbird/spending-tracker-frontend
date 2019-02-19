@@ -1,11 +1,38 @@
 .TransactionListItem {
   display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
 
   &__text {
     flex: 1;
+
+    h3 {
+      font-size: 16px;
+      line-height: 60%;
+      margin-bottom: 0;
+      font-weight: 600;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+    }
+
+    small {
+      color: #999;
+    }
+  }
+
+  &__selects {
+    margin-right: 15px;
   }
 
   &__amount {
+    font-size: 18px;
 
+    &--income {
+      color: #3c9e3c;
+    }
+
+    &--expense {
+      color: #bd6161;
+    }
   }
 }

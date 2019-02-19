@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./App.scss";
-import {Route, Switch} from "react-router";
+import { Route, Switch } from "react-router";
 
 import { LoginView } from "./views/LoginView";
 import { ShellView } from "./partials/ShellView";
@@ -20,11 +20,11 @@ import {
   faPrint,
   faFilePdf,
   faChevronLeft,
-  faChevronRight,
+  faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
-  faPlus
+  faPlus,
   faChevronDown,
   faChevronUp,
   faCircle,
@@ -37,7 +37,7 @@ library.add(
   faPrint,
   faFilePdf,
   faChevronLeft,
-  faChevronRight,
+  faChevronRight
 );
 
 interface AppProps {
@@ -57,10 +57,10 @@ export class App extends React.Component<AppProps, State> {
 
   public render(): JSX.Element {
     return (
-        <Switch>
-          <Route path={"/login"} component={LoginView} />
-          <Route path={"/admin/*"} component={ShellView} />
-        </Switch>
+      <Switch>
+        <Route path={"/login"} component={LoginView} />
+        <Route path={"/admin/*"} component={ShellView} />
+      </Switch>
     );
   }
 }

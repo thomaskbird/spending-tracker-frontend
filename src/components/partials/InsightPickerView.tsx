@@ -1,17 +1,16 @@
 import * as React from "react";
 import "./InsightPickerView.scss";
 
-interface InsightPickerViewProps {
+interface InsightPickerViewProps {}
 
-}
-
-interface State {
-
-}
+interface State {}
 
 const COMPONENT_NAME = "InsightPickerView";
 
-export class InsightPickerView extends React.Component<InsightPickerViewProps, State> {
+export class InsightPickerView extends React.Component<
+  InsightPickerViewProps,
+  State
+> {
   constructor(props: InsightPickerViewProps, context) {
     super(props, context);
 

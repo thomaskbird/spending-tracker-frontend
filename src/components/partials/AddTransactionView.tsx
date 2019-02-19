@@ -1,17 +1,16 @@
 import * as React from "react";
 import "./AddTransactionView.scss";
 
-interface AddTransactionViewProps {
+interface AddTransactionViewProps {}
 
-}
-
-interface State {
-
-}
+interface State {}
 
 const COMPONENT_NAME = "AddTransactionView";
 
-export class AddTransactionView extends React.Component<AddTransactionViewProps, State> {
+export class AddTransactionView extends React.Component<
+  AddTransactionViewProps,
+  State
+> {
   constructor(props: AddTransactionViewProps, context: any) {
     super(props, context);
 
