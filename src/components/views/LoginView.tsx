@@ -7,6 +7,8 @@ interface LoginViewProps {
 
 interface State {}
 
+const COMPONENT_NAME = "LoginView";
+
 export class LoginView extends React.Component<LoginViewProps, State> {
   public static readonly displayName = "Login View";
 
@@ -18,11 +20,11 @@ export class LoginView extends React.Component<LoginViewProps, State> {
 
   public render(): JSX.Element {
     return (
-      <div className={"LoginView"}>
-        <div className={"LoginView__header"}>
+      <div className={COMPONENT_NAME}>
+        <div className={`${COMPONENT_NAME}__header`}>
           <h2>Login</h2>
         </div>
-        <div className={"LoginView__body"}>
+        <div className={`${COMPONENT_NAME}__body`}>
           <div className={"FormGroup"}>
             <label htmlFor="email">Email:</label>
             <input type={"email"} id={"email"} />

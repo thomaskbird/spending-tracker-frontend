@@ -3,6 +3,42 @@ import "./App.scss";
 import {Route, Switch} from "react-router";
 
 import { LoginView } from "./views/LoginView";
+import { ShellView } from "./partials/ShellView";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faPlus,
+  faChevronUp,
+  faChevronDown,
+  faCircle,
+  faHome,
+  faBriefcase,
+  faListAlt,
+  faBook,
+  faFile,
+  faEnvelope,
+  faPrint,
+  faFilePdf,
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(
+  faPlus
+  faChevronDown,
+  faChevronUp,
+  faCircle,
+  faHome,
+  faBriefcase,
+  faListAlt,
+  faBook,
+  faFile,
+  faEnvelope,
+  faPrint,
+  faFilePdf,
+  faChevronLeft,
+  faChevronRight,
+);
 
 interface AppProps {
   config?: object;
@@ -23,6 +59,7 @@ export class App extends React.Component<AppProps, State> {
     return (
         <Switch>
           <Route path={"/login"} component={LoginView} />
+          <Route path={"/admin/*"} component={ShellView} />
         </Switch>
     );
   }

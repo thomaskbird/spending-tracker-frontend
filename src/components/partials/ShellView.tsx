@@ -1,0 +1,43 @@
+import * as React from "react";
+import "./ShellView.scss";
+import { Switch, Route, Link } from "react-dom";
+
+import { AddTransactionView } from "./AddTransactionView";
+import { TransactionListView } from "./TransactionListView";
+
+interface ShellViewProps {
+
+}
+
+interface State {
+
+}
+
+const COMPONENT_NAME = "ShellView";
+
+export class ShellView extends React.Component<ShellViewProps, State> {
+  public static readonly displayName = "Shell View";
+
+  constructor(props: ShellViewProps, context: any) {
+    super(props, context);
+
+    this.state = {};
+  }
+
+  public render(): JSX.Element {
+    return (
+      <div className={COMPONENT_NAME}>
+        <div className={"HeaderPartial"}>
+          <Link to={"/admin/add"}><FontAwesomeIcon icon={"add"} /></Link>
+        </div>
+        <div className={"BodyPartial"}>
+          <Switch>
+            <Route path={"/add"} component={AddTransactionView} />
+            <Route path={"*"} component={TransactionListView} />
+            <Route path={"/insights"} component={InsightPickerView} />
+          </Switch>
+        </div>
+      </div>
+    );
+  }
+}
