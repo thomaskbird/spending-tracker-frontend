@@ -1,0 +1,32 @@
+.FormGroup {
+  display: flex;
+  margin-bottom: 15px;
+  flex-direction: column;
+
+  &__inline {
+    flex-direction: row;
+  }
+
+  label {
+    margin: 0;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 14px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 0px rgba(0,0,0,.25);
+
+    &:hover {
+      border: 1px solid #aaa;
+    }
+
+    &:focus {
+      outline: none;
+      border: 1px solid #333;
+    }
+  }
+}
