@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./ShellView.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { AddTransactionView } from "./AddTransactionView";
 import { TransactionListView } from "./TransactionListView";
@@ -31,11 +31,13 @@ export class ShellView extends React.Component<ShellViewProps, State> {
           </Link>
         </div>
         <div className={"BodyPartial"}>
-          <Switch>
-            <Route path={"/admin/add"} component={AddTransactionView} />
-            <Route path={"/admin/insights"} component={InsightPickerView} />
-            <Route component={TransactionListView} />
-          </Switch>
+          <Router>
+            <>
+              <Route path={"/admin/add"} component={AddTransactionView} />
+              <Route path={"/admin/insights"} component={InsightPickerView} />
+              <Route component={TransactionListView} />
+            </>
+          </Router>
         </div>
       </div>
     );

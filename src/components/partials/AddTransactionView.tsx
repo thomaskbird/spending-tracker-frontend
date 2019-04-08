@@ -42,7 +42,7 @@ export class AddTransactionView extends React.Component<
           </div>
         </div>
 
-        <button type="submit">Add</button>
+        <button type="submit">Submit</button>
       </div>
     );
   }
