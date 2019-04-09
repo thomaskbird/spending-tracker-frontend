@@ -1,3 +1,7 @@
+@import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700");
+@import url("//fonts.googleapis.com/css?family=Pragati+Narrow:400,700");
+@import url("//use.typekit.net/eym7pvs.css"); // font-weight: 400, 500, 700
+
 @mixin formElement() {
   font-size: 14px;
   padding: 10px 15px;
@@ -44,4 +48,8 @@
       @include formElement();
     }
   }
+}
+
+.SlidePanel {
+
 }

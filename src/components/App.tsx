@@ -20,7 +20,8 @@ import {
   faPrint,
   faFilePdf,
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -37,7 +38,8 @@ library.add(
   faPrint,
   faFilePdf,
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faBars,
 );
 
 interface AppProps {
@@ -59,7 +61,7 @@ export class App extends React.Component<AppProps, State> {
     return (
       <Switch>
         <Route path={"/login"} component={LoginView} />
-        <Route path={"/admin/*"} component={ShellView} />
+        <Route path={"*"} component={ShellView} />
       </Switch>
     );
   }

@@ -26,11 +26,23 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     return (
       <div className={COMPONENT_NAME}>
         <div className={"HeaderPartial"}>
+          <Link to={"/slide-panel"}>
+            <FontAwesomeIcon icon={"bars"}/>
+          </Link>
+
+          <div className={"branding"}>
+            <div className={"branding--main"}>Spending</div>
+            <div className={"branding--secondary"}>Tracker</div>
+          </div>
+
           <Link to={"/admin/add"}>
             <FontAwesomeIcon icon={"plus"} />
           </Link>
         </div>
         <div className={"BodyPartial"}>
+          <div className={"SlidePanel"}>
+
+          </div>
           <Router>
             <>
               <Route path={"/admin/add"} component={AddTransactionView} />
