@@ -6,17 +6,20 @@
   &__text {
     flex: 1;
 
-    h3 {
-      font-size: 16px;
+    h5,
+    small {
+      transition: .25s color ease-in;
+    }
+
+    h5 {
+      color: #666;
+      margin-top: 5px;
       line-height: 60%;
       margin-bottom: 0;
-      font-weight: 600;
-      letter-spacing: 10px;
-      text-transform: uppercase;
     }
 
     small {
-      color: #999;
+      color: #ccc;
     }
   }
 
@@ -26,13 +29,36 @@
 
   &__amount {
     font-size: 18px;
+    transition: .25s color ease-in;
 
     &--income {
-      color: #3c9e3c;
+      color: lighten(#3c9e3c, 10%);
     }
 
     &--expense {
-      color: #bd6161;
+      color: lighten(#bd6161, 10%);
+    }
+  }
+
+  &:hover {
+    .TransactionListItem__text {
+      h5 {
+        color: #000;
+      }
+
+      small {
+        color: #999;
+      }
+    }
+
+    .TransactionListItem__amount {
+      &--income {
+        color: darken(#3c9e3c, 10%);
+      }
+
+      &--expense {
+        color: darken(#bd6161, 10%);
+      }
     }
   }
 }

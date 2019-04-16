@@ -22,6 +22,7 @@ import {
   faChevronLeft,
   faChevronRight,
   faBars,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -40,6 +41,7 @@ library.add(
   faChevronLeft,
   faChevronRight,
   faBars,
+  faTimes,
 );
 
 interface AppProps {

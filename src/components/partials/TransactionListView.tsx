@@ -3,7 +3,6 @@ import "./TransactionListView.scss";
 import {
   PaginatedListResults,
   Transaction,
-  TransactionType
 } from "../../services/Models";
 import {
   MOCK_PAGINATED_RESULTS,

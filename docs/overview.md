@@ -57,4 +57,8 @@ Spending tracker is an easy to use web app for tracking your spending, it allows
                 - slug
                 - created_at
                 - updated_at
-                 
+
+## Functionality
+- Build out the ability create accounts / virtual containers. This will allow you to budget money and allocate funds.
+    - Investigate this more and how it specifically pertains to budgets
+-

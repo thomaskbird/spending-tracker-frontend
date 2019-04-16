@@ -81,6 +81,94 @@ export const MOCK_TRANSACTIONS: Transaction[] = [
     created_at: "2018-11-06 00:00:00",
     updated_at: "2018-11-11 00:00:00",
     deleted_at: null
+  },
+  {
+    id: 6,
+    name: "Gas",
+    slug: "gas",
+    description: "Gas for work the other day",
+    amount: 20.99,
+    type: TransactionType.expense,
+    created_at: "2019-01-22 00:00:00",
+    updated_at: "2019-01-22 00:00:00",
+    deleted_at: null
+  },
+  {
+    id: 7,
+    name: "Oil change",
+    slug: "oil-change",
+    description: "Oil change for the kia forte 2019-01-22 00:00:00",
+    amount: 74.99,
+    type: TransactionType.expense,
+    created_at: "2019-02-22 00:00:00",
+    updated_at: "2019-02-22 00:00:00",
+    deleted_at: null
+  },
+  {
+    id: 8,
+    name: "Groceries",
+    slug: "groceries",
+    description: "Tacos, spaghetti, salad, yogurt, eggs, bacon, etc",
+    amount: 135.00,
+    type: TransactionType.expense,
+    created_at: "2019-01-18 00:00:00",
+    updated_at: "2019-01-19 00:00:00",
+    deleted_at: null
+  },
+  {
+    id: 9,
+    name: "Salary",
+    slug: "salary",
+    description: "Main check salary",
+    amount: 5203.23,
+    type: TransactionType.income,
+    created_at: "2019-01-22 00:00:00",
+    updated_at: "2019-01-22 00:00:00",
+    deleted_at: null
+  },
+  {
+    id: 10,
+    name: "Contract work",
+    slug: "contract-work",
+    description: "Side work one time amount",
+    amount: 450.00,
+    type: TransactionType.income,
+    created_at: "2018-11-06 00:00:00",
+    updated_at: "2018-11-11 00:00:00",
+    deleted_at: null
+  },
+  {
+    id: 11,
+    name: "Groceries",
+    slug: "groceries",
+    description: "Tacos, spaghetti, salad, yogurt, eggs, bacon, etc",
+    amount: 135.00,
+    type: TransactionType.expense,
+    created_at: "2019-01-18 00:00:00",
+    updated_at: "2019-01-19 00:00:00",
+    deleted_at: null
+  },
+  {
+    id: 12,
+    name: "Salary",
+    slug: "salary",
+    description: "Main check salary",
+    amount: 5203.23,
+    type: TransactionType.income,
+    created_at: "2019-01-22 00:00:00",
+    updated_at: "2019-01-22 00:00:00",
+    deleted_at: null
+  },
+  {
+    id: 13,
+    name: "Contract work",
+    slug: "contract-work",
+    description: "Side work one time amount",
+    amount: 450.00,
+    type: TransactionType.income,
+    created_at: "2018-11-06 00:00:00",
+    updated_at: "2018-11-11 00:00:00",
+    deleted_at: null
   }
 ];
 

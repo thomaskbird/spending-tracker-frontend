@@ -27,7 +27,7 @@ export class TransactionListItem extends React.Component<
           <input type={"checkbox"} id={"transaction-box"} />
         </div>
         <div className={`${COMPONENT_NAME}__text`}>
-          <h3>{this.props.transaction.name}</h3>
+          <h5>{this.props.transaction.name}</h5>
           <small>{this.props.transaction.description}</small>
         </div>
         <div className={`${COMPONENT_NAME}__amount ${COMPONENT_NAME}__amount--${this.props.transaction.type === TransactionType.income ? "income" : "expense"}`}>

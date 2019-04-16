@@ -2,6 +2,8 @@
 @import url("//fonts.googleapis.com/css?family=Pragati+Narrow:400,700");
 @import url("//use.typekit.net/eym7pvs.css"); // font-weight: 400, 500, 700
 
+@import '~react-day-picker/lib/style.css';
+
 @mixin formElement() {
   font-size: 14px;
   padding: 10px 15px;
