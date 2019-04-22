@@ -112,7 +112,7 @@
     "npm-reinstall": "rm -rf node_modules && npm run npm-install",
     "npm-check-updates": "ncu --packageFile package.json",
     "npm-update": "rm -f package-lock.json && npm run npm-reinstall",
-    "start": "webpack-dev-server --inline --open --port 8050",
+    "start": "webpack-dev-server --inline --open --port 8009",
     "start-sandbox": "webpack-dev-server --inline --open --env.sandbox --port 9000",
     "compile": "tsc --version && tsc --project tsconfig.json --noEmit --noErrorTruncation --pretty",
     "compile-for-coverity": "rm -rf out && tsc --version && tsc --project tsconfig.json --sourceMap false --target ES6 --module CommonJS",

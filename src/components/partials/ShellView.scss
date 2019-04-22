@@ -56,7 +56,52 @@
     }
 
     &--bottom {
+      display: flex;
+      padding: 10px 20px;
       background: #f5f5f5;
+      justify-content: space-between;
+
+      .DatePicker {
+        &--wrap {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+
+          .Datepicker--wrapper {
+            top: 100%;
+            display: none;
+            z-index: 1000;
+            margin-top: 10px;
+            background: #fff;
+            position: absolute;
+            box-shadow: 0px 1px 3px rgba(0,0,0,.25);
+
+            .DayPicker-Months {
+              flex-wrap: nowrap;
+            }
+
+            .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+              background-color: #f0f8ff !important;
+              color: #4a90e2;
+            }
+            .Selectable .DayPicker-Day {
+              border-radius: 0 !important;
+            }
+            .Selectable .DayPicker-Day--start {
+              border-top-left-radius: 50% !important;
+              border-bottom-left-radius: 50% !important;
+            }
+            .Selectable .DayPicker-Day--end {
+              border-top-right-radius: 50% !important;
+              border-bottom-right-radius: 50% !important;
+            }
+
+            &.open {
+              display: block;
+            }
+          }
+        }
+      }
     }
   }
 

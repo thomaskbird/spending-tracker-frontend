@@ -8,15 +8,20 @@ import { AddTransactionView } from "./AddTransactionView";
 import { TransactionListView } from "./TransactionListView";
 import { InsightPickerView } from "./InsightPickerView";
 
-import DayPickerInput from "react-day-picker/DayPickerInput";
+import DayPicker from "react-day-picker/DayPicker";
 
 interface ShellViewProps {}
+
+interface DateRange {
+  start: string;
+  end: string;
+}
 
 interface State {
   isSidebarOpen: boolean;
   isAddTransactionOpen: boolean;
-  startDate: string;
-  endDate: string;
+  range: DateRange;
+  isPickerOpen: boolean;
 }
 
 const COMPONENT_NAME = "ShellView";
@@ -28,10 +33,13 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     super(props, context);
 
     this.state = {
+      isPickerOpen: false,
       isSidebarOpen: false,
       isAddTransactionOpen: false,
-      startDate: moment().subtract(1, "month").format("YYYY-MM-DD"),
-      endDate: moment().format("YYYY-MM-DD")
+      range: {
+        start: moment().subtract(1, "month").format("YYYY-MM-DD"),
+        end: moment().format("YYYY-MM-DD")
+      }
     };
   }
 
@@ -62,26 +70,26 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             </span>
           </div>
           <div className={"HeaderPartial--bottom"}>
-            <DayPickerInput
-              value={this.state.startDate}
-              format={DATE_FORMAT}
-              onDayChange={(day) => { this.setDate("start", day) }}
-              formatDate={(date) => {
-                return this.formatDate(date);
-              }}
-            />
-            <DayPickerInput
-              value={this.state.endDate}
-              format={DATE_FORMAT}
-              onDayChange={(day) => { this.setDate("end", day) }}
-              formatDate={(date) => {
-                return this.formatDate(date);
-              }}
-            />
+            <div className={"DatePicker--wrap"}>
+              <span onClick={() => { this.toggleDatePicker() }}>
+                <FontAwesomeIcon icon={"calendar-alt"} />
+              </span>
+              <div className={this.state.isPickerOpen ? "Datepicker--wrapper open" : "Datepicker--wrapper"}>
+                <DayPicker
+                  numberOfMonths={2}
+                  className={"Selectable"}
+                  modifiers={this.state.range}
+                  selectedDays={{ start: this.state.range.start, end: this.state.range.end}}
+                  onDayClick={(day) => {
+                    this.setDate(day);
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className={"BodyPartial"} onClick={() => { this.closeSlidePanels(); }}>
+        <div className={"BodyPartial"}>
           <div className={this.state.isSidebarOpen ? "SlidePanel open" : "SlidePanel"}>
             <span className={"SlidePanel--close-btn SlidePanel--close-btn__sidebar"} onClick={() => { this.closeSlidePanels(); }}>
               <FontAwesomeIcon icon={"times"} />
@@ -93,7 +101,41 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             <span className={"SlidePanel--close-btn SlidePanel--close-btn__add"} onClick={() => { this.closeSlidePanels(); }}>
               <FontAwesomeIcon icon={"times"} />
             </span>
-            <h1>Add</h1>
+            <h1>Add transaction</h1>
+
+            <form>
+              <div className={"FormGroup"}>
+                <label htmlFor={"title"}>Title:</label>
+                <input type="text" name="title" id={"title"} placeholder={"Enter title..."} />
+              </div>
+
+              <div className={"FormGroup"}>
+                <label htmlFor={"amount"}>Amount:</label>
+                <div className={"FormGroup--input-indicator"}>
+                  <span className={"FormGroup--input-indicator-icon"}>
+                    <FontAwesomeIcon icon={"dollar-sign"} />
+                  </span>
+                  <input type="text" name="title" id={"title"} placeholder={"Enter amount..."}/>
+                </div>
+              </div>
+
+              <div className={"FormGroup"}>
+                <label htmlFor={"description"}>Description:</label>
+                <textarea name="description" id={"description"} placeholder={"Enter description..."}>
+                </textarea>
+              </div>
+
+              <div className={"FormGroup"}>
+                <label htmlFor={"type"}>Type:</label>
+                <select name={"type"} id={"type"}>
+                  <option value="expense">Expense</option>
+                  <option value="income">Income</option>
+                </select>
+              </div>
+
+              <button type="submit" className={"btn btn-primary"}>Add</button>
+
+            </form>
           </div>
 
           <Router>
@@ -131,9 +173,23 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     })
   }
 
-  private setDate(type: string, day: Date): void {
+  private setDate(day: Date): void {
     const formattedDate = this.formatDate(day);
+    console.log(day, formattedDate);
 
+    if(this.state.range.end) {
+      const newRange = {
+        start: day,
+        end: undefined
+      };
+    } else {
+      const newRange = {
+        start: this.state.range.start,
+        end: day
+      };
+    }
+
+/*
     if(type === "start") {
       this.setState({
         startDate: formattedDate
@@ -143,6 +199,13 @@ export class ShellView extends React.Component<ShellViewProps, State> {
         endDate: formattedDate
       });
     }
+*/
+  }
+
+  private toggleDatePicker(): void {
+    this.setState({
+      isPickerOpen: this.state.isPickerOpen ? false : true
+    });
   }
 
   private formatDate(date: Date): string {

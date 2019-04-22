@@ -5,11 +5,11 @@
 @import '~react-day-picker/lib/style.css';
 
 @mixin formElement() {
-  font-size: 14px;
+  font-size: .8rem;
   padding: 10px 15px;
   box-sizing: border-box;
   border: 1px solid #ddd;
-  box-shadow: inset 0 1px 0px rgba(0,0,0,.25);
+  transition: .25s all ease-in;
 }
 
 .FormGroup {
@@ -22,7 +22,20 @@
   }
 
   label {
-    margin: 0;
+    color: #aaa;
+    margin: 0 0 5px;
+    font-size: .8rem;
+  }
+
+  &--input-indicator {
+    display: flex;
+
+    &-icon {
+      padding: 8px 15px;
+      border-left: 1px solid #ccc;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
   }
 
   input,
@@ -38,6 +51,14 @@
       outline: none;
       border: 1px solid #333;
     }
+  }
+
+  input {
+    flex: 1;
+  }
+
+  textarea {
+    height: 100px;
   }
 
   &Bundle {
