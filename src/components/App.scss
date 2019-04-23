@@ -3,6 +3,8 @@
 @import url("//use.typekit.net/eym7pvs.css"); // font-weight: 400, 500, 700
 
 @import '~react-day-picker/lib/style.css';
+@import '~react-select/scss/default.scss';
+@import '~antd/dist/antd.css';
 
 @mixin formElement() {
   font-size: .8rem;
@@ -10,6 +12,15 @@
   box-sizing: border-box;
   border: 1px solid #ddd;
   transition: .25s all ease-in;
+
+  &:hover {
+    border: 1px solid #aaa;
+  }
+
+  &:focus {
+    outline: none;
+    border: 1px solid #333;
+  }
 }
 
 .FormGroup {
@@ -19,6 +30,10 @@
 
   &__inline {
     flex-direction: row;
+
+    > *:first-child {
+      margin-right: 10px;
+    }
   }
 
   label {
@@ -30,6 +45,10 @@
   &--input-indicator {
     display: flex;
 
+    input {
+      @include formElement();
+    }
+
     &-icon {
       padding: 8px 15px;
       border-left: 1px solid #ccc;
@@ -38,19 +57,13 @@
     }
   }
 
-  input,
-  select,
-  textarea {
+  button {
+    width: fit-content;
+  }
+
+  & > input,
+  & > textarea {
     @include formElement();
-
-    &:hover {
-      border: 1px solid #aaa;
-    }
-
-    &:focus {
-      outline: none;
-      border: 1px solid #333;
-    }
   }
 
   input {

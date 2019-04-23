@@ -4,13 +4,14 @@ import {
   PaginatedListResults,
   Transaction,
 } from "../../services/Models";
-import {
-  MOCK_PAGINATED_RESULTS,
-  MOCK_TRANSACTIONS
-} from "../../services/Mocks";
 import { TransactionListItem } from "./TransactionListItem";
+import axios from "axios";
 
-interface TransactionListViewProps {}
+interface TransactionListViewProps {
+  start: string;
+  end: string;
+  onReady(api: TransactionListView.Api): void;
+}
 
 interface State {
   transactions: PaginatedListResults | undefined;
@@ -22,6 +23,8 @@ export class TransactionListView extends React.Component<
   TransactionListViewProps,
   State
 > {
+  private dateFormat = "YYYY-MM-DD";
+
   constructor(props: TransactionListViewProps, context: any) {
     super(props, context);
 
@@ -31,12 +34,21 @@ export class TransactionListView extends React.Component<
   }
 
   public componentDidMount(): void {
-    this.setState({
-      transactions: {
-        ...MOCK_PAGINATED_RESULTS,
-        data: MOCK_TRANSACTIONS
+    this.getTransactions();
+
+    const api: TransactionListView.Api = {
+      refreshData: () => {
+        this.getTransactions();
       }
-    });
+    };
+
+    this.props.onReady(api);
+  }
+
+  public componentDidUpdate(prevProps: TransactionListViewProps): void {
+    if(prevProps.start !== this.props.start || prevProps.end !== this.props.end) {
+      this.getTransactions();
+    }
   }
 
   public render(): JSX.Element {
@@ -53,8 +65,32 @@ export class TransactionListView extends React.Component<
                 />
               );
             }
-          )}
+          )
+        }
+
+        {!this.state.transactions ||
+          this.state.transactions.data.length < 1 ? (
+          <p>No transactions, try changing the ranges...</p>
+        ) : (undefined)}
       </div>
     );
+  }
+
+  private getTransactions(): void {
+    this.setState({
+      transactions: undefined
+    });
+
+    axios.get(`/transactions/${this.props.start}/${this.props.end}`).then(transactions => {
+      this.setState({
+        transactions: transactions.data
+      })
+    });
+  }
+}
+
+export namespace TransactionListView {
+  export interface Api {
+    refreshData(): void;
   }
 }

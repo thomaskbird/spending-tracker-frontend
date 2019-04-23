@@ -1,0 +1,7 @@
+.recurring-detail-panel {
+  display: none;
+
+  &.open {
+    display: block;
+  }
+}

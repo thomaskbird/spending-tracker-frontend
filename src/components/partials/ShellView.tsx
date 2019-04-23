@@ -2,20 +2,17 @@ import * as React from "react";
 import "./ShellView.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { DatePicker } from "antd";
 import * as moment from "moment";
+import axios from "axios";
 
-import { AddTransactionView } from "./AddTransactionView";
+const { RangePicker } = DatePicker;
+
 import { TransactionListView } from "./TransactionListView";
-import { InsightPickerView } from "./InsightPickerView";
-
-import DayPicker from "react-day-picker/DayPicker";
+import { FormTransactionAdd } from "./FormTransactionAdd";
+import { DateRange } from "../../services/Models";
 
 interface ShellViewProps {}
-
-interface DateRange {
-  start: string;
-  end: string;
-}
 
 interface State {
   isSidebarOpen: boolean;
@@ -29,6 +26,9 @@ const COMPONENT_NAME = "ShellView";
 export class ShellView extends React.Component<ShellViewProps, State> {
   public static readonly displayName = "Shell View";
 
+  private listApi?: TransactionListView.Api;
+  private formTransactionAddApi?: FormTransactionAdd.Api;
+
   constructor(props: ShellViewProps, context: any) {
     super(props, context);
 
@@ -37,8 +37,8 @@ export class ShellView extends React.Component<ShellViewProps, State> {
       isSidebarOpen: false,
       isAddTransactionOpen: false,
       range: {
-        start: moment().subtract(1, "month").format("YYYY-MM-DD"),
-        end: moment().format("YYYY-MM-DD")
+        start: moment().subtract(1, "month"),
+        end: moment()
       }
     };
   }
@@ -70,21 +70,20 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             </span>
           </div>
           <div className={"HeaderPartial--bottom"}>
+            <RangePicker
+              defaultValue={[this.state.range.start, this.state.range.end]}
+              format={DATE_FORMAT}
+              onChange={(dates, dateStrings) => {
+                this.setState({
+                  range: {
+                    start: dates[0],
+                    end: dates[1]
+                  }
+                });
+                this.listApi!.refreshData();
+              }}
+            />
             <div className={"DatePicker--wrap"}>
-              <span onClick={() => { this.toggleDatePicker() }}>
-                <FontAwesomeIcon icon={"calendar-alt"} />
-              </span>
-              <div className={this.state.isPickerOpen ? "Datepicker--wrapper open" : "Datepicker--wrapper"}>
-                <DayPicker
-                  numberOfMonths={2}
-                  className={"Selectable"}
-                  modifiers={this.state.range}
-                  selectedDays={{ start: this.state.range.start, end: this.state.range.end}}
-                  onDayClick={(day) => {
-                    this.setDate(day);
-                  }}
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -103,51 +102,60 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             </span>
             <h1>Add transaction</h1>
 
-            <form>
-              <div className={"FormGroup"}>
-                <label htmlFor={"title"}>Title:</label>
-                <input type="text" name="title" id={"title"} placeholder={"Enter title..."} />
-              </div>
-
-              <div className={"FormGroup"}>
-                <label htmlFor={"amount"}>Amount:</label>
-                <div className={"FormGroup--input-indicator"}>
-                  <span className={"FormGroup--input-indicator-icon"}>
-                    <FontAwesomeIcon icon={"dollar-sign"} />
-                  </span>
-                  <input type="text" name="title" id={"title"} placeholder={"Enter amount..."}/>
-                </div>
-              </div>
-
-              <div className={"FormGroup"}>
-                <label htmlFor={"description"}>Description:</label>
-                <textarea name="description" id={"description"} placeholder={"Enter description..."}>
-                </textarea>
-              </div>
-
-              <div className={"FormGroup"}>
-                <label htmlFor={"type"}>Type:</label>
-                <select name={"type"} id={"type"}>
-                  <option value="expense">Expense</option>
-                  <option value="income">Income</option>
-                </select>
-              </div>
-
-              <button type="submit" className={"btn btn-primary"}>Add</button>
-
-            </form>
+            <FormTransactionAdd
+              onReady={(api) => {
+                this.formTransactionAddApi = api;
+              }}
+              onSubmit={(formData) => {
+                this.transactionAdd(formData);
+              }}
+            />
           </div>
 
-          <Router>
-            <div className={"route--viewport"}>
-              <Route path={"/admin/add"} component={AddTransactionView} />
-              <Route path={"/admin/insights"} component={InsightPickerView} />
-              <Route component={TransactionListView} />
-            </div>
-          </Router>
+          <div className={"route--viewport"}>
+            <TransactionListView
+              start={this.state.range.start.format(DATE_FORMAT)}
+              end={this.state.range.end.format(DATE_FORMAT)}
+              onReady={(api) => {
+                this.listApi = api;
+              }}
+            />
+          </div>
         </div>
       </div>
     );
+  }
+
+  private transactionAdd(formData: any): void {
+    console.log(formData);
+    let formattedData: any = {
+      title: formData.title,
+      description: formData.description,
+      amount: formData.amount,
+      type: formData.type
+    };
+
+    if(formData.isRecurring) {
+      formattedData = {
+        ...formattedData,
+        recurring_type: formData.recurring_type,
+        start_at: formData.start_at,
+        end_at: formData.end_at
+      };
+    }
+
+    axios.post("/transactions/create", {
+      ...formattedData
+    }).then((response) => {
+      console.log("success", response);
+      if(response.status) {
+        this.listApi!.refreshData();
+        this.closeSlidePanels();
+        this.formTransactionAddApi!.clearData();
+      }
+    }).catch((error) => {
+      console.log("error", error);
+    });
   }
 
   private closeSlidePanels(): void {
@@ -171,44 +179,5 @@ export class ShellView extends React.Component<ShellViewProps, State> {
       isSidebarOpen: false,
       isAddTransactionOpen: this.state.isAddTransactionOpen ? false : true
     })
-  }
-
-  private setDate(day: Date): void {
-    const formattedDate = this.formatDate(day);
-    console.log(day, formattedDate);
-
-    if(this.state.range.end) {
-      const newRange = {
-        start: day,
-        end: undefined
-      };
-    } else {
-      const newRange = {
-        start: this.state.range.start,
-        end: day
-      };
-    }
-
-/*
-    if(type === "start") {
-      this.setState({
-        startDate: formattedDate
-      });
-    } else {
-      this.setState({
-        endDate: formattedDate
-      });
-    }
-*/
-  }
-
-  private toggleDatePicker(): void {
-    this.setState({
-      isPickerOpen: this.state.isPickerOpen ? false : true
-    });
-  }
-
-  private formatDate(date: Date): string {
-    return moment(date).format("YYYY-MM-DD");
   }
 }

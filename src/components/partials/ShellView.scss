@@ -120,6 +120,8 @@
     .AddTransactionPanel {
       height: 100%;
       background: #fff;
+      overflow-y: auto;
+      overflow-x: hidden;
       padding: 40px 30px;
       position: absolute;
       transition: .25s all ease-in;

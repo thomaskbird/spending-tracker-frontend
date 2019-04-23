@@ -9,13 +9,17 @@ interface Timestamps {
   deleted_at: string | null;
 }
 
+export interface DateRange {
+  start: any;
+  end: any;
+}
+
 export interface Transaction extends Timestamps {
   id: number;
-  name: string;
-  slug: string;
-  amount: number;
-  description: string;
-  type: TransactionType;
+  title: string | null;
+  amount: number | null;
+  description: string | null;
+  type: TransactionType | null;
 }
 
 export interface Tag extends Timestamps {

@@ -8,6 +8,10 @@ import * as ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./components/App";
 
+import axios from "axios";
+
+axios.defaults.baseURL = "//budget-api.thomaskbird.com/api";
+
 /**
  * Creates the entire top-level structure of the application, using the specified root component.
  */
