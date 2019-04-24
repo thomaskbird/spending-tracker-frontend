@@ -9,10 +9,10 @@
     background: #fff;
     position: relative;
     border-bottom: 1px solid #eee;
-    transition: 1s left ease-in;
+    transition: .25s left ease-in;
 
     &.open {
-      left: -185px;
+      left: -197px;
     }
   }
 
@@ -28,14 +28,34 @@
     button {
       height: 100%;
       border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
       padding: 20px 30px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: trumpgothicpro, sans-serif;
+
+      &:focus {
+        outline: none;
+      }
 
       &.edit {
-        background: lighten(#3c9e3c, 10%);
+        color: #666;
+        background: #eee;
+
+        &:hover {
+          background: darken(#eee, 2%);
+        }
       }
 
       &.remove {
-        background: lighten(#bd6161, 10%);
+        color: #fff;
+        background: #ba5c5d;
+
+        &:hover {
+          background: darken(#ba5c5d, 2%);
+        }
       }
     }
   }
@@ -84,6 +104,25 @@
       &--expense {
         color: lighten(#bd6161, 10%);
       }
+    }
+  }
+
+  &__drag-handle {
+    color: #ccc;
+    height: 100%;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 10px;
+    align-self: center;
+    padding: 10px 0 10px 10px;
+    border-left: 1px solid #ccc;
+
+    svg {
+      cursor: pointer;
+    }
+
+    &:hover {
+      color: #666;
     }
   }
 

@@ -3,6 +3,12 @@ export enum TransactionType {
   income = "income"
 }
 
+export enum TransactionStatus {
+  new = "new",
+  approved = "approved",
+  disapproved = "disapproved"
+}
+
 interface Timestamps {
   created_at: string;
   updated_at: string;
@@ -16,10 +22,14 @@ export interface DateRange {
 
 export interface Transaction extends Timestamps {
   id: number;
-  title: string | null;
-  amount: number | null;
-  description: string | null;
-  type: TransactionType | null;
+  recurring_id: number;
+  submitted_by: number;
+  title: string | undefined;
+  description: string | undefined;
+  amount: number | undefined;
+  type: TransactionType | undefined;
+  status: TransactionStatus | undefined;
+  occurred_at: string;
 }
 
 export interface Tag extends Timestamps {

@@ -9,7 +9,7 @@ import axios from "axios";
 const { RangePicker } = DatePicker;
 
 import { TransactionListView } from "./TransactionListView";
-import { FormTransactionAdd } from "./FormTransactionAdd";
+import { FormTransaction } from "./FormTransaction";
 import { DateRange } from "../../services/Models";
 
 interface ShellViewProps {}
@@ -27,7 +27,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
   public static readonly displayName = "Shell View";
 
   private listApi?: TransactionListView.Api;
-  private formTransactionAddApi?: FormTransactionAdd.Api;
+  private formTransactionAddApi?: FormTransaction.Api;
 
   constructor(props: ShellViewProps, context: any) {
     super(props, context);
@@ -89,6 +89,16 @@ export class ShellView extends React.Component<ShellViewProps, State> {
         </div>
 
         <div className={"BodyPartial"}>
+          <div className={"route--viewport"}>
+            <TransactionListView
+              start={this.state.range.start.format(DATE_FORMAT)}
+              end={this.state.range.end.format(DATE_FORMAT)}
+              onReady={(api) => {
+                this.listApi = api;
+              }}
+            />
+          </div>
+
           <div className={this.state.isSidebarOpen ? "SlidePanel open" : "SlidePanel"}>
             <span className={"SlidePanel--close-btn SlidePanel--close-btn__sidebar"} onClick={() => { this.closeSlidePanels(); }}>
               <FontAwesomeIcon icon={"times"} />
@@ -102,22 +112,12 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             </span>
             <h1>Add transaction</h1>
 
-            <FormTransactionAdd
+            <FormTransaction
               onReady={(api) => {
                 this.formTransactionAddApi = api;
               }}
               onSubmit={(formData) => {
                 this.transactionAdd(formData);
-              }}
-            />
-          </div>
-
-          <div className={"route--viewport"}>
-            <TransactionListView
-              start={this.state.range.start.format(DATE_FORMAT)}
-              end={this.state.range.end.format(DATE_FORMAT)}
-              onReady={(api) => {
-                this.listApi = api;
               }}
             />
           </div>

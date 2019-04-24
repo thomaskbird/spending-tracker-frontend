@@ -14,7 +14,7 @@ interface TransactionListViewProps {
 }
 
 interface State {
-  transactions: PaginatedListResults | undefined;
+  transactions: Transaction[] | undefined;
 }
 
 const COMPONENT_NAME = "TransactionListView";
@@ -34,11 +34,11 @@ export class TransactionListView extends React.Component<
   }
 
   public componentDidMount(): void {
-    this.getTransactions();
+    this.refreshTransactions();
 
     const api: TransactionListView.Api = {
       refreshData: () => {
-        this.getTransactions();
+        this.refreshTransactions();
       }
     };
 
@@ -47,7 +47,7 @@ export class TransactionListView extends React.Component<
 
   public componentDidUpdate(prevProps: TransactionListViewProps): void {
     if(prevProps.start !== this.props.start || prevProps.end !== this.props.end) {
-      this.getTransactions();
+      this.refreshTransactions();
     }
   }
 
@@ -55,13 +55,20 @@ export class TransactionListView extends React.Component<
     return (
       <div className={COMPONENT_NAME}>
         {this.state.transactions &&
-          this.state.transactions.data &&
-          this.state.transactions.data.map(
+          this.state.transactions.map(
             (transaction: Transaction, idx: number) => {
               return (
                 <TransactionListItem
                   key={idx}
                   transaction={transaction}
+                  onAction={(actionType, transactionData) => {
+                    if(actionType === "edit") {
+
+                    } else {
+                      this.transactionRemove(transactionData);
+                    }
+                    console.log("transaction", actionType, transactionData);
+                  }}
                 />
               );
             }
@@ -69,14 +76,14 @@ export class TransactionListView extends React.Component<
         }
 
         {!this.state.transactions ||
-          this.state.transactions.data.length < 1 ? (
+          this.state.transactions.length < 1 ? (
           <p>No transactions, try changing the ranges...</p>
         ) : (undefined)}
       </div>
     );
   }
 
-  private getTransactions(): void {
+  private refreshTransactions(): void {
     this.setState({
       transactions: undefined
     });
@@ -86,6 +93,13 @@ export class TransactionListView extends React.Component<
         transactions: transactions.data
       })
     });
+  }
+
+  private transactionRemove(transaction: Transaction): void {
+    axios.get(`/transactions/remove/${transaction.id}`).then(response => {
+      console.log("response", response);
+      this.refreshTransactions();
+    }).catch(error => console.log("Error", error));
   }
 }
 

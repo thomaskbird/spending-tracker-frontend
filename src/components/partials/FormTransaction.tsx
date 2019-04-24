@@ -1,12 +1,12 @@
 import * as React from "react";
-import "./FormTransactionAdd.scss";
+import "./FormTransaction.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
 import { Switch, DatePicker } from "antd";
 
-interface ShellViewProps {
+interface FormTransactionProps {
   onSubmit(formData: any): void;
-  onReady(api: FormTransactionAdd.Api): void;
+  onReady(api: FormTransaction.Api): void;
 }
 
 interface State {
@@ -22,7 +22,7 @@ interface State {
 
 const COMPONENT_NAME = "ShellView";
 
-export class FormTransactionAdd extends React.Component<ShellViewProps, State> {
+export class FormTransaction extends React.Component<FormTransactionProps, State> {
   public static readonly displayName = "Shell View";
 
   private formDefaults = {
@@ -47,12 +47,12 @@ export class FormTransactionAdd extends React.Component<ShellViewProps, State> {
     { value: "yearly", label: "Yearly" }
   ];
 
-  constructor(props: ShellViewProps, context: any) {
+  constructor(props: FormTransactionProps, context: any) {
     super(props, context);
 
     this.state = this.formDefaults;
 
-    const api: FormTransactionAdd.Api = {
+    const api: FormTransaction.Api = {
       clearData: () => {
         this.setState({
           ...this.formDefaults
@@ -175,7 +175,7 @@ export class FormTransactionAdd extends React.Component<ShellViewProps, State> {
   }
 }
 
-export namespace FormTransactionAdd {
+export namespace FormTransaction {
   export interface Api {
     clearData(): void;
   }
