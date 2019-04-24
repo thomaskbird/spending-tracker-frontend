@@ -3,8 +3,8 @@ import * as moment from "moment";
 import "./TransactionListItem.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transaction, TransactionType } from "../../services/Models";
-import Draggable from "react-draggable";
-import Gesture from "rc-gesture";
+// import Draggable from "react-draggable";
+// import Gesture from "rc-gesture";
 
 interface TransactionListItemProps {
   transaction: Transaction;
@@ -36,7 +36,7 @@ export class TransactionListItem extends React.Component<
           <div className={`${COMPONENT_NAME}__selects`}>
             <input type={"checkbox"} id={"transaction-box"} />
           </div>
-          <div className={`${COMPONENT_NAME}__text`}>
+          <div className={`${COMPONENT_NAME}__text`} onClick={() => { this.props.onAction("view", this.props.transaction); }}>
             <h5>{this.props.transaction.title}</h5>
             <small>{this.props.transaction.description}</small>
           </div>
@@ -56,6 +56,7 @@ export class TransactionListItem extends React.Component<
         </div>
 
         <div className={`${COMPONENT_NAME}__hidden-actions`}>
+          <button className={"view"} onClick={() => { this.props.onAction("view", this.props.transaction); }}>View</button>
           <button className={"edit"} onClick={() => { this.props.onAction("edit", this.props.transaction); }}>Edit</button>
           <button className={"remove"} onClick={() => { this.props.onAction("remove", this.props.transaction); }}>Remove</button>
         </div>

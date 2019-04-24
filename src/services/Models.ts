@@ -9,6 +9,12 @@ export enum TransactionStatus {
   disapproved = "disapproved"
 }
 
+export enum RecurringType {
+  weekly = "weekly",
+  monthly = "monthly",
+  yearly = "yearly"
+}
+
 interface Timestamps {
   created_at: string;
   updated_at: string;
@@ -18,6 +24,12 @@ interface Timestamps {
 export interface DateRange {
   start: any;
   end: any;
+}
+
+export interface Recurring extends Timestamps {
+  recurring_type: RecurringType;
+  start_at: string;
+  end_at: string;
 }
 
 export interface Transaction extends Timestamps {
@@ -30,6 +42,10 @@ export interface Transaction extends Timestamps {
   type: TransactionType | undefined;
   status: TransactionStatus | undefined;
   occurred_at: string;
+}
+
+export interface TransactionWithRecurring extends Transaction {
+  recurring: Recurring | undefined;
 }
 
 export interface Tag extends Timestamps {

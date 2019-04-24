@@ -1,8 +1,7 @@
 import * as React from "react";
 import "./TransactionListView.scss";
 import {
-  PaginatedListResults,
-  Transaction,
+  TransactionWithRecurring,
 } from "../../services/Models";
 import { TransactionListItem } from "./TransactionListItem";
 import axios from "axios";
@@ -14,7 +13,7 @@ interface TransactionListViewProps {
 }
 
 interface State {
-  transactions: Transaction[] | undefined;
+  transactions: TransactionWithRecurring[] | undefined;
 }
 
 const COMPONENT_NAME = "TransactionListView";
@@ -56,13 +55,15 @@ export class TransactionListView extends React.Component<
       <div className={COMPONENT_NAME}>
         {this.state.transactions &&
           this.state.transactions.map(
-            (transaction: Transaction, idx: number) => {
+            (transaction: TransactionWithRecurring, idx: number) => {
               return (
                 <TransactionListItem
                   key={idx}
                   transaction={transaction}
                   onAction={(actionType, transactionData) => {
                     if(actionType === "edit") {
+
+                    } else if(actionType === "view") {
 
                     } else {
                       this.transactionRemove(transactionData);

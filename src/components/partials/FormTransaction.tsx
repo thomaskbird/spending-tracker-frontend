@@ -3,8 +3,10 @@ import "./FormTransaction.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
 import { Switch, DatePicker } from "antd";
+import { Transaction } from "../../services/Models";
 
 interface FormTransactionProps {
+  transaction?: Transaction;
   onSubmit(formData: any): void;
   onReady(api: FormTransaction.Api): void;
 }
@@ -26,11 +28,11 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
   public static readonly displayName = "Shell View";
 
   private formDefaults = {
-    title: "",
-    amount: 0,
-    description: "",
-    type: "expense",
-    isRecurring: false,
+    title: this.props.transaction && this.props.transaction.title || "",
+    amount: this.props.transaction && this.props.transaction.amount || 0,
+    description: this.props.transaction && this.props.transaction.description || "",
+    type: this.props.transaction && this.props.transaction.type || "expense",
+    isRecurring: this.props.transaction && !!this.props.transaction.recurring_id,
     recurring_type: "",
     end_at: "",
     start_at: ""

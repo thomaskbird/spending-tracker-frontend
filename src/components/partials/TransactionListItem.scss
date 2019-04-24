@@ -7,12 +7,13 @@
     display: flex;
     padding: 15px;
     background: #fff;
+    margin-top: -1px;
     position: relative;
-    border-bottom: 1px solid #eee;
+    border: 1px solid #eee;
     transition: .25s left ease-in;
 
     &.open {
-      left: -197px;
+      left: -291px;
     }
   }
 
@@ -38,6 +39,10 @@
 
       &:focus {
         outline: none;
+      }
+
+      &.view {
+
       }
 
       &.edit {
@@ -112,7 +117,7 @@
     height: 100%;
     cursor: pointer;
     font-size: 1rem;
-    margin-left: 10px;
+    margin-left: 30px;
     align-self: center;
     padding: 10px 0 10px 10px;
     border-left: 1px solid #ccc;
