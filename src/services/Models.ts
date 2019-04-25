@@ -21,6 +21,11 @@ export enum TransactionPanelActionTypes {
   add = "add"
 }
 
+export enum IntroActionType {
+  login = "login",
+  signup = "signup"
+}
+
 interface Timestamps {
   created_at: string;
   updated_at: string;

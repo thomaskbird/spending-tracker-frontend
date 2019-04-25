@@ -2,7 +2,6 @@ import * as React from "react";
 import "./App.scss";
 import { Route, Switch } from "react-router";
 
-import { LoginView } from "./views/LoginView";
 import { ShellView } from "./partials/ShellView";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -16,7 +15,6 @@ import {
   faListAlt,
   faBook,
   faFile,
-  faEnvelope,
   faPrint,
   faFilePdf,
   faChevronLeft,
@@ -26,7 +24,9 @@ import {
   faCalendarAlt,
   faDollarSign,
   faEllipsisV,
-  faCog
+  faCog,
+  faEnvelope,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -49,7 +49,9 @@ library.add(
   faCalendarAlt,
   faDollarSign,
   faEllipsisV,
-  faCog
+  faCog,
+  faEnvelope,
+  faLock,
 );
 
 interface AppProps {
@@ -70,7 +72,6 @@ export class App extends React.Component<AppProps, State> {
   public render(): JSX.Element {
     return (
       <Switch>
-        <Route path={"/login"} component={LoginView} />
         <Route path={"*"} component={ShellView} />
       </Switch>
     );
