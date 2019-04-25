@@ -3,10 +3,10 @@ import "./FormTransaction.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
 import { Switch, DatePicker } from "antd";
-import { Transaction } from "../../services/Models";
+import { TransactionWithRecurring } from "../../services/Models";
 
 interface FormTransactionProps {
-  transaction?: Transaction;
+  transaction?: TransactionWithRecurring;
   onSubmit(formData: any): void;
   onReady(api: FormTransaction.Api): void;
 }
@@ -27,17 +27,6 @@ const COMPONENT_NAME = "ShellView";
 export class FormTransaction extends React.Component<FormTransactionProps, State> {
   public static readonly displayName = "Shell View";
 
-  private formDefaults = {
-    title: this.props.transaction && this.props.transaction.title || "",
-    amount: this.props.transaction && this.props.transaction.amount || 0,
-    description: this.props.transaction && this.props.transaction.description || "",
-    type: this.props.transaction && this.props.transaction.type || "expense",
-    isRecurring: this.props.transaction && !!this.props.transaction.recurring_id,
-    recurring_type: "",
-    end_at: "",
-    start_at: ""
-  };
-
   private typeOptions = [
     { value: "expense", label: "Expense" },
     { value: "income", label: "Income" }
@@ -52,12 +41,33 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
   constructor(props: FormTransactionProps, context: any) {
     super(props, context);
 
-    this.state = this.formDefaults;
+    let isRecurring = false;
+    if(this.props.transaction && this.props.transaction.recurring) {
+      isRecurring = true;
+    }
+
+    this.state = {
+      title: this.props.transaction && this.props.transaction.title || "",
+      amount: this.props.transaction && this.props.transaction.amount || 0,
+      description: this.props.transaction && this.props.transaction.description || "",
+      type: this.props.transaction && this.props.transaction.type || "expense",
+      isRecurring: isRecurring,
+      recurring_type: "",
+      end_at: "",
+      start_at: ""
+    };
 
     const api: FormTransaction.Api = {
       clearData: () => {
         this.setState({
-          ...this.formDefaults
+          title: this.props.transaction && this.props.transaction.title || "",
+          amount: this.props.transaction && this.props.transaction.amount || 0,
+          description: this.props.transaction && this.props.transaction.description || "",
+          type: this.props.transaction && this.props.transaction.type || "expense",
+          isRecurring: isRecurring,
+          recurring_type: "",
+          end_at: "",
+          start_at: ""
         })
       }
     };
@@ -70,7 +80,16 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
       <form onSubmit={(event) => { this.handleFormSubmit(event); }}>
         <div className={"FormGroup"}>
           <label htmlFor={"title"}>Title:</label>
-          <input type="text" name="title" id={"title"} placeholder={"Enter title..."} value={this.state.title} onChange={(e) => { this.handleChange(e); }} />
+          <input
+            type="text"
+            name="title"
+            id={"title"}
+            placeholder={"Enter title..."}
+            value={this.state.title}
+            onChange={(e) => {
+              this.setState({ title: e.target.value });
+            }}
+          />
         </div>
 
         <div className={"FormGroup"}>
@@ -79,7 +98,17 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
             <span className={"FormGroup--input-indicator-icon"}>
               <FontAwesomeIcon icon={"dollar-sign"} />
             </span>
-            <input type="text" name="amount" id={"amount"} placeholder={"Enter amount..."} value={this.state.amount} onChange={(e) => { this.handleChange(e); }} />
+            <input
+              type="text"
+              name="amount"
+              id={"amount"}
+              placeholder={"Enter amount..."}
+              value={this.state.amount}
+              onChange={(e) => {
+                const newVal = e.target.value as any as number;
+                this.setState({ amount: newVal });
+              }}
+            />
           </div>
         </div>
 
@@ -89,7 +118,9 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
             name="description"
             id={"description"}
             placeholder={"Enter description..."}
-            onChange={(e) => { this.handleChange(e); }}
+            onChange={(e) => {
+              this.setState({ description: e.target.value });
+            }}
             value={this.state.description}
           />
         </div>
@@ -168,12 +199,6 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
     );
 
     event.preventDefault();
-  }
-
-  private handleChange(e: any): void {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
   }
 }
 
