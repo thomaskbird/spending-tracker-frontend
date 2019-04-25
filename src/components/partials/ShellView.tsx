@@ -10,7 +10,7 @@ const { RangePicker } = DatePicker;
 
 import { TransactionListView } from "./TransactionListView";
 import { FormTransaction } from "./FormTransaction";
-import { DateRange } from "../../services/Models";
+import {DateRange, TransactionWithRecurring} from "../../services/Models";
 
 interface ShellViewProps {}
 
@@ -19,6 +19,7 @@ interface State {
   isAddTransactionOpen: boolean;
   range: DateRange;
   isPickerOpen: boolean;
+  transactionToEdit: TransactionWithRecurring | undefined;
 }
 
 const COMPONENT_NAME = "ShellView";
@@ -39,7 +40,8 @@ export class ShellView extends React.Component<ShellViewProps, State> {
       range: {
         start: moment().subtract(1, "month"),
         end: moment()
-      }
+      },
+      transactionToEdit: undefined
     };
   }
 
@@ -51,7 +53,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
       <div className={COMPONENT_NAME}>
         <div className={"HeaderPartial"}>
           <div className={"HeaderPartial--top"}>
-            <span className={"HeaderPartial--top--icons"} onClick={() => { this.toggleSidePanel(); }}>
+            <span className={"HeaderPartial--top--icons"} onClick={() => { this.toggleSidePanel(true); }}>
               <FontAwesomeIcon icon={"bars"}/>
             </span>
 
@@ -64,7 +66,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
 
             <span
               className={"HeaderPartial--top--icons"}
-              onClick={() => { this.addTransaction(); }}
+              onClick={() => { this.toggleTransactionPanel(true); }}
             >
               <FontAwesomeIcon icon={"plus"} />
             </span>
@@ -94,6 +96,12 @@ export class ShellView extends React.Component<ShellViewProps, State> {
               start={this.state.range.start.format(DATE_FORMAT)}
               end={this.state.range.end.format(DATE_FORMAT)}
               onTransactionAction={(action, transaction) => {
+                if(action === "edit") {
+                  this.setState({
+                    transactionToEdit: transaction
+                  });
+                  this.toggleTransactionPanel(true);
+                }
                 console.log("ShellView.tsx -> onTransactionAction", action, transaction);
               }}
               onReady={(api) => {
@@ -116,12 +124,14 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             <h1>Add transaction</h1>
 
             <FormTransaction
+              transaction={this.state.transactionToEdit}
               onReady={(api) => {
                 this.formTransactionAddApi = api;
               }}
               onSubmit={(formData) => {
                 this.transactionAdd(formData);
               }}
+              onCancel={() => { this.toggleTransactionPanel(false); }}
             />
           </div>
         </div>
@@ -168,19 +178,23 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     });
   }
 
-  private toggleSidePanel(): void {
-    console.log("toggleSidePanel");
+  private toggleSidePanel(isOpen: boolean): void {
     this.setState({
-      isSidebarOpen: this.state.isSidebarOpen ? false : true,
+      isSidebarOpen: isOpen,
       isAddTransactionOpen: false
     });
   }
 
-  private addTransaction(): void {
-    console.log("addTransaction");
+  private toggleTransactionPanel(isOpen: boolean): void {
+    if(this.state.isAddTransactionOpen) {
+      this.setState({
+        transactionToEdit: undefined
+      })
+    }
+
     this.setState({
       isSidebarOpen: false,
-      isAddTransactionOpen: this.state.isAddTransactionOpen ? false : true
+      isAddTransactionOpen: isOpen
     })
   }
 }

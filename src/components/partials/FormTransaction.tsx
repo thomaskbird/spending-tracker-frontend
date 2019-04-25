@@ -4,11 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
 import { Switch, DatePicker } from "antd";
 import { TransactionWithRecurring } from "../../services/Models";
+import * as _ from "lodash";
 
 interface FormTransactionProps {
   transaction?: TransactionWithRecurring;
   onSubmit(formData: any): void;
   onReady(api: FormTransaction.Api): void;
+  onCancel(): void;
 }
 
 interface State {
@@ -73,6 +75,26 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
     };
 
     this.props.onReady(api);
+  }
+
+  public componentDidUpdate(prevProps: FormTransactionProps): void {
+    if(prevProps.transaction !== this.props.transaction) {
+      let isRecurring = false;
+      if(this.props.transaction && this.props.transaction.recurring) {
+        isRecurring = true;
+      }
+
+      this.setState({
+        title: this.props.transaction && this.props.transaction.title || "",
+        amount: this.props.transaction && this.props.transaction.amount || 0,
+        description: this.props.transaction && this.props.transaction.description || "",
+        type: this.props.transaction && this.props.transaction.type || "expense",
+        isRecurring: isRecurring,
+        recurring_type: "",
+        end_at: "",
+        start_at: ""
+      });
+    }
   }
 
   public render(): JSX.Element {
@@ -187,7 +209,10 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
           </div>
         </div>
 
-        <button type="submit" className={"btn btn-primary"}>Add</button>
+        <div className={"FormGroup FormGroup__inline"}>
+          <button type="submit" className={"btn btn-primary"}>Add</button>
+          <button type="button" className={"btn btn-default"} onClick={() => { this.props.onCancel(); }}>Cancel</button>
+        </div>
 
       </form>
     );
