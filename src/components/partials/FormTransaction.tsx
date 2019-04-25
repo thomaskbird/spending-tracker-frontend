@@ -32,6 +32,8 @@ export class FormTransaction extends React.Component<
 > {
   public static readonly displayName = "Shell View";
 
+  private dateFormat = "YYYY-MM-DD";
+
   private typeOptions = [
     { value: "expense", label: "Expense" },
     { value: "income", label: "Income" }
@@ -123,10 +125,14 @@ export class FormTransaction extends React.Component<
 
   public render(): JSX.Element {
     const startAt =
+      this.state.start_at &&
+      (moment(this.state.start_at, this.dateFormat)) ||
       this.props.transaction &&
       this.props.transaction.recurring &&
       (moment(this.props.transaction.recurring.start_at) as any);
     const endAt =
+      this.state.end_at &&
+      (moment(this.state.end_at, this.dateFormat)) ||
       this.props.transaction &&
       this.props.transaction.recurring &&
       (moment(this.props.transaction.recurring.end_at, "YYYY-MM-DD") as any);
