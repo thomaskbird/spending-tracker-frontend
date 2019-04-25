@@ -140,7 +140,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
   }
 
   private transactionAdd(formData: any): void {
-    console.log(formData);
+    let apiUrl = "/transactions/create";
     let formattedData: any = {
       title: formData.title,
       description: formData.description,
@@ -157,7 +157,15 @@ export class ShellView extends React.Component<ShellViewProps, State> {
       };
     }
 
-    axios.post("/transactions/create", {
+    if(this.state.transactionToEdit) {
+      apiUrl = `/transactions/edit/${this.state.transactionToEdit.id}`;
+      formattedData = {
+        ...this.state.transactionToEdit,
+        ...formattedData
+      }
+    }
+
+    axios.post(apiUrl, {
       ...formattedData
     }).then((response) => {
       console.log("success", response);

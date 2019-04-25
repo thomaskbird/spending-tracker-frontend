@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
 import { Switch, DatePicker } from "antd";
 import { TransactionWithRecurring } from "../../services/Models";
-import * as _ from "lodash";
+import * as moment from "moment";
 
 interface FormTransactionProps {
   transaction?: TransactionWithRecurring;
@@ -55,8 +55,8 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
       type: this.props.transaction && this.props.transaction.type || "expense",
       isRecurring: isRecurring,
       recurring_type: "",
-      end_at: "",
-      start_at: ""
+      start_at: "",
+      end_at: ""
     };
 
     const api: FormTransaction.Api = {
@@ -68,8 +68,8 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
           type: this.props.transaction && this.props.transaction.type || "expense",
           isRecurring: isRecurring,
           recurring_type: "",
-          end_at: "",
-          start_at: ""
+          start_at: "",
+          end_at: ""
         })
       }
     };
@@ -90,14 +90,23 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
         description: this.props.transaction && this.props.transaction.description || "",
         type: this.props.transaction && this.props.transaction.type || "expense",
         isRecurring: isRecurring,
-        recurring_type: "",
-        end_at: "",
-        start_at: ""
+        recurring_type: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.recurring_type || "",
+        start_at: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.start_at || "",
+        end_at: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.end_at || ""
       });
     }
   }
 
   public render(): JSX.Element {
+    const startAt =
+      this.props.transaction &&
+      this.props.transaction.recurring &&
+      moment(this.props.transaction.recurring.start_at) as any;
+    const endAt =
+      this.props.transaction &&
+      this.props.transaction.recurring &&
+      moment(this.props.transaction.recurring.end_at, "YYYY-MM-DD") as any;
+
     return (
       <form onSubmit={(event) => { this.handleFormSubmit(event); }}>
         <div className={"FormGroup"}>
@@ -189,6 +198,7 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
           <div className={"FormGroup"}>
             <label htmlFor={"start_at"}>Starts on:</label>
             <DatePicker
+              value={startAt}
               onChange={(date, dateString) => {
                 this.setState({
                   start_at: dateString
@@ -200,6 +210,7 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
           <div className={"FormGroup"}>
             <label htmlFor={"end_at"}>Ends on:</label>
             <DatePicker
+              value={endAt}
               onChange={(date, dateString) => {
                 this.setState({
                   end_at: dateString
