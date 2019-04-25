@@ -2,13 +2,13 @@ import * as React from "react";
 import * as moment from "moment";
 import "./TransactionListItem.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Transaction, TransactionType } from "../../services/Models";
+import { TransactionType, TransactionWithRecurring} from "../../services/Models";
 // import Draggable from "react-draggable";
 // import Gesture from "rc-gesture";
 
 interface TransactionListItemProps {
-  transaction: Transaction;
-  onAction(actionType: string, transaction: Transaction): void;
+  transaction: TransactionWithRecurring;
+  onAction(actionType: string, transaction: TransactionWithRecurring): void;
 }
 
 interface State {
@@ -55,7 +55,7 @@ export class TransactionListItem extends React.Component<
           </div>
         </div>
 
-        <div className={`${COMPONENT_NAME}__hidden-actions`}>
+        <div className={`${COMPONENT_NAME}__hidden-actions`} onClick={() => { this.setState({ isDragOpen: false })}}>
           <button className={"view"} onClick={() => { this.props.onAction("view", this.props.transaction); }}>View</button>
           <button className={"edit"} onClick={() => { this.props.onAction("edit", this.props.transaction); }}>Edit</button>
           <button className={"remove"} onClick={() => { this.props.onAction("remove", this.props.transaction); }}>Remove</button>

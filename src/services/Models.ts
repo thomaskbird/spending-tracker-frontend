@@ -32,20 +32,45 @@ export interface Recurring extends Timestamps {
   end_at: string;
 }
 
+export interface RecurringUndefined {
+  recurring_type: RecurringType | undefined;
+  start_at: string | undefined;
+  end_at: string | undefined;
+  created_at: string | undefined;
+  updated_at: string | undefined;
+  deleted_at: string | null | undefined;
+}
+
 export interface Transaction extends Timestamps {
   id: number;
   recurring_id: number;
   submitted_by: number;
-  title: string | undefined;
+  title: string;
   description: string | undefined;
-  amount: number | undefined;
-  type: TransactionType | undefined;
-  status: TransactionStatus | undefined;
+  amount: number;
+  type: TransactionType;
+  status: TransactionStatus;
   occurred_at: string;
 }
 
 export interface TransactionWithRecurring extends Transaction {
   recurring: Recurring | undefined;
+}
+
+export interface TransactionWithUndefined {
+  id: number | undefined;
+  recurring_id: number | undefined;
+  submitted_by: number | undefined;
+  title: string | undefined;
+  description: string | undefined;
+  amount: number | undefined;
+  type: TransactionType | undefined;
+  status: TransactionStatus | undefined;
+  occurred_at: string | undefined;
+  recurring: RecurringUndefined;
+  created_at: string | undefined;
+  updated_at: string | undefined;
+  deleted_at: string | null | undefined;
 }
 
 export interface Tag extends Timestamps {

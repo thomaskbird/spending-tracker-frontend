@@ -9,6 +9,7 @@ import axios from "axios";
 interface TransactionListViewProps {
   start: string;
   end: string;
+  onTransactionAction(action: string, transaction: TransactionWithRecurring): void;
   onReady(api: TransactionListView.Api): void;
 }
 
@@ -61,14 +62,11 @@ export class TransactionListView extends React.Component<
                   key={idx}
                   transaction={transaction}
                   onAction={(actionType, transactionData) => {
-                    if(actionType === "edit") {
-
-                    } else if(actionType === "view") {
-
-                    } else {
+                    if(actionType === "remove") {
                       this.transactionRemove(transactionData);
+                    } else {
+                      this.props.onTransactionAction(actionType, transactionData);
                     }
-                    console.log("transaction", actionType, transactionData);
                   }}
                 />
               );
@@ -96,7 +94,7 @@ export class TransactionListView extends React.Component<
     });
   }
 
-  private transactionRemove(transaction: Transaction): void {
+  private transactionRemove(transaction: TransactionWithRecurring): void {
     axios.get(`/transactions/remove/${transaction.id}`).then(response => {
       console.log("response", response);
       this.refreshTransactions();

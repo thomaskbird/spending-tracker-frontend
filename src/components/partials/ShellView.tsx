@@ -93,6 +93,9 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             <TransactionListView
               start={this.state.range.start.format(DATE_FORMAT)}
               end={this.state.range.end.format(DATE_FORMAT)}
+              onTransactionAction={(action, transaction) => {
+                console.log("ShellView.tsx -> onTransactionAction", action, transaction);
+              }}
               onReady={(api) => {
                 this.listApi = api;
               }}
