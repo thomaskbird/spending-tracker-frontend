@@ -10,7 +10,17 @@ import {
 // import Gesture from "rc-gesture";
 
 interface TransactionListItemProps {
+  /**
+   * The transactions data
+   */
   transaction: TransactionWithRecurring;
+
+  /**
+   * Triggers a prop with the provided params
+   *
+   * @param {string} actionType - The type of action to execute
+   * @param {TransactionWithRecurring} transaction - The transaction data
+   */
   onAction(actionType: string, transaction: TransactionWithRecurring): void;
 }
 

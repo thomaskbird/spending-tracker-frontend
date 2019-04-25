@@ -258,7 +258,7 @@ export class FormTransaction extends React.Component<
 
         <div className={"FormGroup FormGroup__inline"}>
           <button type="submit" className={"btn btn-primary"}>
-            Add
+            Submit
           </button>
           <button
             type="button"
