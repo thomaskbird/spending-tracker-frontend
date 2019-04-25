@@ -2,16 +2,16 @@
 @import url("//fonts.googleapis.com/css?family=Pragati+Narrow:400,700");
 @import url("//use.typekit.net/eym7pvs.css"); // font-weight: 400, 500, 700
 
-@import '~react-day-picker/lib/style.css';
-@import '~react-select/scss/default.scss';
-@import '~antd/dist/antd.css';
+@import "~react-day-picker/lib/style.css";
+@import "~react-select/scss/default.scss";
+@import "~antd/dist/antd.css";
 
 @mixin formElement() {
-  font-size: .8rem;
+  font-size: 0.8rem;
   padding: 10px 15px;
   box-sizing: border-box;
   border: 1px solid #ddd;
-  transition: .25s all ease-in;
+  transition: 0.25s all ease-in;
 
   &:hover {
     border: 1px solid #aaa;
@@ -39,7 +39,7 @@
   label {
     color: #aaa;
     margin: 0 0 5px;
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
 
   &--input-indicator {
@@ -87,5 +87,4 @@
 }
 
 .SlidePanel {
-
 }

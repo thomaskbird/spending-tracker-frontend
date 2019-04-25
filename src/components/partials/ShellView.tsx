@@ -5,12 +5,18 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { DatePicker } from "antd";
 import * as moment from "moment";
 import axios from "axios";
+import { $enum } from "ts-enum-util";
 
 const { RangePicker } = DatePicker;
 
 import { TransactionListView } from "./TransactionListView";
 import { FormTransaction } from "./FormTransaction";
-import {DateRange, TransactionWithRecurring} from "../../services/Models";
+import {
+  DateRange,
+  TransactionPanelActionTypes,
+  TransactionWithRecurring
+} from "../../services/Models";
+import { TransactionDetailView } from "./TransactionDetailView";
 
 interface ShellViewProps {}
 
@@ -20,6 +26,7 @@ interface State {
   range: DateRange;
   isPickerOpen: boolean;
   transactionToEdit: TransactionWithRecurring | undefined;
+  transactionActionType: TransactionPanelActionTypes | undefined;
 }
 
 const COMPONENT_NAME = "ShellView";
@@ -41,20 +48,25 @@ export class ShellView extends React.Component<ShellViewProps, State> {
         start: moment().subtract(1, "month"),
         end: moment()
       },
-      transactionToEdit: undefined
+      transactionToEdit: undefined,
+      transactionActionType: undefined
     };
   }
 
   public render(): JSX.Element {
-
     const DATE_FORMAT = "YYYY-MM-DD";
 
     return (
       <div className={COMPONENT_NAME}>
         <div className={"HeaderPartial"}>
           <div className={"HeaderPartial--top"}>
-            <span className={"HeaderPartial--top--icons"} onClick={() => { this.toggleSidePanel(true); }}>
-              <FontAwesomeIcon icon={"bars"}/>
+            <span
+              className={"HeaderPartial--top--icons"}
+              onClick={() => {
+                this.toggleSidebarPanel(true);
+              }}
+            >
+              <FontAwesomeIcon icon={"bars"} />
             </span>
 
             <Link to={"/admin"}>
@@ -66,7 +78,9 @@ export class ShellView extends React.Component<ShellViewProps, State> {
 
             <span
               className={"HeaderPartial--top--icons"}
-              onClick={() => { this.toggleTransactionPanel(true); }}
+              onClick={() => {
+                this.toggleTransactionPanel(true, TransactionPanelActionTypes.add, undefined);
+              }}
             >
               <FontAwesomeIcon icon={"plus"} />
             </span>
@@ -85,8 +99,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                 this.listApi!.refreshData();
               }}
             />
-            <div className={"DatePicker--wrap"}>
-            </div>
+            <div className={"DatePicker--wrap"} />
           </div>
         </div>
 
@@ -95,50 +108,75 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             <TransactionListView
               start={this.state.range.start.format(DATE_FORMAT)}
               end={this.state.range.end.format(DATE_FORMAT)}
-              onTransactionAction={(action, transaction) => {
-                if(action === "edit") {
-                  this.setState({
-                    transactionToEdit: transaction
-                  });
-                  this.toggleTransactionPanel(true);
-                }
-                console.log("ShellView.tsx -> onTransactionAction", action, transaction);
+              onTransactionAction={(action: TransactionPanelActionTypes, transaction) => {
+                this.toggleTransactionPanel(true, action, transaction);
               }}
-              onReady={(api) => {
+              onReady={api => {
                 this.listApi = api;
               }}
             />
           </div>
 
-          <div className={this.state.isSidebarOpen ? "SlidePanel open" : "SlidePanel"}>
-            <span className={"SlidePanel--close-btn SlidePanel--close-btn__sidebar"} onClick={() => { this.closeSlidePanels(); }}>
+          <div
+            className={
+              this.state.isSidebarOpen ? "SlidePanel open" : "SlidePanel"
+            }
+          >
+            <span
+              className={"SlidePanel--close-btn SlidePanel--close-btn__sidebar"}
+              onClick={() => {
+                this.closeSlidePanels();
+              }}
+            >
               <FontAwesomeIcon icon={"times"} />
             </span>
             <h1>Sidebar</h1>
           </div>
 
-          <div className={this.state.isAddTransactionOpen ? "AddTransactionPanel open" : "AddTransactionPanel"}>
-            <span className={"SlidePanel--close-btn SlidePanel--close-btn__add"} onClick={() => { this.closeSlidePanels(); }}>
+          <div
+            className={
+              this.state.isAddTransactionOpen
+                ? "AddTransactionPanel open"
+                : "AddTransactionPanel"
+            }
+          >
+            <span
+              className={"SlidePanel--close-btn SlidePanel--close-btn__add"}
+              onClick={() => {
+                this.closeSlidePanels();
+              }}
+            >
               <FontAwesomeIcon icon={"times"} />
             </span>
-            <h1>Add transaction</h1>
 
-            <FormTransaction
-              transaction={this.state.transactionToEdit}
-              onReady={(api) => {
-                this.formTransactionAddApi = api;
-              }}
-              onSubmit={(formData) => {
-                this.transactionAdd(formData);
-              }}
-              onCancel={() => { this.toggleTransactionPanel(false); }}
-            />
+            {this.state.transactionActionType !== "view" ? (
+              <FormTransaction
+                transaction={this.state.transactionToEdit}
+                onReady={api => {
+                  this.formTransactionAddApi = api;
+                }}
+                onSubmit={formData => {
+                  this.transactionAdd(formData);
+                }}
+                onCancel={() => {
+                  this.toggleTransactionPanel(false, undefined, undefined);
+                }}
+              />
+            ) : (
+              <TransactionDetailView
+                transaction={this.state.transactionToEdit!}
+              />
+            )}
           </div>
         </div>
       </div>
     );
   }
 
+  /**
+   * Formats data and sends a request to the api
+   * @param formData - The form transaction data
+   */
   private transactionAdd(formData: any): void {
     let apiUrl = "/transactions/create";
     let formattedData: any = {
@@ -148,7 +186,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
       type: formData.type
     };
 
-    if(formData.isRecurring) {
+    if (formData.isRecurring) {
       formattedData = {
         ...formattedData,
         recurring_type: formData.recurring_type,
@@ -157,28 +195,34 @@ export class ShellView extends React.Component<ShellViewProps, State> {
       };
     }
 
-    if(this.state.transactionToEdit) {
+    if (this.state.transactionToEdit) {
       apiUrl = `/transactions/edit/${this.state.transactionToEdit.id}`;
       formattedData = {
         ...this.state.transactionToEdit,
         ...formattedData
-      }
+      };
     }
 
-    axios.post(apiUrl, {
-      ...formattedData
-    }).then((response) => {
-      console.log("success", response);
-      if(response.status) {
-        this.listApi!.refreshData();
-        this.closeSlidePanels();
-        this.formTransactionAddApi!.clearData();
-      }
-    }).catch((error) => {
-      console.log("error", error);
-    });
+    axios
+      .post(apiUrl, {
+        ...formattedData
+      })
+      .then(response => {
+        console.log("success", response);
+        if (response.status) {
+          this.listApi!.refreshData();
+          this.closeSlidePanels();
+          this.formTransactionAddApi!.clearData();
+        }
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
   }
 
+  /**
+   * Closes the slide panels
+   */
   private closeSlidePanels(): void {
     this.setState({
       isSidebarOpen: false,
@@ -186,23 +230,34 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     });
   }
 
-  private toggleSidePanel(isOpen: boolean): void {
+  /**
+   * Toggles the sidebar panel
+   * @param {boolean} isOpen - Indicates whether the panel should be open
+   */
+  private toggleSidebarPanel(isOpen: boolean): void {
     this.setState({
       isSidebarOpen: isOpen,
       isAddTransactionOpen: false
     });
   }
 
-  private toggleTransactionPanel(isOpen: boolean): void {
-    if(this.state.isAddTransactionOpen) {
-      this.setState({
-        transactionToEdit: undefined
-      })
-    }
-
+  /**
+   * Toggles the transaction panels and sets the appropriate details
+   *
+   * @param {boolean} isOpen - Indicates whether the panel should be open
+   * @param {string | undefined} actionType - What actions is taking place
+   * @param {TransactionWithRecurring | undefined} transaction - The transaction the action is happening to
+   */
+  private toggleTransactionPanel(
+    isOpen: boolean,
+    actionType: TransactionPanelActionTypes | undefined,
+    transaction: TransactionWithRecurring | undefined
+  ): void {
     this.setState({
       isSidebarOpen: false,
-      isAddTransactionOpen: isOpen
-    })
+      isAddTransactionOpen: isOpen,
+      transactionActionType: actionType,
+      transactionToEdit: transaction
+    });
   }
 }

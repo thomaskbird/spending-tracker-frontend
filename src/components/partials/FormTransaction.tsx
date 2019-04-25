@@ -15,7 +15,7 @@ interface FormTransactionProps {
 
 interface State {
   title: string | undefined;
-  amount: number | undefined,
+  amount: number | undefined;
   description: string | undefined;
   type: string | undefined;
   isRecurring: boolean;
@@ -26,7 +26,10 @@ interface State {
 
 const COMPONENT_NAME = "ShellView";
 
-export class FormTransaction extends React.Component<FormTransactionProps, State> {
+export class FormTransaction extends React.Component<
+  FormTransactionProps,
+  State
+> {
   public static readonly displayName = "Shell View";
 
   private typeOptions = [
@@ -44,15 +47,17 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
     super(props, context);
 
     let isRecurring = false;
-    if(this.props.transaction && this.props.transaction.recurring) {
+    if (this.props.transaction && this.props.transaction.recurring) {
       isRecurring = true;
     }
 
     this.state = {
-      title: this.props.transaction && this.props.transaction.title || "",
-      amount: this.props.transaction && this.props.transaction.amount || 0,
-      description: this.props.transaction && this.props.transaction.description || "",
-      type: this.props.transaction && this.props.transaction.type || "expense",
+      title: (this.props.transaction && this.props.transaction.title) || "",
+      amount: (this.props.transaction && this.props.transaction.amount) || 0,
+      description:
+        (this.props.transaction && this.props.transaction.description) || "",
+      type:
+        (this.props.transaction && this.props.transaction.type) || "expense",
       isRecurring: isRecurring,
       recurring_type: "",
       start_at: "",
@@ -62,15 +67,20 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
     const api: FormTransaction.Api = {
       clearData: () => {
         this.setState({
-          title: this.props.transaction && this.props.transaction.title || "",
-          amount: this.props.transaction && this.props.transaction.amount || 0,
-          description: this.props.transaction && this.props.transaction.description || "",
-          type: this.props.transaction && this.props.transaction.type || "expense",
+          title: (this.props.transaction && this.props.transaction.title) || "",
+          amount:
+            (this.props.transaction && this.props.transaction.amount) || 0,
+          description:
+            (this.props.transaction && this.props.transaction.description) ||
+            "",
+          type:
+            (this.props.transaction && this.props.transaction.type) ||
+            "expense",
           isRecurring: isRecurring,
           recurring_type: "",
           start_at: "",
           end_at: ""
-        })
+        });
       }
     };
 
@@ -78,21 +88,35 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
   }
 
   public componentDidUpdate(prevProps: FormTransactionProps): void {
-    if(prevProps.transaction !== this.props.transaction) {
+    if (prevProps.transaction !== this.props.transaction) {
       let isRecurring = false;
-      if(this.props.transaction && this.props.transaction.recurring) {
+      if (this.props.transaction && this.props.transaction.recurring) {
         isRecurring = true;
       }
 
       this.setState({
-        title: this.props.transaction && this.props.transaction.title || "",
-        amount: this.props.transaction && this.props.transaction.amount || 0,
-        description: this.props.transaction && this.props.transaction.description || "",
-        type: this.props.transaction && this.props.transaction.type || "expense",
+        title: (this.props.transaction && this.props.transaction.title) || "",
+        amount: (this.props.transaction && this.props.transaction.amount) || 0,
+        description:
+          (this.props.transaction && this.props.transaction.description) || "",
+        type:
+          (this.props.transaction && this.props.transaction.type) || "expense",
         isRecurring: isRecurring,
-        recurring_type: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.recurring_type || "",
-        start_at: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.start_at || "",
-        end_at: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.end_at || ""
+        recurring_type:
+          (this.props.transaction &&
+            this.props.transaction.recurring &&
+            this.props.transaction.recurring.recurring_type) ||
+          "",
+        start_at:
+          (this.props.transaction &&
+            this.props.transaction.recurring &&
+            this.props.transaction.recurring.start_at) ||
+          "",
+        end_at:
+          (this.props.transaction &&
+            this.props.transaction.recurring &&
+            this.props.transaction.recurring.end_at) ||
+          ""
       });
     }
   }
@@ -101,14 +125,20 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
     const startAt =
       this.props.transaction &&
       this.props.transaction.recurring &&
-      moment(this.props.transaction.recurring.start_at) as any;
+      (moment(this.props.transaction.recurring.start_at) as any);
     const endAt =
       this.props.transaction &&
       this.props.transaction.recurring &&
-      moment(this.props.transaction.recurring.end_at, "YYYY-MM-DD") as any;
+      (moment(this.props.transaction.recurring.end_at, "YYYY-MM-DD") as any);
 
     return (
-      <form onSubmit={(event) => { this.handleFormSubmit(event); }}>
+      <form
+        onSubmit={event => {
+          this.handleFormSubmit(event);
+        }}
+      >
+        <h2>Add transaction</h2>
+
         <div className={"FormGroup"}>
           <label htmlFor={"title"}>Title:</label>
           <input
@@ -117,7 +147,7 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
             id={"title"}
             placeholder={"Enter title..."}
             value={this.state.title}
-            onChange={(e) => {
+            onChange={e => {
               this.setState({ title: e.target.value });
             }}
           />
@@ -135,8 +165,8 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
               id={"amount"}
               placeholder={"Enter amount..."}
               value={this.state.amount}
-              onChange={(e) => {
-                const newVal = e.target.value as any as number;
+              onChange={e => {
+                const newVal = (e.target.value as any) as number;
                 this.setState({ amount: newVal });
               }}
             />
@@ -149,7 +179,7 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
             name="description"
             id={"description"}
             placeholder={"Enter description..."}
-            onChange={(e) => {
+            onChange={e => {
               this.setState({ description: e.target.value });
             }}
             value={this.state.description}
@@ -173,7 +203,7 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
           <label>Is this recurring?</label>
           <Switch
             defaultChecked={this.state.isRecurring}
-            onChange={(checked) => {
+            onChange={checked => {
               this.setState({
                 isRecurring: !this.state.isRecurring
               });
@@ -181,7 +211,13 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
           />
         </div>
 
-        <div className={this.state.isRecurring ? "recurring-detail-panel open" : "recurring-detail-panel"}>
+        <div
+          className={
+            this.state.isRecurring
+              ? "recurring-detail-panel open"
+              : "recurring-detail-panel"
+          }
+        >
           <div className={"FormGroup"}>
             <label htmlFor={"recurring_type"}>Recurring type:</label>
             <Select
@@ -221,18 +257,25 @@ export class FormTransaction extends React.Component<FormTransactionProps, State
         </div>
 
         <div className={"FormGroup FormGroup__inline"}>
-          <button type="submit" className={"btn btn-primary"}>Add</button>
-          <button type="button" className={"btn btn-default"} onClick={() => { this.props.onCancel(); }}>Cancel</button>
+          <button type="submit" className={"btn btn-primary"}>
+            Add
+          </button>
+          <button
+            type="button"
+            className={"btn btn-default"}
+            onClick={() => {
+              this.props.onCancel();
+            }}
+          >
+            Cancel
+          </button>
         </div>
-
       </form>
     );
   }
 
   private handleFormSubmit(event: any): void {
-    this.props.onSubmit(
-      this.state
-    );
+    this.props.onSubmit(this.state);
 
     event.preventDefault();
   }

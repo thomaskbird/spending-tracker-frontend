@@ -10,7 +10,7 @@
     margin-top: -1px;
     position: relative;
     border: 1px solid #eee;
-    transition: .25s left ease-in;
+    transition: 0.25s left ease-in;
 
     &.open {
       left: -291px;
@@ -42,7 +42,6 @@
       }
 
       &.view {
-
       }
 
       &.edit {
@@ -71,7 +70,7 @@
 
     h5,
     small {
-      transition: .25s color ease-in;
+      transition: 0.25s color ease-in;
     }
 
     h5 {
@@ -95,12 +94,12 @@
 
     &--date {
       color: #ccc;
-      font-size: .7rem;
+      font-size: 0.7rem;
     }
 
     &--amount {
       font-size: 18px;
-      transition: .25s color ease-in;
+      transition: 0.25s color ease-in;
 
       &--income {
         color: lighten(#3c9e3c, 10%);

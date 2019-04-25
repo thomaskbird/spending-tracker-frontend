@@ -74,13 +74,14 @@
             margin-top: 10px;
             background: #fff;
             position: absolute;
-            box-shadow: 0px 1px 3px rgba(0,0,0,.25);
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
 
             .DayPicker-Months {
               flex-wrap: nowrap;
             }
 
-            .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+            .Selectable
+              .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
               background-color: #f0f8ff !important;
               color: #4a90e2;
             }
@@ -126,13 +127,13 @@
       overflow-x: hidden;
       padding: 40px 30px;
       position: absolute;
-      transition: .25s all ease-in;
+      transition: 0.25s all ease-in;
     }
 
     .SlidePanel {
       width: 70%;
       left: -70%;
-      box-shadow: 1px 3px 2px rgba(0, 0, 0, .25);
+      box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
 
       &.open {
         left: 0%;
@@ -155,7 +156,7 @@
     .AddTransactionPanel {
       width: 70%;
       right: -70%;
-      box-shadow: 1px 3px 2px rgba(0, 0, 0, .25);
+      box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
 
       &.open {
         right: 0%;
@@ -164,7 +165,7 @@
   }
 }
 
-@media(max-width: 600px) {
+@media (max-width: 600px) {
   .ShellView {
     .HeaderPartial {
       &--top {

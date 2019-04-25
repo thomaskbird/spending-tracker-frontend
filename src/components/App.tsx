@@ -26,7 +26,7 @@ import {
   faCalendarAlt,
   faDollarSign,
   faEllipsisV,
-  faCog,
+  faCog
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -49,7 +49,7 @@ library.add(
   faCalendarAlt,
   faDollarSign,
   faEllipsisV,
-  faCog,
+  faCog
 );
 
 interface AppProps {

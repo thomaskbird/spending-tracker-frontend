@@ -15,6 +15,12 @@ export enum RecurringType {
   yearly = "yearly"
 }
 
+export enum TransactionPanelActionTypes {
+  view = "view",
+  edit = "edit",
+  add = "add"
+}
+
 interface Timestamps {
   created_at: string;
   updated_at: string;

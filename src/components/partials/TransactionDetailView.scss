@@ -1,0 +1,21 @@
+.TransactionDetailView {
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    &:first-child {
+      border-bottom: 1px solid #ccc;
+    }
+
+    &--label {
+      color: #ccc;
+    }
+
+    &--value {
+      color: #333;
+      font-size: 1rem;
+      text-transform: capitalize;
+    }
+  }
+}

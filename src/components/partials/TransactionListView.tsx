@@ -1,15 +1,16 @@
 import * as React from "react";
 import "./TransactionListView.scss";
-import {
-  TransactionWithRecurring,
-} from "../../services/Models";
+import { TransactionWithRecurring } from "../../services/Models";
 import { TransactionListItem } from "./TransactionListItem";
 import axios from "axios";
 
 interface TransactionListViewProps {
   start: string;
   end: string;
-  onTransactionAction(action: string, transaction: TransactionWithRecurring): void;
+  onTransactionAction(
+    action: string,
+    transaction: TransactionWithRecurring
+  ): void;
   onReady(api: TransactionListView.Api): void;
 }
 
@@ -46,7 +47,10 @@ export class TransactionListView extends React.Component<
   }
 
   public componentDidUpdate(prevProps: TransactionListViewProps): void {
-    if(prevProps.start !== this.props.start || prevProps.end !== this.props.end) {
+    if (
+      prevProps.start !== this.props.start ||
+      prevProps.end !== this.props.end
+    ) {
       this.refreshTransactions();
     }
   }
@@ -62,22 +66,25 @@ export class TransactionListView extends React.Component<
                   key={idx}
                   transaction={transaction}
                   onAction={(actionType, transactionData) => {
-                    if(actionType === "remove") {
+                    if (actionType === "remove") {
                       this.transactionRemove(transactionData);
                     } else {
-                      this.props.onTransactionAction(actionType, transactionData);
+                      this.props.onTransactionAction(
+                        actionType,
+                        transactionData
+                      );
                     }
                   }}
                 />
               );
             }
-          )
-        }
+          )}
 
-        {!this.state.transactions ||
-          this.state.transactions.length < 1 ? (
+        {!this.state.transactions || this.state.transactions.length < 1 ? (
           <p>No transactions, try changing the ranges...</p>
-        ) : (undefined)}
+        ) : (
+          undefined
+        )}
       </div>
     );
   }
@@ -87,18 +94,23 @@ export class TransactionListView extends React.Component<
       transactions: undefined
     });
 
-    axios.get(`/transactions/${this.props.start}/${this.props.end}`).then(transactions => {
-      this.setState({
-        transactions: transactions.data
-      })
-    });
+    axios
+      .get(`/transactions/${this.props.start}/${this.props.end}`)
+      .then(transactions => {
+        this.setState({
+          transactions: transactions.data
+        });
+      });
   }
 
   private transactionRemove(transaction: TransactionWithRecurring): void {
-    axios.get(`/transactions/remove/${transaction.id}`).then(response => {
-      console.log("response", response);
-      this.refreshTransactions();
-    }).catch(error => console.log("Error", error));
+    axios
+      .get(`/transactions/remove/${transaction.id}`)
+      .then(response => {
+        console.log("response", response);
+        this.refreshTransactions();
+      })
+      .catch(error => console.log("Error", error));
   }
 }
 
