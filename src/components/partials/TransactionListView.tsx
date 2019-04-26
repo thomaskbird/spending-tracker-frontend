@@ -2,7 +2,7 @@ import * as React from "react";
 import "./TransactionListView.scss";
 import { TransactionWithRecurring } from "../../services/Models";
 import { TransactionListItem } from "./TransactionListItem";
-import axios from "axios";
+import {axiosInstance} from "../../index";
 
 interface TransactionListViewProps {
   start: string;
@@ -93,8 +93,8 @@ export class TransactionListView extends React.Component<
     this.setState({
       transactions: undefined
     });
-
-    axios
+console.log(axiosInstance);
+    axiosInstance
       .get(`/transactions/${this.props.start}/${this.props.end}`)
       .then(transactions => {
         this.setState({
@@ -104,7 +104,7 @@ export class TransactionListView extends React.Component<
   }
 
   private transactionRemove(transaction: TransactionWithRecurring): void {
-    axios
+    axiosInstance
       .get(`/transactions/remove/${transaction.id}`)
       .then(response => {
         console.log("response", response);

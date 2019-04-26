@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { DatePicker } from "antd";
 import * as moment from "moment";
-import axios from "axios";
 
 const { RangePicker } = DatePicker;
 
@@ -18,6 +17,7 @@ import {
   TransactionWithRecurring
 } from "../../services/Models";
 import {HeaderPartial} from "../partials/HeaderPartial";
+import {axiosInstance} from "../../index";
 
 interface TransactionViewProps {}
 
@@ -174,7 +174,7 @@ export class TransactionView extends React.Component<TransactionViewProps, State
       };
     }
 
-    axios
+    axiosInstance
     .post(apiUrl, {
       ...formattedData
     })

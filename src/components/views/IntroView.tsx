@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./IntroView.scss";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import {
   IntroActionType,
@@ -8,7 +7,8 @@ import {
 } from "../../services/Models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "antd";
-import axios from "axios";
+import {axiosInstance} from "../../index";
+import { Redirect } from "react-router";
 
 interface IntroViewProps {}
 
@@ -18,6 +18,7 @@ interface State {
   password: string | undefined;
   cpassword: string | undefined;
   errors: ErrorDisplay;
+  loginSuccess: boolean;
 }
 
 const COMPONENT_NAME = "IntroView";
@@ -37,11 +38,16 @@ export class IntroView extends React.Component<IntroViewProps, State> {
         error: false,
         type: undefined,
         msgs: []
-      }
+      },
+      loginSuccess: false
     };
   }
 
   public render(): JSX.Element {
+
+    if(this.state.loginSuccess) {
+      return (<Redirect to={"/admin"}/>);
+    }
 
     const errorMsgs = this.state.errors.msgs.length !== 0 ? this.state.errors.msgs.map(msg => `${msg}<br/>`) : "";
 
@@ -213,7 +219,43 @@ export class IntroView extends React.Component<IntroViewProps, State> {
   }
 
   private handleLoginSubmit(e: any): void {
-    console.log("handleLoginSubmit", this.state);
+    if(this.state.email && this.state.password) {
+      axiosInstance
+      .post("login", {
+        email: this.state.email,
+        password: this.state.password
+      })
+      .then(response => {
+        console.log("response", response);
+
+        if(response.status) {
+          axiosInstance.defaults.headers.common["Authorization"] = response.data.data.user.api_token;
+
+          this.setState({
+            loginSuccess: true
+          });
+        } else {
+          this.setState({
+            errors: {
+              error: true,
+              type: "error",
+              msgs: response.errors
+            }
+          });
+        }
+      });
+    } else {
+      this.setState({
+        errors: {
+          error: true,
+          type: "error",
+          msgs: [
+            "You missed one of the required values please try again!"
+          ]
+        }
+      });
+    }
+
     e.preventDefault();
   }
 
@@ -223,7 +265,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
     if(this.state.email && this.state.password && this.state.cpassword) {
       if(this.state.password === this.state.cpassword) {
 
-        axios
+        axiosInstance
         .post("signup", {
           email: this.state.email,
           password: this.state.password

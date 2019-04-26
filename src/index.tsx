@@ -10,10 +10,13 @@ import { App } from "./components/App";
 
 import axios from "axios";
 
-axios.defaults.baseURL = "//budget-api.thomaskbird.com/api";
+export const axiosInstance = axios.create({
+  baseURL: "//budget-api.thomaskbird.com/api"
+});
 
 /**
  * Creates the entire top-level structure of the application, using the specified root component.
+ * @returns JSX.Element
  */
 function createAppElement(): JSX.Element {
   return (

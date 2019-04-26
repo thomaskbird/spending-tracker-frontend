@@ -2,7 +2,7 @@ import * as React from "react";
 import "./ActivationView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import { Redirect, RouteComponentProps } from "react-router";
-import axios from "axios";
+import {axiosInstance} from "../../index";
 
 interface ActivationViewProps extends RouteComponentProps<any> {}
 
@@ -38,6 +38,7 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
     if(this.state.activationSuccess) {
       return (<Redirect to={"/"}/>);
     }
+
     return (
       <div className={COMPONENT_NAME}>
         <HeaderPartial/>
@@ -87,7 +88,7 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
   }
 
   private handleConfirmed(): void {
-    axios
+    axiosInstance
     .post(`activate/${this.state.activationCode}`, {
       first_name: this.state.first_name,
       last_name: this.state.last_name
@@ -101,7 +102,7 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
       }
     })
     .catch(error => {
-
+      console.log("Error: ", error);
     });
   }
 
