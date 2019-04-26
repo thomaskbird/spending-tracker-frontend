@@ -40,6 +40,11 @@ export interface BudgetFigures {
   budgetTotal: number;
 }
 
+export interface BudgetDialCustomColors {
+  start: string;
+  end: string;
+}
+
 export interface ErrorDisplay {
   error: boolean;
   type: AlertType;

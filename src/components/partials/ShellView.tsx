@@ -30,14 +30,6 @@ export class ShellView extends React.Component<ShellViewProps, State> {
           <Route exact={true} path={"/admin/budgets"} component={BudgetView} />
           <Route exact={true} path={"/admin"} component={TransactionView} />
           <Route path={"/activate/:token"} component={ActivationView} />
-          <BudgetDial
-            icon={"car"}
-            title={"Automotive Care"}
-            budgetFigures={{
-              used: 176,
-              budgetTotal: 200
-            }}
-          />
         </>
       </Switch>
     );
