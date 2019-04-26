@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "antd";
 import {axiosInstance} from "../../index";
 import { Redirect } from "react-router";
-import { Storage } from "../../services/Storage";
 
 interface IntroViewProps {}
 
