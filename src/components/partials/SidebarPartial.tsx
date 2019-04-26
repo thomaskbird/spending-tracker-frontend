@@ -43,7 +43,7 @@ export class SidebarPartial extends React.Component<SidebarPartialProps, State> 
         <ul>
           <li><Link to={"/admin"}>Home</Link></li>
           <li><a>Visualizations</a></li>
-          <li><a>Budgets</a></li>
+          <li><Link to={"/admin/budgets"}>Budgets</Link></li>
           <li><a>Tags</a></li>
         </ul>
 

@@ -35,6 +35,11 @@ export enum AlertType {
   error = "error"
 }
 
+export interface BudgetFigures {
+  used: number;
+  budgetTotal: number;
+}
+
 export interface ErrorDisplay {
   error: boolean;
   type: AlertType;

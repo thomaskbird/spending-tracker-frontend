@@ -2,11 +2,13 @@ import * as React from "react";
 import "./BudgetView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import { Redirect, RouteComponentProps } from "react-router";
-import {axiosInstance} from "../../index";
+import {SidebarPartial} from "../partials/SidebarPartial";
 
 interface BudgetViewProps extends RouteComponentProps<any> {}
 
-interface State {}
+interface State {
+  isSidebarOpen: boolean;
+}
 
 const COMPONENT_NAME = "BudgetView";
 
@@ -16,15 +18,52 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
   constructor(props: BudgetViewProps, context: any) {
     super(props, context);
 
-    this.state = {};
+    this.state = {
+      isSidebarOpen: false
+    };
   }
 
   public render(): JSX.Element {
     return (
       <div className={COMPONENT_NAME}>
-        <HeaderPartial/>
+        <HeaderPartial
+          onToggleSidebar={() => {
+            this.toggleSidebarPanel(true);
+          }}
+        />
 
+        <div className={"BodyPartial"}>
+          <div className={"route--viewport"}>
+            <h2>Budgets</h2>
+          </div>
+
+          <SidebarPartial
+            sidebarClass={this.state.isSidebarOpen}
+            onClose={() => {
+              this.closeSlidePanels();
+            }}
+          />
+        </div>
       </div>
     );
+  }
+
+  /**
+   * Toggles the sidebar panel
+   * @param {boolean} isOpen - Indicates whether the panel should be open
+   */
+  private toggleSidebarPanel(isOpen: boolean): void {
+    this.setState({
+      isSidebarOpen: isOpen
+    });
+  }
+
+  /**
+   * Closes the slide panels
+   */
+  private closeSlidePanels(): void {
+    this.setState({
+      isSidebarOpen: false
+    });
   }
 }

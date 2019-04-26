@@ -127,6 +127,7 @@ export class TransactionView extends React.Component<TransactionViewProps, State
       type: formData.type
     };
 
+    // Determine if the form isRecurring and add the corresponding data
     if (formData.isRecurring) {
       formattedData = {
         ...formattedData,
@@ -136,6 +137,7 @@ export class TransactionView extends React.Component<TransactionViewProps, State
       };
     }
 
+    // Determine if this is an edit action
     if (this.state.transactionToEdit) {
       apiUrl = `/transactions/edit/${this.state.transactionToEdit.id}`;
       formattedData = {

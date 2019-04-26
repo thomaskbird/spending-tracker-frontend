@@ -1,9 +1,11 @@
 import * as React from "react";
 import "./ShellView.scss";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { TransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";
+import {BudgetView} from "../views/BudgetView";
+import {BudgetDial} from "./BudgetDial";
 
 interface ShellViewProps {}
 
@@ -22,13 +24,22 @@ export class ShellView extends React.Component<ShellViewProps, State> {
 
   public render(): JSX.Element {
     return (
-      <Router>
+      <Switch>
         <>
           <Route exact={true} path={"/"} component={IntroView} />
-          <Route path={"/admin"} component={TransactionView} />
+          <Route exact={true} path={"/admin/budgets"} component={BudgetView} />
+          <Route exact={true} path={"/admin"} component={TransactionView} />
           <Route path={"/activate/:token"} component={ActivationView} />
+          <BudgetDial
+            icon={"car"}
+            title={"Automotive Care"}
+            budgetFigures={{
+              used: 176,
+              budgetTotal: 200
+            }}
+          />
         </>
-      </Router>
+      </Switch>
     );
   }
 }

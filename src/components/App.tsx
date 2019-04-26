@@ -27,6 +27,8 @@ import {
   faCog,
   faEnvelope,
   faLock,
+
+  faCar,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -52,6 +54,8 @@ library.add(
   faCog,
   faEnvelope,
   faLock,
+
+  faCar,
 );
 
 interface AppProps {
