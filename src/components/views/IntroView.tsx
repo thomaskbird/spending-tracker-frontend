@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import { IntroActionType } from "../../services/Models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Alert } from "antd";
 
 interface IntroViewProps {}
 
@@ -23,9 +24,9 @@ export class IntroView extends React.Component<IntroViewProps, State> {
     super(props, context);
 
     this.state = {
-      email: undefined,
-      password: undefined,
-      cpassword: undefined,
+      email: "",
+      password: "",
+      cpassword: "",
       action: IntroActionType.login
     };
   }
@@ -34,6 +35,16 @@ export class IntroView extends React.Component<IntroViewProps, State> {
     return (
       <div className={COMPONENT_NAME}>
         <HeaderPartial/>
+
+        <Alert
+          message="Error Text"
+          description="Error Description Error Description Error Description Error Description Error Description Error Description"
+          type="error"
+          closable={true}
+          onClose={(e) => {
+            this.handleAlertClose(e);
+          }}
+        />
 
         {this.state.action === IntroActionType.login ? (
           <form
@@ -53,7 +64,15 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                 <span className={"FormGroup--input-indicator-icon"}>
                   <FontAwesomeIcon icon={"envelope"} />
                 </span>
-                <input type="text" name="email" id={"email"} value={this.state.email} />
+                <input
+                  type="text"
+                  name="email"
+                  id={"email"}
+                  value={this.state.email}
+                  onChange={(e: any) => {
+                    this.handleInputChange(e);
+                  }}
+                />
               </div>
             </div>
 
@@ -63,7 +82,15 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                 <span className={"FormGroup--input-indicator-icon"}>
                   <FontAwesomeIcon icon={"lock"} />
                 </span>
-                <input type="password" name="password" id={"password"} value={this.state.password} />
+                <input
+                  type="password"
+                  name="password"
+                  id={"password"}
+                  value={this.state.password}
+                  onChange={(e: any) => {
+                    this.handleInputChange(e);
+                  }}
+                />
               </div>
             </div>
 
@@ -101,7 +128,15 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                 <span className={"FormGroup--input-indicator-icon"}>
                   <FontAwesomeIcon icon={"envelope"} />
                 </span>
-                <input type="text" name="email" id={"email"} value={this.state.email} />
+                <input
+                  type="text"
+                  name="email"
+                  id={"email"}
+                  value={this.state.email}
+                  onChange={(e: any) => {
+                    this.handleInputChange(e);
+                  }}
+                />
               </div>
             </div>
 
@@ -111,7 +146,15 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                 <span className={"FormGroup--input-indicator-icon"}>
                   <FontAwesomeIcon icon={"lock"} />
                 </span>
-                <input type="password" name="password" id={"password"} value={this.state.password} />
+                <input
+                  type="password"
+                  name="password"
+                  id={"password"}
+                  value={this.state.password}
+                  onChange={(e: any) => {
+                    this.handleInputChange(e);
+                  }}
+                />
               </div>
             </div>
 
@@ -121,7 +164,15 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                 <span className={"FormGroup--input-indicator-icon"}>
                   <FontAwesomeIcon icon={"lock"} />
                 </span>
-                <input type="password" name="cpassword" id={"cpassword"} value={this.state.cpassword} />
+                <input
+                  type="password"
+                  name="cpassword"
+                  id={"cpassword"}
+                  value={this.state.cpassword}
+                  onChange={(e: any) => {
+                    this.handleInputChange(e);
+                  }}
+                />
               </div>
             </div>
 
@@ -154,5 +205,17 @@ export class IntroView extends React.Component<IntroViewProps, State> {
   private handleSignupSubmit(e: any): void {
     console.log("handleSignupSubmit");
     e.preventDefault();
+  }
+
+  private handleInputChange(e: any): void {
+    const newState = {
+      [e.target.name]: e.target.value
+    };
+
+    this.setState(newState);
+  }
+
+  private handleAlertClose(e: any): void {
+    console.log("handleAlertClose", e);
   }
 }
