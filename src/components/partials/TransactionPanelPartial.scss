@@ -1,0 +1,28 @@
+@import "../sass/mixins";
+
+.TransactionPanelPartial {
+  @include slidePanel();
+
+  width: 70%;
+  right: -70%;
+  box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
+
+  &.open {
+    right: 0%;
+  }
+
+  &--close-btn {
+    @include slidePanelCloseBtn();
+  }
+}
+
+@media(max-width: 600px) {
+  .TransactionPanelPartial {
+    width: 100%;
+    right: -100%;
+
+    &.open {
+      right: 0%;
+    }
+  }
+}

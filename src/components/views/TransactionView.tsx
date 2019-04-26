@@ -1,7 +1,5 @@
 import * as React from "react";
 import "./TransactionView.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { DatePicker } from "antd";
 import * as moment from "moment";
 
@@ -9,7 +7,6 @@ const { RangePicker } = DatePicker;
 
 import { TransactionListView } from "../partials/TransactionListView";
 import { FormTransaction } from "../partials/FormTransaction";
-import { TransactionDetailView } from "../partials/TransactionDetailView";
 
 import {
   DateRange,
@@ -18,6 +15,8 @@ import {
 } from "../../services/Models";
 import {HeaderPartial} from "../partials/HeaderPartial";
 import {axiosInstance} from "../../index";
+import {SidebarPartial} from "../partials/SidebarPartial";
+import {TransactionPanelPartial} from "../partials/TransactionPanelPartial";
 
 interface TransactionViewProps {}
 
@@ -88,57 +87,28 @@ export class TransactionView extends React.Component<TransactionViewProps, State
             />
           </div>
 
-          <div
-            className={
-              this.state.isSidebarOpen ? "SlidePanel open" : "SlidePanel"
-            }
-          >
-            <span
-              className={"SlidePanel--close-btn SlidePanel--close-btn__sidebar"}
-              onClick={() => {
-                this.closeSlidePanels();
-              }}
-            >
-              <FontAwesomeIcon icon={"times"} />
-            </span>
-            <h1>Sidebar</h1>
-          </div>
+          <SidebarPartial
+            sidebarClass={this.state.isSidebarOpen}
+            onClose={() => {
+              this.closeSlidePanels();
+            }}
+          />
 
-          <div
-            className={
-              this.state.isAddTransactionOpen
-                ? "AddTransactionPanel open"
-                : "AddTransactionPanel"
-            }
-          >
-            <span
-              className={"SlidePanel--close-btn SlidePanel--close-btn__add"}
-              onClick={() => {
-                this.closeSlidePanels();
-              }}
-            >
-              <FontAwesomeIcon icon={"times"} />
-            </span>
-
-            {this.state.transactionActionType !== "view" ? (
-              <FormTransaction
-                transaction={this.state.transactionToEdit}
-                onReady={api => {
-                  this.formTransactionAddApi = api;
-                }}
-                onSubmit={formData => {
-                  this.transactionAdd(formData);
-                }}
-                onCancel={() => {
-                  this.toggleTransactionPanel(false, undefined, undefined);
-                }}
-              />
-            ) : (
-              <TransactionDetailView
-                transaction={this.state.transactionToEdit!}
-              />
-            )}
-          </div>
+          <TransactionPanelPartial
+            isAddTransactionOpen={this.state.isAddTransactionOpen}
+            onClose={() => { this.closeSlidePanels(); }}
+            transactionActionType={this.state.transactionActionType}
+            transactionToEdit={this.state.transactionToEdit}
+            onReady={(api) => {
+              this.formTransactionAddApi = api;
+            }}
+            onTransactionAdd={(formData) => {
+              this.transactionAdd(formData);
+            }}
+            onToggleTransactionPanel={() => {
+              this.toggleTransactionPanel(false, undefined, undefined);
+            }}
+          />
         </div>
       </div>
     );

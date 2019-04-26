@@ -6,22 +6,7 @@
 @import "~react-select/scss/default.scss";
 @import "~antd/dist/antd.css";
 
-@mixin formElement() {
-  font-size: 0.8rem;
-  padding: 10px 15px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  transition: 0.25s all ease-in;
-
-  &:hover {
-    border: 1px solid #aaa;
-  }
-
-  &:focus {
-    outline: none;
-    border: 1px solid #333;
-  }
-}
+@import "./sass/mixins.scss";
 
 pre {
   padding: 15px 30px;

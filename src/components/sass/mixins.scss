@@ -1,0 +1,41 @@
+@mixin formElement() {
+  font-size: 0.8rem;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  transition: 0.25s all ease-in;
+
+  &:hover {
+    border: 1px solid #aaa;
+  }
+
+  &:focus {
+    outline: none;
+    border: 1px solid #333;
+  }
+}
+
+@mixin slidePanel() {
+  top: 0;
+  z-index: 2;
+  height: 100%;
+  background: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 40px 30px;
+  position: absolute;
+  transition: 0.25s all ease-in;
+}
+
+@mixin slidePanelCloseBtn() {
+  top: 20px;
+  color: #aaa;
+  right: 20px;
+  cursor: pointer;
+  padding: 0 10px;
+  position: absolute;
+
+  &:hover {
+    color: #333;
+  }
+}

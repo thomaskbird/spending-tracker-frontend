@@ -93,7 +93,7 @@ export class TransactionListView extends React.Component<
     this.setState({
       transactions: undefined
     });
-console.log(axiosInstance);
+
     axiosInstance
       .get(`/transactions/${this.props.start}/${this.props.end}`)
       .then(transactions => {
