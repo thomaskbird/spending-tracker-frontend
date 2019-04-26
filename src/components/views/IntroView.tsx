@@ -2,9 +2,13 @@ import * as React from "react";
 import "./IntroView.scss";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { HeaderPartial } from "../partials/HeaderPartial";
-import { IntroActionType } from "../../services/Models";
+import {
+  IntroActionType,
+  ErrorDisplay,
+} from "../../services/Models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "antd";
+import axios from "axios";
 
 interface IntroViewProps {}
 
@@ -13,6 +17,7 @@ interface State {
   email: string | undefined;
   password: string | undefined;
   cpassword: string | undefined;
+  errors: ErrorDisplay;
 }
 
 const COMPONENT_NAME = "IntroView";
@@ -27,24 +32,34 @@ export class IntroView extends React.Component<IntroViewProps, State> {
       email: "",
       password: "",
       cpassword: "",
-      action: IntroActionType.login
+      action: IntroActionType.login,
+      errors: {
+        error: false,
+        type: undefined,
+        msgs: []
+      }
     };
   }
 
   public render(): JSX.Element {
+
+    const errorMsgs = this.state.errors.msgs.length !== 0 ? this.state.errors.msgs.map(msg => `${msg}<br/>`) : "";
+
     return (
       <div className={COMPONENT_NAME}>
         <HeaderPartial/>
 
-        <Alert
-          message="Error Text"
-          description="Error Description Error Description Error Description Error Description Error Description Error Description"
-          type="error"
-          closable={true}
-          onClose={(e) => {
-            this.handleAlertClose(e);
-          }}
-        />
+        {this.state.errors.error ? (
+          <Alert
+            message={this.state.errors.type}
+            description={errorMsgs}
+            type={this.state.errors.type}
+            closable={true}
+            onClose={(e) => {
+              this.handleAlertClose(e);
+            }}
+          />
+        ) : (undefined)}
 
         {this.state.action === IntroActionType.login ? (
           <form
@@ -198,12 +213,70 @@ export class IntroView extends React.Component<IntroViewProps, State> {
   }
 
   private handleLoginSubmit(e: any): void {
-    console.log("handleLoginSubmit");
+    console.log("handleLoginSubmit", this.state);
     e.preventDefault();
   }
 
   private handleSignupSubmit(e: any): void {
     console.log("handleSignupSubmit");
+
+    if(this.state.email && this.state.password && this.state.cpassword) {
+      if(this.state.password === this.state.cpassword) {
+
+        axios
+        .post("signup", {
+          email: this.state.email,
+          password: this.state.password
+        })
+        .then(response => {
+          console.log("success", response);
+          if (response.status) {
+            this.setState({
+              errors: {
+                error: false,
+                type: "success",
+                msgs: [
+                  "Your account has been created, check your email for verification link!"
+                ]
+              }
+            });
+          }
+        })
+        .catch(error => {
+          this.setState({
+            errors: {
+              error: true,
+              type: "error",
+              msgs: [
+                "Uh oh, something went wrong please try again!"
+              ]
+            }
+          });
+        });
+
+      } else {
+        this.setState({
+          errors: {
+            error: true,
+            type: "error",
+            msgs: [
+              "Your passwords must match please try again!"
+            ]
+          }
+        });
+      }
+    } else {
+      this.setState({
+        errors: {
+          error: true,
+          type: "error",
+          msgs: [
+            "You missed one of the required values please try again!"
+          ]
+        }
+      });
+    }
+
     e.preventDefault();
   }
 
@@ -217,5 +290,12 @@ export class IntroView extends React.Component<IntroViewProps, State> {
 
   private handleAlertClose(e: any): void {
     console.log("handleAlertClose", e);
+    this.setState({
+      errors: {
+        error: false,
+        type: undefined,
+        msgs: []
+      }
+    })
   }
 }

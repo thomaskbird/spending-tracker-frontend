@@ -1,3 +1,5 @@
+import { AlertProps } from "antd/lib/alert";
+
 export enum TransactionType {
   expense = "expense",
   income = "income"
@@ -24,6 +26,19 @@ export enum TransactionPanelActionTypes {
 export enum IntroActionType {
   login = "login",
   signup = "signup"
+}
+
+export enum AlertType {
+  success = "success",
+  info = "info",
+  warning = "warning",
+  error = "error"
+}
+
+export interface ErrorDisplay {
+  error: boolean;
+  type: AlertType;
+  msgs: string[];
 }
 
 interface Timestamps {

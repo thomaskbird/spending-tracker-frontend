@@ -23,6 +23,12 @@
   }
 }
 
+pre {
+  padding: 15px 30px;
+  background: #f5f5f5;
+  border: 1px solid #eee;
+}
+
 .FormGroup {
   display: flex;
   margin-bottom: 15px;
@@ -84,7 +90,4 @@
       @include formElement();
     }
   }
-}
-
-.SlidePanel {
 }
