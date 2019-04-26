@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./ActivationView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
-import { RouteComponentProps } from "react-router";
+import { Redirect, RouteComponentProps } from "react-router";
 import axios from "axios";
 
 interface ActivationViewProps extends RouteComponentProps<any> {}
@@ -9,6 +9,9 @@ interface ActivationViewProps extends RouteComponentProps<any> {}
 interface State {
   activationCode: string;
   email: string;
+  first_name: string;
+  last_name: string;
+  activationSuccess: boolean;
 }
 
 const COMPONENT_NAME = "ActivationView";
@@ -24,11 +27,17 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
 
     this.state = {
       activationCode: token,
-      email: tokenParts[0]
+      email: tokenParts[0],
+      first_name: "",
+      last_name: "",
+      activationSuccess: false
     };
   }
 
   public render(): JSX.Element {
+    if(this.state.activationSuccess) {
+      return (<Redirect to={"/"}/>);
+    }
     return (
       <div className={COMPONENT_NAME}>
         <HeaderPartial/>
@@ -38,6 +47,32 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
 
           <p>Is this your email? Please confirm and your account will be active</p>
           <pre>{this.state.email}</pre>
+
+          <div className={"FormGroup"}>
+            <label htmlFor="first_name">First name:</label>
+            <input
+              type="text"
+              name="first_name"
+              id={"first_name"}
+              value={this.state.first_name}
+              onChange={(e: any) => {
+                this.handleInputChange(e);
+              }}
+            />
+          </div>
+
+          <div className={"FormGroup"}>
+            <label htmlFor="last_name">Last name:</label>
+            <input
+              type="text"
+              name="last_name"
+              id={"last_name"}
+              value={this.state.last_name}
+              onChange={(e: any) => {
+                this.handleInputChange(e);
+              }}
+            />
+          </div>
 
           <button
             type="button"
@@ -53,15 +88,28 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
 
   private handleConfirmed(): void {
     axios
-    .get(`activate/${this.state.activationCode}`)
+    .post(`activate/${this.state.activationCode}`, {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name
+    })
     .then(response => {
       console.log("success", response);
       if (response.status) {
-
+        this.setState({
+          activationSuccess: true
+        });
       }
     })
     .catch(error => {
 
     });
+  }
+
+  private handleInputChange(e: any): void {
+    const newState = {
+      [e.target.name]: e.target.value
+    };
+
+    this.setState(newState);
   }
 }
