@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "antd";
 import {axiosInstance} from "../../index";
 import { Redirect } from "react-router";
+import { Storage } from "../../services/Storage";
 
 interface IntroViewProps {}
 
@@ -26,8 +27,12 @@ const COMPONENT_NAME = "IntroView";
 export class IntroView extends React.Component<IntroViewProps, State> {
   public static readonly displayName = "Intro View";
 
+  private store: any;
+
   constructor(props: IntroViewProps, context: any) {
     super(props, context);
+
+    this.store = new Storage();
 
     this.state = {
       email: "",
@@ -229,7 +234,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
         console.log("response", response);
 
         if(response.status) {
-          axiosInstance.defaults.headers.common["Authorization"] = response.data.data.user.api_token;
+          localStorage.setItem("token", response.data.data.user.api_token);
 
           this.setState({
             loginSuccess: true
