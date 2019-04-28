@@ -1,0 +1,388 @@
+---
+options:
+  formatter: stylish
+
+files:
+  include: "src/**/*.s(a|c)ss"
+
+rules:
+
+  # EXTENDS
+
+  # default 1
+  # SonarQube: scss:sort-declarations-and-directives
+  extends-before-declarations: 0
+
+  # default 1
+  # SonarQube: scss:sort-declarations-and-directives
+  extends-before-mixins: 2
+
+  # default 1
+  placeholder-in-extend: 2
+
+
+
+  # MIXINS
+
+  # default 1
+  # SonarQube: scss:sort-declarations-and-directives
+  mixins-before-declarations: 2
+
+
+
+  # LINE SPACING
+
+  # default 1
+  # SonarQube scss:one-declaration-per-line
+  # OFF: Prettier
+  one-declaration-per-line: 0
+
+  # default 1, include: true, allow-single-line-rulesets true
+  empty-line-between-blocks:
+    - 2
+    - include: true
+    - allow-single-line-rulesets: false
+
+  # default 1
+  # OFF: Prettier
+  single-line-per-selector: 0
+
+
+
+  # DISALLOWS
+
+  # default 0
+  no-attribute-selectors: 0
+
+  # default 0
+  no-color-hex: 0
+
+  # default 1
+  no-color-keywords: 2
+
+  # default 1, allow-map-identifiers: true, allow-rgba: false, allow-variable-identifiers: true
+  no-color-literals:
+    - 0
+    - allow-map-identifiers: true
+    - allow-rgba: false
+    - allow-variable-identifiers: true
+
+  # default 0
+  no-combinators: 0
+
+  # default 1
+  no-css-comments: 0
+
+  # default 1
+  no-debug: 2
+
+  # default 0
+  no-disallowed-properties: 0
+
+  # default 1
+  # SonarQube: scss:duplicate-properties
+  no-duplicate-properties: 2
+
+  # default 1
+  # SonarQube: scss:empty-rules
+  no-empty-rulesets: 2
+
+  # default 0
+  no-extends: 0
+
+  # default 1
+  # SonarQube: scss:ids
+  no-ids: 2
+
+  # default 1
+  # SonarQube: scss:important
+  no-important: 2
+
+  # default 1
+  no-invalid-hex: 2
+
+  # default 1
+  # SonarQube: scss:duplicate-properties
+  no-mergeable-selectors: 2
+
+  # default 1
+  # SonarQube: scss:known-properties
+  no-misspelled-properties: 2
+
+  # default 1, allow-element-with-attribute: false, allow-element-with-class: false, allow-element-with-id: false
+  # options don't seem to follow their settings
+  no-qualifying-elements:
+    - 0
+    - allow-element-with-attribute: false
+    - allow-element-with-class: false
+    - allow-element-with-id: false
+
+  # default 1
+  # SonarQube: scss:S1131
+  # OFF: Prettier
+  no-trailing-whitespace: 0
+
+  # default 1
+  # SonarQube: scss:trailing-zeros
+  # OFF: Prettier
+  no-trailing-zero: 0
+
+  # default 1
+  no-transition-all: 2
+
+  # default 0
+  no-universal-selectors: 0
+
+  # default 1, allow-protocol-relative-urls: false
+  no-url-domains: 2
+
+  # default 1
+  # SonarQube: scss:protocol-relative-url
+  no-url-protocols: 2
+
+  # default 1
+  no-vendor-prefixes: 2
+
+  # default 1
+  no-warn: 2
+
+  # default 0, global: [px], per-property: {width [rem]}
+  property-units:
+    - 2
+    - global: ["em", "ms", "px", "rem", "s"]
+    - per-property:
+      - width: ["px", "rem"]
+
+
+
+  # NESTING
+
+  # default 1
+  declarations-before-nesting: 2
+
+  # default 1
+  force-attribute-nesting: 0
+
+  # default 1
+  force-element-nesting: 0
+
+  # default 1
+  force-pseudo-nesting: 0
+
+
+
+  # NAME FORMATS
+
+  # default 2, convention: "hyphenatedlowercase"
+  # SonarQube: scss:class-selector-naming-convention
+  class-name-format:
+    - 2
+    - convention: "^[a-zA-Z][-_a-zA-Z0-9]*$"
+
+  # default 1, allow-leading-underscore: true, convention: "hyphenatedlowercase"
+  function-name-format:
+    - 2
+    - allow-leading-underscore: false
+    - convention: "^[a-z][-a-z0-9]*$"
+
+  # default 0, allow-leading-underscore: true, convention: "hyphenatedlowercase"
+  # SonarQube: scss:id-selector-naming-convention
+  id-name-format:
+    - 2
+    - allow-leading-underscore: false
+    - convention: "^[a-z][-a-z0-9]*$"
+
+  # default 1, allow-leading-underscore: true, convention: "hyphenatedlowercase"
+  # SonarQube: scss:id-selector-naming-convention
+  mixin-name-format:
+    - 2
+    - allow-leading-underscore: false
+    - convention: "^[a-z][-a-z0-9]*$"
+
+  # default 1, placeholder-name-format: "hyphenatedlowercase"
+  # SonarQube: scss:placeholder-selector-naming-convention
+  placeholder-name-format:
+    - 2
+    - placeholder-name-format: "^[a-z][-a-z0-9]*$"
+
+  # default 1, allow-leading-underscore: true, convention: "hyphenatedlowercase"
+  # SonarQube: scss:scss-variable-naming-convention
+  variable-name-format:
+    - 2
+    - allow-leading-underscore: false
+    - convention: "^[a-zA-Z][-a-zA-Z0-9]*$"
+
+
+
+  # STYLE GUIDE
+
+  # default 1
+  attribute-quotes: 0
+
+  # default 1
+  bem-depth: 0
+
+  # default 1, convention: 0
+  border-zero:
+    - 2
+    - convention: 0
+
+  # default 1
+  # OFF: Prettier
+  brace-style: 0
+
+  # default 1
+  clean-import-paths: 2
+
+  # default 1, include: false
+  # SonarQube: scss:useless-parentheses-mixin-no-parameter
+  empty-args:
+    - 2
+    - include: false
+
+  # default 1, style: short
+  hex-length:
+    - 0
+    - style: short
+
+  # default 1, style: lowercase
+  # SonarQube: scss:case
+  # OFF: Prettier
+  hex-notation:
+    - 0
+    - style: lowercase
+
+  # default 1, size: 2
+  # OFF: Prettier
+  indentation:
+    - 0
+    - size: 2
+
+  # default 1, include: false
+  # SonarQube: scss:leading-zeros
+  leading-zero:
+    - 2
+    - include: true
+
+  # default 0, length: 300
+  # SonarQube: scss:file-too-many-lines
+  max-file-line-count:
+    - 2
+    - length: 1000
+
+  # default 0, length: 80
+  # SonarQube: scss:line-length, length: 120
+  # OFF: Prettier
+  max-line-length:
+    - 0
+    - length: 80
+
+  # default 1, max-depth: 2
+  nesting-depth: 0
+
+  # default 1, order: "alphabetical", ignore-custom-properties: false
+  # SonarQube: scss:sort-declarations-and-directives
+  property-sort-order:
+    - 0
+    - order: "alphabetical"
+    - ignore-custom-properties: false
+
+  # default 1
+  pseudo-element: 2
+
+  # default 1, style: single
+  # OFF: Prettier
+  quotes:
+    - 0
+    - style: double
+
+  # default 1, allowed-shorthands: [1, 2, 3]
+  shorthand-values:
+    - 2
+    - allowed-shorthands: [1, 2, 3]
+
+  # default 1
+  # SonarQube: scss:quoted-url
+  url-quotes: 2
+
+  # default 1, properties: [], allow-map-get: true, allowed-functions: []
+  variable-for-property:
+    - 2
+    - properties: []
+    - allow-map-get: true
+    - allowed-functions: []
+
+  # default 1, include: false
+  zero-unit:
+    - 2
+    - include: false
+
+
+
+  # INNER SPACING
+
+  # default 1, include: false
+  # OFF: Prettier
+  space-after-bang:
+    - 0
+    - include: false
+
+  # default 1, include: true
+  # OFF: Prettier
+  space-after-colon:
+    - 0
+    - include: true
+
+  # default 1, include: true
+  # OFF: Prettier
+  space-after-comma:
+    - 0
+    - include: true
+
+  # default 1, include: true
+  # OFF: Prettier
+  space-around-operator:
+    - 0
+    - include: true
+
+  # default 1, include: true
+  # OFF: Prettier
+  space-before-bang:
+    - 0
+    - include: true
+
+  # default 1, include: true
+  # OFF: Prettier
+  space-before-brace:
+    - 0
+    - include: true
+
+  # default 1, include: false
+  # OFF: Prettier
+  space-before-colon:
+    - 0
+    - include: false
+
+  # default 1, include: false
+  # OFF: Prettier
+  space-between-parens:
+    - 0
+    - include: false
+
+
+
+  # FINAL ITEMS
+
+  # default 1, include: true
+  # SonarQube: scss:empty-line-end-of-file
+  # OFF: Prettier
+  final-newline:
+    - 0
+    - include: true
+
+  # default 1, include: true
+  # SonarQube: scss:semicolon-declaration
+  # OFF: Prettier
+  trailing-semicolon:
+    - 0
+    - include: true

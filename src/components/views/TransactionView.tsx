@@ -1,9 +1,6 @@
 import * as React from "react";
 import "./TransactionView.scss";
-import { DatePicker } from "antd";
-import * as moment from "moment";
-
-const { RangePicker } = DatePicker;
+import moment from "moment";
 
 import { TransactionListView } from "../partials/TransactionListView";
 import { FormTransaction } from "../partials/FormTransaction";

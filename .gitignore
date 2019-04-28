@@ -1,5 +1,79 @@
-/node_modules
-/.idea
-/package-lock.json
+# Created by https://www.gitignore.io/api/osx
+
+### OSX ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
 **/*.DS_Store
-/dist
+.idea
+
+# End of https://www.gitignore.io/api/osx
+
+
+
+# IntelliJ Idea
+# https://intellij-support.jetbrains.com/hc/en-us/articles/206544839-How-to-manage-projects-under-Version-Control-Systems
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/libraries/*.xml
+.idea/sonarissues.xml
+.idea/coverity
+.idea/coverity.xml
+.idea/jsLibraryMappings.xml
+.idea/sonarlint
+
+# NPM dependencies
+node_modules/
+
+# NPM modules
+node_modules/
+
+# NPM debug
+npm-debug.log
+
+# Typescript compiler output
+out/
+
+# Project build output
+dist/
+dist.zip
+
+# Unit test results and coverage output
+coverage/
+jest.json
+coverage.json
+
+# Coverity configuration
+data-coverity/
+
+# SonarQube Temp Dir
+.scannerwork/
+
+# cache-loader webpack plugin's cache dir
+.cache-loader/
+
+# storybook's cache dir
+.cache/

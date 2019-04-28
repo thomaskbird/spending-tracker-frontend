@@ -3,7 +3,7 @@ import "./HeaderPartial.scss";
 import { Link } from "react-router-dom";
 import { DatePicker } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as moment from "moment";
+import moment from "moment";
 
 const { RangePicker } = DatePicker;
 

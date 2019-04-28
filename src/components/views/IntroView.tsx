@@ -2,8 +2,8 @@ import * as React from "react";
 import "./IntroView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import {
-  IntroActionType,
-  ErrorDisplay,
+    IntroActionType,
+    ErrorDisplay, AlertType
 } from "../../services/Models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "antd";
@@ -26,12 +26,8 @@ const COMPONENT_NAME = "IntroView";
 export class IntroView extends React.Component<IntroViewProps, State> {
   public static readonly displayName = "Intro View";
 
-  private store: any;
-
   constructor(props: IntroViewProps, context: any) {
     super(props, context);
-
-    this.store = new Storage();
 
     this.state = {
       email: "",
@@ -242,8 +238,8 @@ export class IntroView extends React.Component<IntroViewProps, State> {
           this.setState({
             errors: {
               error: true,
-              type: "error",
-              msgs: response.errors
+              type: AlertType.error,
+              msgs: response.data.errors
             }
           });
         }
@@ -252,7 +248,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
       this.setState({
         errors: {
           error: true,
-          type: "error",
+          type: AlertType.error,
           msgs: [
             "You missed one of the required values please try again!"
           ]
@@ -280,7 +276,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
             this.setState({
               errors: {
                 error: false,
-                type: "success",
+                type: AlertType.success,
                 msgs: [
                   "Your account has been created, check your email for verification link!"
                 ]
@@ -292,7 +288,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
           this.setState({
             errors: {
               error: true,
-              type: "error",
+              type: AlertType.error,
               msgs: [
                 "Uh oh, something went wrong please try again!"
               ]
@@ -304,7 +300,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
         this.setState({
           errors: {
             error: true,
-            type: "error",
+            type: AlertType.error,
             msgs: [
               "Your passwords must match please try again!"
             ]
@@ -315,7 +311,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
       this.setState({
         errors: {
           error: true,
-          type: "error",
+          type: AlertType.error,
           msgs: [
             "You missed one of the required values please try again!"
           ]
@@ -328,6 +324,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
 
   private handleInputChange(e: any): void {
     const newState = {
+        ...this.state,
       [e.target.name]: e.target.value
     };
 

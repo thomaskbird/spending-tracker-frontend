@@ -47,7 +47,7 @@ export interface BudgetDialCustomColors {
 
 export interface ErrorDisplay {
   error: boolean;
-  type: AlertType;
+  type: AlertType | undefined;
   msgs: string[];
 }
 

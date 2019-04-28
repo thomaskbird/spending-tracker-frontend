@@ -1,20 +1,22 @@
 {
-  "compilerOptions": {
-    // enables relative imports to root
-    "baseUrl": "./",
-    // used only for Coverity analysis
-    "outDir": "./out/node_modules",
-    "sourceMap": true,
-    "strict": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "target": "es5",
-    "jsx": "react",
-    "lib": ["DOM", "DOM.Iterable", "ES6", "ScriptHost"],
-    "allowSyntheticDefaultImports": false,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["./src/**/*", "./*"],
-  "exclude": []
+    "compilerOptions": {
+        // enables relative imports to root
+        "baseUrl": "./",
+        // used only for Coverity analysis
+        "outDir": "./out/node_modules",
+        "sourceMap": true,
+        "strict": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "target": "es5",
+        "jsx": "react",
+        "lib": ["DOM", "DOM.Iterable", "ES6", "ScriptHost"],
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true
+    },
+    "include": ["./src/**/*", "./.storybook/**/*", "./*"],
+    "exclude": []
 }

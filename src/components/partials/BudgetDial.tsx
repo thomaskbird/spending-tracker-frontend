@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./BudgetDial.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BudgetDialCustomColors, BudgetFigures} from "../../services/Models";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BudgetDialCustomColors, BudgetFigures } from "../../services/Models";
 
 interface BudgetDialViewProps {
   title: string;
@@ -15,7 +15,7 @@ interface State {}
 const COMPONENT_NAME = "BudgetDial";
 
 export class BudgetDial extends React.Component<BudgetDialViewProps, State> {
-  public static readonly displayName = "Budget Dial View";
+  public static readonly displayName = "BudgetDialView";
 
   constructor(props: BudgetDialViewProps, context: any) {
     super(props, context);
@@ -58,7 +58,7 @@ export class BudgetDial extends React.Component<BudgetDialViewProps, State> {
             }}
           >{this.props.title}</h3>
           <p className={`${COMPONENT_NAME}__text--subtext`}>
-            {percent * 100}% of budget
+            {Math.round(percent * 100)}% of budget
           </p>
         </div>
       </div>

@@ -81,7 +81,7 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
             onClick={() => {
               this.handleConfirmed();
             }}
-          >Confirm & Activate</button>
+          >Confirm &amp; Activate</button>
         </div>
       </div>
     );
@@ -108,6 +108,7 @@ export class ActivationView extends React.Component<ActivationViewProps, State> 
 
   private handleInputChange(e: any): void {
     const newState = {
+        ...this.state,
       [e.target.name]: e.target.value
     };
 
