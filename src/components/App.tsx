@@ -29,6 +29,7 @@ import {
   faLock,
 
   faCar,
+  faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -56,6 +57,7 @@ library.add(
   faLock,
 
   faCar,
+  faShoppingCart,
 );
 
 interface AppProps {

@@ -122,6 +122,7 @@ export interface Budget extends Timestamps {
   title: string;
   slug: string;
   description?: string;
+  icon: string;
   amount: number;
 }
 
