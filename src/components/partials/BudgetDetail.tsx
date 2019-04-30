@@ -37,7 +37,7 @@ export class BudgetDetailView extends React.Component<
           title={this.props.budget.title}
           icon={this.props.budget.icon}
           budgetFigures={{
-            used: 200,
+            used: 175,
             budgetTotal: this.props.budget.amount
           }}
         />
