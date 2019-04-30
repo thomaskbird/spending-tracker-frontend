@@ -1,15 +1,15 @@
 import * as React from "react";
-import "./FormTransaction.scss";
+import "./TransactionForm.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
 import { Switch, DatePicker } from "antd";
 import { TransactionWithRecurring } from "../../services/Models";
 import moment from "moment";
 
-interface FormTransactionProps {
+interface TransactionFormProps {
   transaction?: TransactionWithRecurring;
   onSubmit(formData: any): void;
-  onReady(api: FormTransaction.Api): void;
+  onReady(api: TransactionForm.Api): void;
   onCancel(): void;
 }
 
@@ -24,13 +24,13 @@ interface State {
   start_at: string | undefined;
 }
 
-const COMPONENT_NAME = "ShellView";
+const COMPONENT_NAME = "TransactionForm";
 
-export class FormTransaction extends React.Component<
-  FormTransactionProps,
+export class TransactionForm extends React.Component<
+    TransactionFormProps,
   State
 > {
-  public static readonly displayName = "Shell View";
+  public static readonly displayName = COMPONENT_NAME;
 
   private dateFormat = "YYYY-MM-DD";
 
@@ -45,7 +45,7 @@ export class FormTransaction extends React.Component<
     { value: "yearly", label: "Yearly" }
   ];
 
-  constructor(props: FormTransactionProps, context: any) {
+  constructor(props: TransactionFormProps, context: any) {
     super(props, context);
 
     let isRecurring = false;
@@ -66,7 +66,7 @@ export class FormTransaction extends React.Component<
       end_at: ""
     };
 
-    const api: FormTransaction.Api = {
+    const api: TransactionForm.Api = {
       clearData: () => {
         this.setState({
           title: (this.props.transaction && this.props.transaction.title) || "",
@@ -89,7 +89,7 @@ export class FormTransaction extends React.Component<
     this.props.onReady(api);
   }
 
-  public componentDidUpdate(prevProps: FormTransactionProps): void {
+  public componentDidUpdate(prevProps: TransactionFormProps): void {
     if (prevProps.transaction !== this.props.transaction) {
       let isRecurring = false;
       if (this.props.transaction && this.props.transaction.recurring) {
@@ -136,6 +136,7 @@ export class FormTransaction extends React.Component<
       this.props.transaction &&
       this.props.transaction.recurring &&
       (moment(this.props.transaction.recurring.end_at, "YYYY-MM-DD") as any);
+    const panelTitle = this.props.transaction ? `Edit ${this.props.transaction.title} Transaction` : "Add Transaction";
 
     return (
       <form
@@ -143,7 +144,7 @@ export class FormTransaction extends React.Component<
           this.handleFormSubmit(event);
         }}
       >
-        <h2>Add transaction</h2>
+        <h2>{panelTitle}</h2>
 
         <div className={"FormGroup"}>
           <label htmlFor={"title"}>Title:</label>
@@ -287,7 +288,7 @@ export class FormTransaction extends React.Component<
   }
 }
 
-export namespace FormTransaction {
+export namespace TransactionForm {
   export interface Api {
     clearData(): void;
   }

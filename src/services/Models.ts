@@ -17,7 +17,7 @@ export enum RecurringType {
   yearly = "yearly"
 }
 
-export enum TransactionPanelActionTypes {
+export enum PanelActionTypes {
   view = "view",
   edit = "edit",
   add = "add"
@@ -114,6 +114,15 @@ export interface Tag extends Timestamps {
   name: string;
   slug: string;
   description: string;
+}
+
+export interface Budget extends Timestamps {
+  id: number;
+  user_id: number;
+  title: string;
+  slug: string;
+  description?: string;
+  amount: number;
 }
 
 export interface PaginatedListResults {

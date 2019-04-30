@@ -98,7 +98,7 @@ export class TransactionListView extends React.Component<
       .get(`/transactions/${this.props.start}/${this.props.end}`)
       .then(transactions => {
         this.setState({
-          transactions: transactions.data
+            transactions: transactions.data.length !== 0 ? transactions.data : []
         });
       });
   }

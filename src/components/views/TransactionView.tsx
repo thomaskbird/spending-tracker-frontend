@@ -3,11 +3,11 @@ import "./TransactionView.scss";
 import moment from "moment";
 
 import { TransactionListView } from "../partials/TransactionListView";
-import { FormTransaction } from "../partials/FormTransaction";
+import { TransactionForm } from "../partials/TransactionForm";
 
 import {
   DateRange,
-  TransactionPanelActionTypes,
+  PanelActionTypes,
   TransactionWithRecurring
 } from "../../services/Models";
 import {HeaderPartial} from "../partials/HeaderPartial";
@@ -23,7 +23,7 @@ interface State {
   range: DateRange;
   isPickerOpen: boolean;
   transactionToEdit: TransactionWithRecurring | undefined;
-  transactionActionType: TransactionPanelActionTypes | undefined;
+  transactionActionType: PanelActionTypes | undefined;
 }
 
 const COMPONENT_NAME = "TransactionView";
@@ -32,7 +32,7 @@ export class TransactionView extends React.Component<TransactionViewProps, State
   public static readonly displayName = "Transaction View";
 
   private listApi?: TransactionListView.Api;
-  private formTransactionAddApi?: FormTransaction.Api;
+  private formTransactionAddApi?: TransactionForm.Api;
 
   constructor(props: TransactionViewProps, context: any) {
     super(props, context);
@@ -59,8 +59,8 @@ export class TransactionView extends React.Component<TransactionViewProps, State
           onToggleSidebar={() => {
             this.toggleSidebarPanel(true);
           }}
-          onToggleTransactionPanel={(isOpen, actionType, transaction) => {
-            this.toggleTransactionPanel(isOpen, actionType, transaction);
+          onToggleContextPanel={(isOpen, actionType) => {
+            this.toggleTransactionPanel(isOpen, actionType);
           }}
           onDateRangeChange={(range) => {
             this.setState({
@@ -75,7 +75,7 @@ export class TransactionView extends React.Component<TransactionViewProps, State
             <TransactionListView
               start={this.state.range.start.format(DATE_FORMAT)}
               end={this.state.range.end.format(DATE_FORMAT)}
-              onTransactionAction={(action: TransactionPanelActionTypes, transaction) => {
+              onTransactionAction={(action: PanelActionTypes, transaction) => {
                 this.toggleTransactionPanel(true, action, transaction);
               }}
               onReady={api => {
@@ -190,8 +190,8 @@ export class TransactionView extends React.Component<TransactionViewProps, State
    */
   private toggleTransactionPanel(
     isOpen: boolean,
-    actionType: TransactionPanelActionTypes | undefined,
-    transaction: TransactionWithRecurring | undefined
+    actionType: PanelActionTypes | undefined,
+    transaction?: TransactionWithRecurring | undefined
   ): void {
     this.setState({
       isSidebarOpen: false,

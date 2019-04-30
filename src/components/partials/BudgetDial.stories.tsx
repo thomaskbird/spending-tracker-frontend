@@ -42,7 +42,7 @@ storiesOf("BudgetDial", module)
       icon={text("Icon", "car")}
       title={text("Title", "Automotive Care")}
       budgetFigures={{
-        used: number("Used", 250),
+        used: number("Used", 350),
         budgetTotal: number("Budget total", 500)
       }}
     />

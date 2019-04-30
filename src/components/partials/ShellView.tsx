@@ -5,7 +5,6 @@ import { TransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";
 import {BudgetView} from "../views/BudgetView";
-import {BudgetDial} from "./BudgetDial";
 
 interface ShellViewProps {}
 

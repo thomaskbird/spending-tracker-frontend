@@ -4,16 +4,16 @@ import { HeaderPartial } from "../partials/HeaderPartial";
 import { Redirect, RouteComponentProps } from "react-router";
 import {axiosInstance} from "../../index";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {FormTransaction} from "./FormTransaction";
+import {TransactionForm} from "./TransactionForm";
 import {TransactionDetailView} from "./TransactionDetailView";
-import {TransactionPanelActionTypes, TransactionWithRecurring} from "../../services/Models";
+import {PanelActionTypes, TransactionWithRecurring} from "../../services/Models";
 
 interface TransactionPanelPartialProps {
   isAddTransactionOpen: boolean;
   onClose(): void;
-  transactionActionType: TransactionPanelActionTypes | undefined;
+  transactionActionType: PanelActionTypes | undefined;
   transactionToEdit: TransactionWithRecurring | undefined;
-  onReady(api: FormTransaction.Api): void;
+  onReady(api: TransactionForm.Api): void;
   onTransactionAdd(formData: any): void;
   onToggleTransactionPanel(): void;
 }
@@ -54,7 +54,7 @@ export class TransactionPanelPartial extends React.Component<TransactionPanelPar
           </span>
 
         {this.props.transactionActionType !== "view" ? (
-          <FormTransaction
+          <TransactionForm
             transaction={this.props.transactionToEdit}
             onReady={api => {
               this.props.onReady(api);

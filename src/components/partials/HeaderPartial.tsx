@@ -9,7 +9,7 @@ const { RangePicker } = DatePicker;
 
 import {
   DateRange,
-  TransactionPanelActionTypes,
+  PanelActionTypes,
 } from "../../services/Models";
 
 interface HeaderPartialProps {
@@ -26,7 +26,7 @@ interface HeaderPartialProps {
    * @param {TransactionPanelActionTypes} actionType - Indicates what action the panel should render
    * @param {undefined} transaction - The transaction data
    */
-  onToggleTransactionPanel?(isOpen: boolean, actionType: TransactionPanelActionTypes, transaction: undefined): void;
+  onToggleContextPanel?(isOpen: boolean, actionType: PanelActionTypes): void;
   /**
    * Triggers when the data range has been changed
    *
@@ -82,11 +82,11 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
             </div>
           </Link>
 
-          {this.props.onToggleTransactionPanel ? (
+          {this.props.onToggleContextPanel ? (
             <span
               className={"HeaderPartial--top--icons"}
               onClick={() => {
-                this.props.onToggleTransactionPanel!(true, TransactionPanelActionTypes.add, undefined);
+                this.props.onToggleContextPanel!(true, PanelActionTypes.add);
               }}
             >
               <FontAwesomeIcon icon={"plus"} />

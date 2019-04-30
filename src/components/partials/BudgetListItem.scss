@@ -1,0 +1,154 @@
+.BudgetListItem {
+    position: relative;
+
+    &__main {
+        left: 0;
+        z-index: 2;
+        display: flex;
+        padding: 15px;
+        background: #fff;
+        margin-top: -1px;
+        position: relative;
+        border: 1px solid #eee;
+        transition: 0.25s left ease-in;
+
+        &.open {
+            left: -291px;
+        }
+    }
+
+    &__hidden-actions {
+        top: 0;
+        right: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        text-align: right;
+        position: absolute;
+
+        button {
+            height: 100%;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 20px 30px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: trumpgothicpro, sans-serif;
+
+            &:focus {
+                outline: none;
+            }
+
+            &.view {
+            }
+
+            &.edit {
+                color: #666;
+                background: #eee;
+
+                &:hover {
+                    background: darken(#eee, 2%);
+                }
+            }
+
+            &.remove {
+                color: #fff;
+                background: #ba5c5d;
+
+                &:hover {
+                    background: darken(#ba5c5d, 2%);
+                }
+            }
+        }
+    }
+
+    &__text {
+        flex: 1;
+        margin-right: 10px;
+
+        h5,
+        small {
+            transition: 0.25s color ease-in;
+        }
+
+        h5 {
+            color: #666;
+            margin-top: 5px;
+            line-height: 100%;
+            margin-bottom: 0;
+        }
+
+        small {
+            color: #ccc;
+        }
+    }
+
+    &__selects {
+        margin-right: 15px;
+    }
+
+    &__info {
+        text-align: right;
+
+        &--date {
+            color: #ccc;
+            font-size: 0.7rem;
+        }
+
+        &--amount {
+            font-size: 18px;
+            transition: 0.25s color ease-in;
+
+            &--income {
+                color: lighten(#3c9e3c, 10%);
+            }
+
+            &--expense {
+                color: lighten(#bd6161, 10%);
+            }
+        }
+    }
+
+    &__drag-handle {
+        color: #ccc;
+        height: 100%;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-left: 20px;
+        align-self: center;
+        padding: 10px 0 10px 20px;
+        border-left: 1px solid #ccc;
+
+        svg {
+            cursor: pointer;
+        }
+
+        &:hover {
+            color: #666;
+        }
+    }
+
+    &:hover {
+        .TransactionListItem__text {
+            h5 {
+                color: #000;
+            }
+
+            small {
+                color: #999;
+            }
+        }
+
+        .TransactionListItem__info--amount {
+            &--income {
+                color: darken(#3c9e3c, 10%);
+            }
+
+            &--expense {
+                color: darken(#bd6161, 10%);
+            }
+        }
+    }
+}
