@@ -12,6 +12,7 @@ interface BudgetFormProps {
 interface State {
     title: string | undefined;
     description: string | undefined;
+    icon: string | undefined;
     amount: number | undefined;
 }
 
@@ -29,6 +30,7 @@ export class BudgetForm extends React.Component<
         this.state = {
             title: (this.props.budget && this.props.budget.title) || "",
             amount: (this.props.budget && this.props.budget.amount) || 0,
+            icon: (this.props.budget && this.props.budget.icon) || "",
             description: (this.props.budget && this.props.budget.description) || ""
         };
 
@@ -37,6 +39,7 @@ export class BudgetForm extends React.Component<
                 this.setState({
                     title: (this.props.budget && this.props.budget.title) || "",
                     amount: (this.props.budget && this.props.budget.amount) || 0,
+                    icon: (this.props.budget && this.props.budget.icon) || "",
                     description: (this.props.budget && this.props.budget.description) || ""
                 });
             }
@@ -51,6 +54,7 @@ export class BudgetForm extends React.Component<
             this.setState({
                 title: (this.props.budget && this.props.budget.title) || "",
                 amount: (this.props.budget && this.props.budget.amount) || 0,
+                icon: (this.props.budget && this.props.budget.icon) || "",
                 description: (this.props.budget && this.props.budget.description) || ""
             });
         }
@@ -79,6 +83,20 @@ export class BudgetForm extends React.Component<
                         }}
                     />
                 </div>
+
+              <div className={"FormGroup"}>
+                <label htmlFor={"icon"}>Icon:</label>
+                <input
+                  type="text"
+                  name="icon"
+                  id={"icon"}
+                  placeholder={"Enter icon..."}
+                  value={this.state.icon}
+                  onChange={e => {
+                    this.setState({ icon: e.target.value });
+                  }}
+                />
+              </div>
 
                 <div className={"FormGroup"}>
                     <label htmlFor={"amount"}>Amount:</label>
