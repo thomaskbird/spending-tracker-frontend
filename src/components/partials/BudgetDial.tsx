@@ -10,7 +10,10 @@ interface BudgetDialViewProps {
   customColors?: BudgetDialCustomColors;
 }
 
-interface State {}
+interface State {
+  percent: number | undefined;
+  percentDegrees: number | undefined;
+}
 
 const COMPONENT_NAME = "BudgetDial";
 
@@ -20,12 +23,22 @@ export class BudgetDial extends React.Component<BudgetDialViewProps, State> {
   constructor(props: BudgetDialViewProps, context: any) {
     super(props, context);
 
-    this.state = {};
+    this.state = {
+      percent: undefined,
+      percentDegrees: undefined
+    };
+  }
+
+  public componentDidMount(): void {
+    const percent = this.props.budgetFigures.used / this.props.budgetFigures.budgetTotal;
+
+    this.setState({
+      percent: Math.round(percent * 100),
+      percentDegrees: percent * 360
+    });
   }
 
   public render(): JSX.Element {
-    const percent = this.props.budgetFigures.used / this.props.budgetFigures.budgetTotal;
-    const percentDegree = percent * 360;
 
     const colors = {
       start: "orange",
@@ -38,9 +51,9 @@ export class BudgetDial extends React.Component<BudgetDialViewProps, State> {
     }
 
     return (
-      <div className={COMPONENT_NAME}>
+      <div className={COMPONENT_NAME} onClick={() => { this.popupInfoDialogue(); }}>
         <div className={`${COMPONENT_NAME}__dial--border`}>
-          <div className={`${COMPONENT_NAME}__dial`} style={{ background: `conic-gradient(${colors.start} 0deg, ${colors.end} ${percentDegree}deg, white ${percentDegree}deg, white 360deg)` }}>
+          <div className={`${COMPONENT_NAME}__dial`} style={{ background: `conic-gradient(${colors.start} 0deg, ${colors.end} ${this.state.percentDegrees}deg, white ${this.state.percentDegrees}deg, white 360deg)` }}>
             <div className={`${COMPONENT_NAME}__dial--icon`}>
               <FontAwesomeIcon
                 icon={this.props.icon}
@@ -58,10 +71,14 @@ export class BudgetDial extends React.Component<BudgetDialViewProps, State> {
             }}
           >{this.props.title}</h3>
           <p className={`${COMPONENT_NAME}__text--subtext`}>
-            {Math.round(percent * 100)}% of budget
+            {this.state.percent}% of budget
           </p>
         </div>
       </div>
     );
+  }
+
+  private popupInfoDialogue(): void {
+    alert(`${this.state.percent}% of budget`);
   }
 }
