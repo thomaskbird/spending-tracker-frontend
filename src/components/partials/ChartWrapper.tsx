@@ -1,23 +1,23 @@
 import * as React from "react";
 
-import { PieChart, Pie } from "recharts/es6/index.js";
+import { PieChart, Pie, PieProps } from "recharts";
 import { ObjectMap } from "src/types";
 
 // <Pie data={data01} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />
 // <Pie data={data02} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label />
 
-interface ChartDimensions {
+export interface ChartDimensions {
   width: number;
   height: number;
 }
 
-interface DataNameValuePairs {
+export interface DataNameValuePairs {
   name: string;
   value: number;
 }
 
-interface MainDataStructure {
-  props: ObjectMap<any>;
+export interface MainDataStructure {
+  props: PieProps;
   data: DataNameValuePairs[];
 }
 

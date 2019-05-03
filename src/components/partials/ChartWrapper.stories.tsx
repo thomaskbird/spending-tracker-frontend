@@ -1,9 +1,15 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { text, number } from "@storybook/addon-knobs";
-import { ChartWrapper } from "src/components/partials/ChartWrapper";
+import { ChartWrapper, DataNameValuePairs } from "src/components/partials/ChartWrapper";
+import { PieProps } from "recharts";
 
-const data = [
+interface PieChart {
+  props: PieProps;
+  data: DataNameValuePairs[]
+}
+
+const data: PieChart[] = [
   {
     props: {
       dataKey: "value",
