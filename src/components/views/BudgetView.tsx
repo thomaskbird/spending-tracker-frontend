@@ -94,7 +94,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
    * @param formData - The form transaction data
    */
   private budgetAdd(formData: any): void {
-    let apiUrl = "/budgets/create";
+    let apiUrl = "/budgets";
     let formattedData: any = {
       title: formData.title,
       description: formData.description,
@@ -103,7 +103,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
 
     // Determine if this is an edit action
     if (this.state.budgetToEdit) {
-      apiUrl = `/budgets/edit/${this.state.budgetToEdit.id}`;
+      apiUrl = `/budgets/${this.state.budgetToEdit.id}`;
       formattedData = {
         ...this.state.budgetToEdit,
         ...formattedData
