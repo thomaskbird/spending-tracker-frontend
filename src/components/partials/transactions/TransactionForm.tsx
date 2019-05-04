@@ -3,7 +3,7 @@ import "./TransactionForm.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
 import { Switch, DatePicker } from "antd";
-import { TransactionWithRecurring } from "../../services/Models";
+import { TransactionWithRecurring } from "../../../services/Models";
 import moment from "moment";
 
 interface TransactionFormProps {

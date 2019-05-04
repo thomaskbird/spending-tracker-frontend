@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Budget } from "../../services/Models";
+import { Budget } from "../../../services/Models";
 
 interface BudgetFormProps {
     budget?: Budget;

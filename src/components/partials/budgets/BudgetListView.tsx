@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Budget, TransactionWithRecurring } from "src/services/Models";
 import { axiosInstance } from "src/index";
-import { BudgetListItem } from "src/components/partials/BudgetListItem";
+import { BudgetListItem } from "src/components/partials/budgets/BudgetListItem";
 
 interface BudgetListViewProps {
     onReady(api: BudgetListView.Api): void;

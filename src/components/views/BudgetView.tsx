@@ -3,10 +3,10 @@ import "./BudgetView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import { RouteComponentProps } from "react-router";
 import {SidebarPartial} from "../partials/SidebarPartial";
-import { BudgetListView } from "src/components/partials/BudgetListView";
+import { BudgetListView } from "src/components/partials/budgets/BudgetListView";
 import { Budget, DateRange, PanelActionTypes, TransactionWithRecurring } from "src/services/Models";
-import { BudgetPanelPartial } from "src/components/partials/BudgetPanelPartial";
-import { BudgetForm } from "src/components/partials/BudgetForm";
+import { BudgetPanelPartial } from "src/components/partials/budgets/BudgetPanelPartial";
+import { BudgetForm } from "src/components/partials/budgets/BudgetForm";
 import { axiosInstance } from "src/index";
 
 interface BudgetViewProps extends RouteComponentProps<any> {}

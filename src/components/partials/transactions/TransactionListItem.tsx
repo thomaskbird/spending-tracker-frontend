@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   TransactionType,
   TransactionWithRecurring
-} from "../../services/Models";
+} from "../../../services/Models";
 // import Draggable from "react-draggable";
 // import Gesture from "rc-gesture";
 

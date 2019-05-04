@@ -1,12 +1,12 @@
 import * as React from "react";
 import "./TransactionPanelPartial.scss";
-import { HeaderPartial } from "../partials/HeaderPartial";
+import { HeaderPartial } from "../../partials/HeaderPartial";
 import { Redirect, RouteComponentProps } from "react-router";
-import {axiosInstance} from "../../index";
+import {axiosInstance} from "../../../index";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {TransactionForm} from "./TransactionForm";
 import {TransactionDetailView} from "./TransactionDetailView";
-import {PanelActionTypes, TransactionWithRecurring} from "../../services/Models";
+import {PanelActionTypes, TransactionWithRecurring} from "../../../services/Models";
 
 interface TransactionPanelPartialProps {
   isAddTransactionOpen: boolean;

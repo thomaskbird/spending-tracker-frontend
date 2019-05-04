@@ -2,8 +2,8 @@ import * as React from "react";
 import "./BudgetDetailView.scss";
 import {
     Budget
-} from "../../services/Models";
-import { BudgetDial } from "src/components/partials/BudgetDial";
+} from "../../../services/Models";
+import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 
 interface BudgetDetailViewProps {
     budget: Budget;

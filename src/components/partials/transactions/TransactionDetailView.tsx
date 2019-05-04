@@ -3,7 +3,7 @@ import "./TransactionDetailView.scss";
 import {
   TransactionType,
   TransactionWithRecurring
-} from "../../services/Models";
+} from "../../../services/Models";
 
 interface TransactionDetailViewProps {
   transaction: TransactionWithRecurring;

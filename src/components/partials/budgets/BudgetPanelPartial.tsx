@@ -2,8 +2,8 @@ import * as React from "react";
 import "./BudgetPanelPartial.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {BudgetForm} from "./BudgetForm";
-import { Budget, PanelActionTypes } from "../../services/Models";
-import { BudgetDetailView } from "src/components/partials/BudgetDetail";
+import { Budget, PanelActionTypes } from "../../../services/Models";
+import { BudgetDetailView } from "src/components/partials/budgets/BudgetDetail";
 
 interface BudgetPanelPartialProps {
   isAddBudgetOpen: boolean;

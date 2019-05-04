@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./BudgetDial.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BudgetDialCustomColors, BudgetFigures } from "../../services/Models";
+import { BudgetDialCustomColors, BudgetFigures } from "../../../services/Models";
 
 interface BudgetDialViewProps {
   title: string;

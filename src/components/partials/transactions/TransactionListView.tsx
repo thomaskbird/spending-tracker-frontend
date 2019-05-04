@@ -1,8 +1,8 @@
 import * as React from "react";
 import "./TransactionListView.scss";
-import { TransactionWithRecurring } from "../../services/Models";
+import { TransactionWithRecurring } from "../../../services/Models";
 import { TransactionListItem } from "./TransactionListItem";
-import {axiosInstance} from "../../index";
+import {axiosInstance} from "../../../index";
 
 interface TransactionListViewProps {
   start: string;

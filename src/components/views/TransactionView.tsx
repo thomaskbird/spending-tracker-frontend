@@ -2,8 +2,8 @@ import * as React from "react";
 import "./TransactionView.scss";
 import moment from "moment";
 
-import { TransactionListView } from "../partials/TransactionListView";
-import { TransactionForm } from "../partials/TransactionForm";
+import { TransactionListView } from "../partials/transactions/TransactionListView";
+import { TransactionForm } from "../partials/transactions/TransactionForm";
 
 import {
   DateRange,
@@ -13,7 +13,7 @@ import {
 import {HeaderPartial} from "../partials/HeaderPartial";
 import {axiosInstance} from "../../index";
 import {SidebarPartial} from "../partials/SidebarPartial";
-import {TransactionPanelPartial} from "../partials/TransactionPanelPartial";
+import {TransactionPanelPartial} from "../partials/transactions/TransactionPanelPartial";
 
 interface TransactionViewProps {}
 
