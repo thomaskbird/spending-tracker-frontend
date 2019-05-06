@@ -51,6 +51,17 @@ export class IntroView extends React.Component<IntroViewProps, State> {
 
     const errorMsgs = this.state.errors.msgs.length !== 0 ? this.state.errors.msgs.map(msg => `${msg}<br/>`) : "";
 
+    let submitBtnText: string;
+    let secondaryBtnText: string;
+
+    if(this.state.action === IntroActionType.login) {
+      submitBtnText = "Login";
+      secondaryBtnText = "Signup";
+    } else {
+      submitBtnText = "Signup";
+      secondaryBtnText = "Cancel";
+    }
+
     return (
       <div className={COMPONENT_NAME}>
         <HeaderPartial/>
@@ -67,155 +78,109 @@ export class IntroView extends React.Component<IntroViewProps, State> {
           />
         ) : (undefined)}
 
-        {this.state.action === IntroActionType.login ? (
-          <form
-            className={`${COMPONENT_NAME}__login`}
-            onSubmit={event => {
-              this.handleLoginSubmit(event);
-            }}
-          >
-            <h2>Login</h2>
+        <form
+          className={`${COMPONENT_NAME}__signup`}
+          onSubmit={event => {
+            this.handleSubmit(event);
+          }}
+        >
+          <h2>Signup</h2>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi consequatur culpa deserunt eaque earum, eligendi enim hic inventore maxime nemo nulla numquam obcaecati porro quae qui recusandae sint sunt veritatis!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi consequatur culpa deserunt eaque earum, eligendi enim hic inventore maxime nemo nulla numquam obcaecati porro quae qui recusandae sint sunt veritatis!</p>
 
-            <div className={"FormGroup"}>
-              <label htmlFor={"email"}>Email:</label>
+          <div className={"FormGroup"}>
+            <label htmlFor={"email"}>Email:</label>
 
-              <div className={"FormGroup--input-indicator"}>
-                <span className={"FormGroup--input-indicator-icon"}>
-                  <FontAwesomeIcon icon={"envelope"} />
-                </span>
-                <input
-                  type="text"
-                  name="email"
-                  id={"email"}
-                  value={this.state.email}
-                  onChange={(e: any) => {
-                    this.handleInputChange(e);
-                  }}
-                />
-              </div>
+            <div className={"FormGroup--input-indicator"}>
+              <span className={"FormGroup--input-indicator-icon"}>
+                <FontAwesomeIcon icon={"envelope"} />
+              </span>
+              <input
+                type="text"
+                name="email"
+                id={"email"}
+                value={this.state.email}
+                onChange={(e: any) => {
+                  this.handleInputChange(e);
+                }}
+              />
             </div>
+          </div>
 
-            <div className={"FormGroup"}>
-              <label htmlFor={"password"}>Password:</label>
-              <div className={"FormGroup--input-indicator"}>
-                <span className={"FormGroup--input-indicator-icon"}>
-                  <FontAwesomeIcon icon={"lock"} />
-                </span>
-                <input
-                  type="password"
-                  name="password"
-                  id={"password"}
-                  value={this.state.password}
-                  onChange={(e: any) => {
-                    this.handleInputChange(e);
-                  }}
-                />
-              </div>
+          <div className={"FormGroup"}>
+            <label htmlFor={"password"}>Password:</label>
+            <div className={"FormGroup--input-indicator"}>
+              <span className={"FormGroup--input-indicator-icon"}>
+                <FontAwesomeIcon icon={"lock"} />
+              </span>
+              <input
+                type="password"
+                name="password"
+                id={"password"}
+                value={this.state.password}
+                onChange={(e: any) => {
+                  this.handleInputChange(e);
+                }}
+              />
             </div>
+          </div>
 
-            <div className={"FormGroup__inline"}>
-              <button
-                type="submit"
-                className={"btn btn-primary"}
-              >Login</button>
-              <button
+          {this.state.action !== IntroActionType.login ? (
+              <div className={"FormGroup"}>
+                <label htmlFor={"cpassword"}>Confirm Password:</label>
+                <div className={"FormGroup--input-indicator"}>
+              <span className={"FormGroup--input-indicator-icon"}>
+                <FontAwesomeIcon icon={"lock"} />
+              </span>
+                  <input
+                      type="password"
+                      name="cpassword"
+                      id={"cpassword"}
+                      value={this.state.cpassword}
+                      onChange={(e: any) => {
+                        this.handleInputChange(e);
+                      }}
+                  />
+                </div>
+              </div>
+          ): (undefined)}
+
+          <div className={"FormGroup FormGroup__inline"}>
+            <button
+              type="submit"
+              className={"btn btn-primary"}
+            >
+              {submitBtnText}
+            </button>
+            <button
                 type="button"
                 className={"btn btn-default"}
                 onClick={() => {
                   this.setState({
-                    action: IntroActionType.signup
+                    action: IntroActionType.signup === this.state.action ? IntroActionType.login : IntroActionType.signup
                   });
                 }}
-              >Signup</button>
-            </div>
-          </form>
-        ) : (
-          <form
-            className={`${COMPONENT_NAME}__signup`}
-            onSubmit={event => {
-              this.handleSignupSubmit(event);
-            }}
-          >
-            <h2>Signup</h2>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi consequatur culpa deserunt eaque earum, eligendi enim hic inventore maxime nemo nulla numquam obcaecati porro quae qui recusandae sint sunt veritatis!</p>
-
-            <div className={"FormGroup"}>
-              <label htmlFor={"email"}>Email:</label>
-
-              <div className={"FormGroup--input-indicator"}>
-                <span className={"FormGroup--input-indicator-icon"}>
-                  <FontAwesomeIcon icon={"envelope"} />
-                </span>
-                <input
-                  type="text"
-                  name="email"
-                  id={"email"}
-                  value={this.state.email}
-                  onChange={(e: any) => {
-                    this.handleInputChange(e);
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className={"FormGroup"}>
-              <label htmlFor={"password"}>Password:</label>
-              <div className={"FormGroup--input-indicator"}>
-                <span className={"FormGroup--input-indicator-icon"}>
-                  <FontAwesomeIcon icon={"lock"} />
-                </span>
-                <input
-                  type="password"
-                  name="password"
-                  id={"password"}
-                  value={this.state.password}
-                  onChange={(e: any) => {
-                    this.handleInputChange(e);
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className={"FormGroup"}>
-              <label htmlFor={"cpassword"}>Confirm Password:</label>
-              <div className={"FormGroup--input-indicator"}>
-                <span className={"FormGroup--input-indicator-icon"}>
-                  <FontAwesomeIcon icon={"lock"} />
-                </span>
-                <input
-                  type="password"
-                  name="cpassword"
-                  id={"cpassword"}
-                  value={this.state.cpassword}
-                  onChange={(e: any) => {
-                    this.handleInputChange(e);
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className={"FormGroup FormGroup__inline"}>
-              <button
-                type="submit"
-                className={"btn btn-primary"}
-              >Signup</button>
-              <button
+            >
+              {secondaryBtnText}
+            </button>
+            <button
                 type="button"
                 className={"btn btn-default"}
-                onClick={() => {
-                  this.setState({
-                    action: IntroActionType.login
-                  });
-                }}
-              >Cancel</button>
-            </div>
-          </form>
-        )}
+            >
+              Forgot password?
+            </button>
+          </div>
+        </form>
       </div>
     );
+  }
+
+  private handleSubmit(e: any): void {
+    if(this.state.cpassword) {
+      this.handleSignupSubmit(e);
+    } else {
+      this.handleLoginSubmit(e);
+    }
   }
 
   private handleLoginSubmit(e: any): void {
