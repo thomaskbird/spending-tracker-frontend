@@ -2,4 +2,28 @@
   &__add-wrapper {
     margin-bottom: 5px;
   }
+
+  &__tag-wrapper {
+    display: flex;
+    padding: 10px 0;
+    flex-wrap: wrap;
+
+    .tag {
+      display: flex;
+      cursor: pointer;
+      padding: 2px 9px;
+      margin-right: 5px;
+      border-radius: 2px;
+      width: fit-content;
+
+      background: $color-grey-light;
+      border: 1px solid darken($color-grey-light, 8%);
+
+      &--is-set {
+        color: $color-white;
+        background: $color-blue;
+        border: 1px solid darken($color-blue, 8%);
+      }
+    }
+  }
 }

@@ -111,9 +111,10 @@ export interface TransactionWithUndefined {
 
 export interface Tag extends Timestamps {
   id: number;
-  name: string;
+  title: string;
   slug: string;
   description: string;
+  selected?: boolean;
 }
 
 export interface Budget extends Timestamps {

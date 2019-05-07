@@ -4,6 +4,7 @@ import {
   TransactionType,
   TransactionWithRecurring
 } from "../../../services/Models";
+import { TagTracker } from "../tags/TagTracker";
 
 interface TransactionDetailViewProps {
   transaction: TransactionWithRecurring;
@@ -105,6 +106,10 @@ export class TransactionDetailView extends React.Component<
         ) : (
           <p>Not a recurring transaction</p>
         )}
+
+        <TagTracker
+            transactionId={this.props.transaction && this.props.transaction.id}
+        />
       </div>
     );
   }
