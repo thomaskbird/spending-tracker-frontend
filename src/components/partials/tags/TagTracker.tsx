@@ -8,6 +8,7 @@ interface Props {
 }
 
 interface State {
+    isLoading: boolean;
     newTagText: string;
     selectedTagIds: number[];
     tags: Tag[];
@@ -20,6 +21,7 @@ export class TagTracker extends React.Component<Props, State> {
         super(props, context);
 
         this.state = {
+            isLoading: false,
             newTagText: "",
             selectedTagIds: [],
             tags: []
@@ -27,8 +29,13 @@ export class TagTracker extends React.Component<Props, State> {
     }
 
     public componentDidMount(): void {
-        this.refreshTags();
-        this.getSelectedTags();
+        this.refreshData();
+    }
+
+    public componentDidUpdate(prevProps: Readonly<Props>): void {
+        if(this.props.transactionId !== prevProps.transactionId) {
+            this.refreshData();
+        }
     }
 
     public render(): JSX.Element {
@@ -74,22 +81,27 @@ export class TagTracker extends React.Component<Props, State> {
                         );
                     })}
                 </div>
+                {this.state.isLoading ? (
+                    <div className={`${COMPONENT_NAME}__loading`}>
+                        <span className={`${COMPONENT_NAME}__loading--text`}>Loading...</span>
+                    </div>
+                ): (undefined)}
             </div>
         );
     }
 
     private handleToggleSelected(tag: Tag): void {
-        axiosInstance.post(
-            `/transaction/tag/add`,
+        const togglePromise = axiosInstance.post(
+            tag.selected ? `/transaction/tag/remove` : `/transaction/tag/add`,
             {
                 tag_id: tag.id,
                 transaction_id: this.props.transactionId
             }
-        ).then(response => {
-            if(response.data.status) {
-                this.refreshTags();
-            }
-        }).catch(error => console.log("Error: ", error));
+        ).then((response: any) => {
+            this.refreshData();
+        }).catch((error: any) => {
+            console.log("Error: ", error);
+        });
     }
 
     private handleAddTag(text: string): void {
@@ -103,40 +115,47 @@ export class TagTracker extends React.Component<Props, State> {
                     newTagText: ""
                 });
 
-                this.refreshTags();
+                this.refreshData();
             });
     }
 
-    private addItemFlag(tags: Tag[]): Tag[] {
-        const newTagState = tags.map(tag => {
-            return {
-                ...tag,
-                selected: this.state.selectedTagIds && this.state.selectedTagIds.indexOf(tag.id) !== -1 ? true : false
-            };
+    private addItemFlag(tags: Tag[], selectedTagIds: number[]): Tag[] {
+        if(this.state.selectedTagIds) {
+            const newTagState = tags.map(tag => {
+                return {
+                    ...tag,
+                    selected: selectedTagIds && selectedTagIds.indexOf(tag.id) !== -1 ? true : false
+                };
+            });
+            return newTagState;
+        } else {
+            return tags;
+        }
+    }
+
+    private async refreshData(): Promise<any> {
+        this.setState({
+            isLoading: true,
+            selectedTagIds: [],
+            tags: []
         });
+        const selectedTagsPromise = axiosInstance.get(`/transaction/tags/${this.props.transactionId}`);
+        const tagsPromise = axiosInstance.get(`/tags`);
 
-        return newTagState;
-    }
+        return Promise.all([selectedTagsPromise, tagsPromise]).then(response => {
+            console.log("response", response);
+            const selectedTagIds = response[0].data.data.transaction_tag_ids;
+            const tags = response[1].data;
 
-    private getSelectedTags(): void {
-        axiosInstance
-            .get(`/transaction/tags/${this.props.transactionId}`)
-            .then(response => {
-                if(response.data.status) {
-                    this.setState({
-                        selectedTagIds: response.data.transaction_tag_ids
-                    })
-                }
-            }).catch(error => console.log("Errors: ", error));
-    }
-
-    private refreshTags(): void {
-        axiosInstance
-            .get(`/tags`)
-            .then(tags => {
+            this.setState({
+                isLoading: false,
+                selectedTagIds: selectedTagIds
+            }, () => {
                 this.setState({
-                    tags: tags.data.length !== 0 ? this.addItemFlag(tags.data) : []
+                    tags: this.addItemFlag(tags, selectedTagIds)
                 });
             });
+        });
+
     }
 }
