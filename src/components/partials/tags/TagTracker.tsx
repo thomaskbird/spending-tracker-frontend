@@ -10,7 +10,6 @@ interface Props {
 interface State {
     isLoading: boolean;
     newTagText: string;
-    selectedTagIds: number[];
     tags: Tag[];
 }
 
@@ -23,15 +22,21 @@ export class TagTracker extends React.Component<Props, State> {
         this.state = {
             isLoading: false,
             newTagText: "",
-            selectedTagIds: [],
             tags: []
         };
     }
 
+    /**
+     * Loads the initial data
+     */
     public componentDidMount(): void {
         this.refreshData();
     }
 
+    /**
+     * Necessary for update of panel data
+     * @param prevProps - Interface for the props
+     */
     public componentDidUpdate(prevProps: Readonly<Props>): void {
         if(this.props.transactionId !== prevProps.transactionId) {
             this.refreshData();
@@ -41,7 +46,9 @@ export class TagTracker extends React.Component<Props, State> {
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
-                <div className={`${COMPONENT_NAME}__add-wrapper`}>
+                <div
+                    className={`${COMPONENT_NAME}__add-wrapper`}
+                >
                     <div className={"FormGroup"}>
                         <div className={"FormGroup--input-indicator"}>
                             <input
@@ -57,7 +64,7 @@ export class TagTracker extends React.Component<Props, State> {
                                     type={"button"}
                                     className={"btn btn-primary"}
                                     onClick={() => {
-                                        this.handleAddTag(this.state.newTagText);
+                                        this.handleAddTag();
                                     }}
                                 >
                                     Add
@@ -67,7 +74,7 @@ export class TagTracker extends React.Component<Props, State> {
                     </div>
                 </div>
                 <div className={`${COMPONENT_NAME}__tag-wrapper`}>
-                    {this.state.tags.length && this.state.tags.map((tag, index) => {
+                    {this.state.tags && this.state.tags.map((tag, index) => {
                         return (
                             <span
                                 key={index}
@@ -90,12 +97,21 @@ export class TagTracker extends React.Component<Props, State> {
         );
     }
 
+    /**
+     * Handles toggle of the transaction tag
+     * @param tag - The tags data
+     */
     private handleToggleSelected(tag: Tag): void {
+        console.log("handleToggleSelected()", {
+            tag_id: tag.id,
+            target_id: this.props.transactionId
+        });
         const togglePromise = axiosInstance.post(
             tag.selected ? `/transaction/tag/remove` : `/transaction/tag/add`,
             {
                 tag_id: tag.id,
-                transaction_id: this.props.transactionId
+                target_id: this.props.transactionId,
+                type: "transaction"
             }
         ).then((response: any) => {
             this.refreshData();
@@ -104,56 +120,49 @@ export class TagTracker extends React.Component<Props, State> {
         });
     }
 
-    private handleAddTag(text: string): void {
-        axiosInstance.post(`/tags`, {
-            title: text
-        }).then(response => {
-            console.log("response", response);
-        }).catch(error => console.log("Error: ", error))
-            .then(() => {
-                this.setState({
-                    newTagText: ""
-                });
+    /**
+     * Handles adding a tag and creating a transaction tag
+     */
+    private handleAddTag(): void {
+        const requestData: any = {
+            title: this.state.newTagText
+        };
 
-                this.refreshData();
-            });
-    }
-
-    private addItemFlag(tags: Tag[], selectedTagIds: number[]): Tag[] {
-        if(this.state.selectedTagIds) {
-            const newTagState = tags.map(tag => {
-                return {
-                    ...tag,
-                    selected: selectedTagIds && selectedTagIds.indexOf(tag.id) !== -1 ? true : false
-                };
-            });
-            return newTagState;
-        } else {
-            return tags;
+        // If there is a transaction id, add the parameters to create the TagRelations
+        if(this.props.transactionId) {
+            requestData.target_id = this.props.transactionId;
+            requestData.type = "transaction";
         }
+
+        axiosInstance.post(`/tags`, requestData).then(response => {
+            console.log("response", response);
+        }).catch(error => {
+            console.log("Error: ", error);
+        }).then(() => {
+            this.setState({
+                newTagText: ""
+            });
+
+            this.refreshData();
+        });
     }
 
+    /**
+     * Refreshes the views data based on the transaction id
+     */
     private async refreshData(): Promise<any> {
         this.setState({
             isLoading: true,
-            selectedTagIds: [],
             tags: []
         });
-        const selectedTagsPromise = axiosInstance.get(`/transaction/tags/${this.props.transactionId}`);
-        const tagsPromise = axiosInstance.get(`/tags`);
 
-        return Promise.all([selectedTagsPromise, tagsPromise]).then(response => {
-            console.log("response", response);
-            const selectedTagIds = response[0].data.data.transaction_tag_ids;
-            const tags = response[1].data;
+        axiosInstance.get(`/transaction/tag/list/${this.props.transactionId}`)
+        .then(response => {
+            console.log("refreshData()", response);
 
             this.setState({
                 isLoading: false,
-                selectedTagIds: selectedTagIds
-            }, () => {
-                this.setState({
-                    tags: this.addItemFlag(tags, selectedTagIds)
-                });
+                tags: response.data.data.tags
             });
         });
 
