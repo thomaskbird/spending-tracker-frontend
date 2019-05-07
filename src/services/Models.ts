@@ -35,6 +35,10 @@ export enum AlertType {
   error = "error"
 }
 
+export enum TagType {
+  transaction = "transaction",
+  budget = "budget"
+}
 export interface BudgetFigures {
   used: number;
   budgetTotal: number;

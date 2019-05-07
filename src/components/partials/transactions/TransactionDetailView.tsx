@@ -1,9 +1,6 @@
 import * as React from "react";
 import "./TransactionDetailView.scss";
-import {
-  TransactionType,
-  TransactionWithRecurring
-} from "../../../services/Models";
+import { TagType, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 import { TagTracker } from "../tags/TagTracker";
 
 interface TransactionDetailViewProps {
@@ -108,7 +105,8 @@ export class TransactionDetailView extends React.Component<
         )}
 
         <TagTracker
-            transactionId={this.props.transaction && this.props.transaction.id}
+            type={TagType.transaction}
+            targetId={this.props.transaction && this.props.transaction.id}
         />
       </div>
     );

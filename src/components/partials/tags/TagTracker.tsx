@@ -1,10 +1,11 @@
 import * as React from "react";
 import "./TagTracker.scss";
-import { Tag } from "../../../services/Models";
+import { Tag, TagType } from "../../../services/Models";
 import { axiosInstance } from "../../../index";
 
 interface Props {
-    transactionId?: number;
+    targetId?: number;
+    type: TagType;
 }
 
 interface State {
@@ -38,7 +39,7 @@ export class TagTracker extends React.Component<Props, State> {
      * @param prevProps - Interface for the props
      */
     public componentDidUpdate(prevProps: Readonly<Props>): void {
-        if(this.props.transactionId !== prevProps.transactionId) {
+        if(this.props.targetId !== prevProps.targetId) {
             this.refreshData();
         }
     }
@@ -104,14 +105,14 @@ export class TagTracker extends React.Component<Props, State> {
     private handleToggleSelected(tag: Tag): void {
         console.log("handleToggleSelected()", {
             tag_id: tag.id,
-            target_id: this.props.transactionId
+            target_id: this.props.targetId
         });
         const togglePromise = axiosInstance.post(
             tag.selected ? `/tag/relation/remove` : `/tag/relation/add`,
             {
                 tag_id: tag.id,
-                target_id: this.props.transactionId,
-                type: "transaction"
+                target_id: this.props.targetId,
+                type: this.props.type
             }
         ).then((response: any) => {
             this.refreshData();
@@ -129,9 +130,9 @@ export class TagTracker extends React.Component<Props, State> {
         };
 
         // If there is a transaction id, add the parameters to create the TagRelations
-        if(this.props.transactionId) {
-            requestData.target_id = this.props.transactionId;
-            requestData.type = "transaction";
+        if(this.props.targetId) {
+            requestData.target_id = this.props.targetId;
+            requestData.type = this.props.type;
         }
 
         axiosInstance.post(`/tags`, requestData).then(response => {
@@ -156,7 +157,7 @@ export class TagTracker extends React.Component<Props, State> {
             tags: []
         });
 
-        axiosInstance.get(`/transaction/tag/list/${this.props.transactionId}`)
+        axiosInstance.get(`/transaction/tag/list/${this.props.targetId}`)
         .then(response => {
             console.log("refreshData()", response);
 
