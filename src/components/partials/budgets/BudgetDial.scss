@@ -19,9 +19,6 @@
       border-radius: 100%;
       align-items: center;
       box-shadow: 0 0 18px rgba(0, 0, 0, .05);
-
-      // todo: to add border place the following style inline on this className
-      // style={{ background: `conic-gradient(#fafafa 0deg, #fafafa ${percentDegree}deg, white ${percentDegree}deg, white 360deg)` }}
     }
 
     &--icon {
@@ -30,7 +27,7 @@
       padding: 35px;
       font-size: 3.5rem;
       color: orangered;
-      background: #fff;
+      background: $color-white;
       align-self: center;
       text-align: center;
       border-radius: 100%;
@@ -44,7 +41,7 @@
     }
 
     &--subtext {
-      color: #ccc;
+      color: $color-grey-mid;
       font-size: 1rem;
       line-height: 150%;
     }

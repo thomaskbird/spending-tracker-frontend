@@ -5,15 +5,15 @@
     margin-bottom: 20px;
 
     &:first-child {
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid $color-grey-mid;
     }
 
     &--label {
-      color: #ccc;
+      color: $color-grey-mid;
     }
 
     &--value {
-      color: #333;
+      color: $color-grey-dark;
       font-size: 1rem;
       text-transform: capitalize;
     }

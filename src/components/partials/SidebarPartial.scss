@@ -1,5 +1,3 @@
-@import "../sass/mixins";
-
 .SidebarPartial {
   @include slidePanel();
 
@@ -13,14 +11,14 @@
 
   &--close-btn {
     top: 20px;
-    color: #aaa;
+    color: $color-grey;
     right: 20px;
     cursor: pointer;
     padding: 0 10px;
     position: absolute;
 
     &:hover {
-      color: #333;
+      color: $color-grey-dark;
     }
   }
 }

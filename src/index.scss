@@ -1,4 +1,11 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700");
+@import url("//fonts.googleapis.com/css?family=Pragati+Narrow:400,700");
+@import url("//use.typekit.net/eym7pvs.css"); // font-weight: 400, 500, 700
+
+@import "~react-day-picker/lib/style.css";
+@import "~react-select/scss/default.scss";
+@import "~antd/dist/antd.css";
 
 html,
 body,
