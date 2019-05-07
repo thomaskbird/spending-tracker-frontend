@@ -107,7 +107,7 @@ export class TagTracker extends React.Component<Props, State> {
             target_id: this.props.transactionId
         });
         const togglePromise = axiosInstance.post(
-            tag.selected ? `/transaction/tag/remove` : `/transaction/tag/add`,
+            tag.selected ? `/tag/relation/remove` : `/tag/relation/add`,
             {
                 tag_id: tag.id,
                 target_id: this.props.transactionId,
