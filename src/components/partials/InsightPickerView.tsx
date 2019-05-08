@@ -9,20 +9,20 @@ interface State {}
 const COMPONENT_NAME = "InsightPickerView";
 
 export class InsightPickerView extends React.Component<
-  InsightPickerViewProps,
-  State
+    InsightPickerViewProps,
+    State
 > {
-  constructor(props: InsightPickerViewProps, context: any) {
-    super(props, context);
+    constructor(props: InsightPickerViewProps, context: any) {
+        super(props, context);
 
-    this.state = {};
-  }
+        this.state = {};
+    }
 
-  public render(): JSX.Element {
-    return (
-      <div className={COMPONENT_NAME}>
-        <FontAwesomeIcon icon={"home"} />
-      </div>
-    );
-  }
+    public render(): JSX.Element {
+        return (
+            <div className={COMPONENT_NAME}>
+                <FontAwesomeIcon icon={"home"} />
+            </div>
+        );
+    }
 }

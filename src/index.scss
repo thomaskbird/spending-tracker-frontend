@@ -10,10 +10,10 @@
 html,
 body,
 #root {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 h1,
@@ -22,24 +22,24 @@ h3,
 h4,
 h5,
 h6 {
-  text-transform: uppercase;
-  font-family: trumpgothicpro, sans-serif;
+    text-transform: uppercase;
+    font-family: trumpgothicpro, sans-serif;
 }
 
 h1,
 h2 {
-  font-weight: 400;
-  letter-spacing: 5px;
+    font-weight: 400;
+    letter-spacing: 5px;
 }
 
 h3,
 h4 {
-  font-weight: 500;
-  letter-spacing: 3px;
+    font-weight: 500;
+    letter-spacing: 3px;
 }
 
 h5,
 h6 {
-  font-weight: 600;
-  letter-spacing: 2px;
+    font-weight: 600;
+    letter-spacing: 2px;
 }

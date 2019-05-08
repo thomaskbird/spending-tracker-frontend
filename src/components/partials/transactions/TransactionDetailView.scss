@@ -1,21 +1,21 @@
 .TransactionDetailView {
-  &__detail {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+    &__detail {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
 
-    &:first-child {
-      border-bottom: 1px solid $color-grey-mid;
-    }
+        &:first-child {
+            border-bottom: 1px solid $color-grey-mid;
+        }
 
-    &--label {
-      color: $color-grey-mid;
-    }
+        &--label {
+            color: $color-grey-mid;
+        }
 
-    &--value {
-      color: $color-grey-dark;
-      font-size: 1rem;
-      text-transform: capitalize;
+        &--value {
+            color: $color-grey-dark;
+            font-size: 1rem;
+            text-transform: capitalize;
+        }
     }
-  }
 }

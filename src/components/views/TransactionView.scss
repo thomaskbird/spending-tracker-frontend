@@ -1,17 +1,17 @@
 .TransactionView {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  .BodyPartial {
     height: 100%;
-    overflow: hidden;
-    position: relative;
+    display: flex;
+    flex-direction: column;
 
-    .route--viewport {
-      height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
+    .BodyPartial {
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+
+        .route--viewport {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
     }
-  }
 }

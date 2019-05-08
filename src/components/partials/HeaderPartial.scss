@@ -1,124 +1,124 @@
 .HeaderPartial {
-  &--top {
-    display: flex;
-    background: $color-grey-light;
-    border-bottom: 1px solid $color-grey-mid;
-    justify-content: space-between;
-
-    a,
-    &--icons {
-      color: $color-grey;
-      cursor: pointer;
-      font-size: 1.4rem;
-      text-decoration: none;
-
-      &:hover {
-        color: $color-grey-dark;
-      }
-    }
-
-    a {
-      flex: 1;
-      padding: 0px 20px;
-    }
-
-    &--icons {
-      padding: 10px 20px;
-    }
-
-    .branding {
-      display: flex;
-      justify-content: center;
-
-      &--main,
-      &--secondary {
-        text-transform: uppercase;
-        font-family: trumpgothicpro, sans-serif;
-      }
-
-      &--main {
-        color: $color-grey-dark;
-        font-weight: 700;
-        font-size: 2.4rem;
-        letter-spacing: 5px;
-      }
-
-      &--secondary {
-        color: $color-grey;
-        font-size: 1.6rem;
-        margin: 10px 0 0 5px;
-        letter-spacing: 2px;
-      }
-    }
-  }
-
-  &--bottom {
-    display: flex;
-    padding: 10px 20px;
-    background: $color-grey-white;
-    justify-content: space-between;
-
-    .DatePicker {
-      &--wrap {
+    &--top {
         display: flex;
-        flex-direction: column;
-        position: relative;
+        background: $color-grey-light;
+        border-bottom: 1px solid $color-grey-mid;
+        justify-content: space-between;
 
-        .Datepicker--wrapper {
-          top: 100%;
-          display: none;
-          z-index: 1000;
-          margin-top: 10px;
-          background: $color-white;
-          position: absolute;
-          box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+        a,
+        &--icons {
+            color: $color-grey;
+            cursor: pointer;
+            font-size: 1.4rem;
+            text-decoration: none;
 
-          .DayPicker-Months {
-            flex-wrap: nowrap;
-          }
-
-          .Selectable
-          .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-            background-color: $color-blue-light !important;
-            color: $color-blue;
-          }
-          .Selectable .DayPicker-Day {
-            border-radius: 0 !important;
-          }
-          .Selectable .DayPicker-Day--start {
-            border-top-left-radius: 50% !important;
-            border-bottom-left-radius: 50% !important;
-          }
-          .Selectable .DayPicker-Day--end {
-            border-top-right-radius: 50% !important;
-            border-bottom-right-radius: 50% !important;
-          }
-
-          &.open {
-            display: block;
-          }
+            &:hover {
+                color: $color-grey-dark;
+            }
         }
-      }
+
+        a {
+            flex: 1;
+            padding: 0px 20px;
+        }
+
+        &--icons {
+            padding: 10px 20px;
+        }
+
+        .branding {
+            display: flex;
+            justify-content: center;
+
+            &--main,
+            &--secondary {
+                text-transform: uppercase;
+                font-family: trumpgothicpro, sans-serif;
+            }
+
+            &--main {
+                color: $color-grey-dark;
+                font-weight: 700;
+                font-size: 2.4rem;
+                letter-spacing: 5px;
+            }
+
+            &--secondary {
+                color: $color-grey;
+                font-size: 1.6rem;
+                margin: 10px 0 0 5px;
+                letter-spacing: 2px;
+            }
+        }
     }
-  }
+
+    &--bottom {
+        display: flex;
+        padding: 10px 20px;
+        background: $color-grey-white;
+        justify-content: space-between;
+
+        .DatePicker {
+            &--wrap {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+
+                .Datepicker--wrapper {
+                    top: 100%;
+                    display: none;
+                    z-index: 1000;
+                    margin-top: 10px;
+                    background: $color-white;
+                    position: absolute;
+                    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+
+                    .DayPicker-Months {
+                        flex-wrap: nowrap;
+                    }
+
+                    .Selectable
+                        .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+                        background-color: $color-blue-light !important;
+                        color: $color-blue;
+                    }
+                    .Selectable .DayPicker-Day {
+                        border-radius: 0 !important;
+                    }
+                    .Selectable .DayPicker-Day--start {
+                        border-top-left-radius: 50% !important;
+                        border-bottom-left-radius: 50% !important;
+                    }
+                    .Selectable .DayPicker-Day--end {
+                        border-top-right-radius: 50% !important;
+                        border-bottom-right-radius: 50% !important;
+                    }
+
+                    &.open {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media (max-width: 600px) {
-  .HeaderPartial {
-    &--top {
-      & > a {
-        padding: 0;
-      }
+    .HeaderPartial {
+        &--top {
+            & > a {
+                padding: 0;
+            }
 
-      .branding {
-        &--main {
-          letter-spacing: 3px;
-        }
+            .branding {
+                &--main {
+                    letter-spacing: 3px;
+                }
 
-        &--secondary {
-          letter-spacing: 0px;
+                &--secondary {
+                    letter-spacing: 0px;
+                }
+            }
         }
-      }
     }
-  }
 }

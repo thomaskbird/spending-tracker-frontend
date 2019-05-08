@@ -86,9 +86,7 @@
         "no-var-requires": false,
         "no-arg": true,
         "no-conditional-assignment": true,
-        "no-console": [
-            false
-        ],
+        "no-console": [false],
         "object-literal-sort-keys": false,
         "array-type": false,
         "ordered-imports": false,

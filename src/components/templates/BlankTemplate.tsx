@@ -17,9 +17,6 @@ export class BlankTemplate extends React.Component<BlankTemplateProps, State> {
     }
 
     public render(): JSX.Element {
-        return (
-            <div className={COMPONENT_NAME}>
-            </div>
-        );
+        return <div className={COMPONENT_NAME} />;
     }
 }

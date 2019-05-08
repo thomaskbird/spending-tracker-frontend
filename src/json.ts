@@ -32,7 +32,7 @@ export interface JSONArray extends Array<JSONValue> {}
  * An object whose properties are of types allowed in JSON.
  */
 export interface JSONObject {
-  [name: string]: JSONValue;
+    [name: string]: JSONValue;
 }
 
 /**
@@ -41,7 +41,7 @@ export interface JSONObject {
  * @return true if the JSONValue is a JSONObject.
  */
 export function isJSONObject(jsonValue: JSONValue): jsonValue is JSONObject {
-  return jsonValue != null && jsonValue.constructor === Object;
+    return jsonValue != null && jsonValue.constructor === Object;
 }
 
 /**
@@ -50,7 +50,7 @@ export function isJSONObject(jsonValue: JSONValue): jsonValue is JSONObject {
  * @return true if the JSONValue is a JSONArray.
  */
 export function isJSONArray(jsonValue: JSONValue): jsonValue is JSONArray {
-  return jsonValue instanceof Array;
+    return jsonValue instanceof Array;
 }
 
 /**
@@ -59,9 +59,9 @@ export function isJSONArray(jsonValue: JSONValue): jsonValue is JSONArray {
  * @return true if the JSONValue is a JSONPrimitive.
  */
 export function isJSONPrimitive(
-  jsonValue: JSONValue
+    jsonValue: JSONValue
 ): jsonValue is JSONPrimitive {
-  return !isJSONArray(jsonValue) && !isJSONObject(jsonValue);
+    return !isJSONArray(jsonValue) && !isJSONObject(jsonValue);
 }
 
 /**
@@ -70,7 +70,7 @@ export function isJSONPrimitive(
  * @return true if the JSONValue is a string.
  */
 export function isJSONString(jsonValue: JSONValue): jsonValue is string {
-  return typeof jsonValue === "string";
+    return typeof jsonValue === "string";
 }
 
 /**
@@ -79,7 +79,7 @@ export function isJSONString(jsonValue: JSONValue): jsonValue is string {
  * @return true if the JSONValue is a number.
  */
 export function isJSONNumber(jsonValue: JSONValue): jsonValue is number {
-  return typeof jsonValue === "number";
+    return typeof jsonValue === "number";
 }
 
 /**
@@ -88,5 +88,5 @@ export function isJSONNumber(jsonValue: JSONValue): jsonValue is number {
  * @return true if the JSONValue is a boolean.
  */
 export function isJSONBoolean(jsonValue: JSONValue): jsonValue is boolean {
-  return typeof jsonValue === "boolean";
+    return typeof jsonValue === "boolean";
 }

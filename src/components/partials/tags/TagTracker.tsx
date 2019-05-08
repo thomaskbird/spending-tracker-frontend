@@ -39,7 +39,7 @@ export class TagTracker extends React.Component<Props, State> {
      * @param prevProps - Interface for the props
      */
     public componentDidUpdate(prevProps: Readonly<Props>): void {
-        if(this.props.targetId !== prevProps.targetId) {
+        if (this.props.targetId !== prevProps.targetId) {
             this.refreshData();
         }
     }
@@ -47,9 +47,7 @@ export class TagTracker extends React.Component<Props, State> {
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
-                <div
-                    className={`${COMPONENT_NAME}__add-wrapper`}
-                >
+                <div className={`${COMPONENT_NAME}__add-wrapper`}>
                     <div className={"FormGroup"}>
                         <div className={"FormGroup--input-indicator"}>
                             <input
@@ -58,7 +56,11 @@ export class TagTracker extends React.Component<Props, State> {
                                 id={"tag"}
                                 value={this.state.newTagText}
                                 placeholder={"Enter tag..."}
-                                onChange={(e: any) => { this.setState({ newTagText: e.target.value }); }}
+                                onChange={(e: any) => {
+                                    this.setState({
+                                        newTagText: e.target.value
+                                    });
+                                }}
                             />
                             <span className={"FormGroup--input-indicator"}>
                                 <button
@@ -75,25 +77,32 @@ export class TagTracker extends React.Component<Props, State> {
                     </div>
                 </div>
                 <div className={`${COMPONENT_NAME}__tag-wrapper`}>
-                    {this.state.tags && this.state.tags.map((tag, index) => {
-                        return (
-                            <span
-                                key={index}
-                                className={`tag ${tag.selected ? "tag--is-set" : ""}`}
-                                onClick={() => {
-                                    this.handleToggleSelected(tag);
-                                }}
-                            >
-                                {tag.title}
-                            </span>
-                        );
-                    })}
+                    {this.state.tags &&
+                        this.state.tags.map((tag, index) => {
+                            return (
+                                <span
+                                    key={index}
+                                    className={`tag ${
+                                        tag.selected ? "tag--is-set" : ""
+                                    }`}
+                                    onClick={() => {
+                                        this.handleToggleSelected(tag);
+                                    }}
+                                >
+                                    {tag.title}
+                                </span>
+                            );
+                        })}
                 </div>
                 {this.state.isLoading ? (
                     <div className={`${COMPONENT_NAME}__loading`}>
-                        <span className={`${COMPONENT_NAME}__loading--text`}>Loading...</span>
+                        <span className={`${COMPONENT_NAME}__loading--text`}>
+                            Loading...
+                        </span>
                     </div>
-                ): (undefined)}
+                ) : (
+                    undefined
+                )}
             </div>
         );
     }
@@ -107,18 +116,18 @@ export class TagTracker extends React.Component<Props, State> {
             tag_id: tag.id,
             target_id: this.props.targetId
         });
-        const togglePromise = axiosInstance.post(
-            tag.selected ? `/tag/relation/remove` : `/tag/relation/add`,
-            {
+        const togglePromise = axiosInstance
+            .post(tag.selected ? `/tag/relation/remove` : `/tag/relation/add`, {
                 tag_id: tag.id,
                 target_id: this.props.targetId,
                 type: this.props.type
-            }
-        ).then((response: any) => {
-            this.refreshData();
-        }).catch((error: any) => {
-            console.log("Error: ", error);
-        });
+            })
+            .then((response: any) => {
+                this.refreshData();
+            })
+            .catch((error: any) => {
+                console.log("Error: ", error);
+            });
     }
 
     /**
@@ -130,22 +139,26 @@ export class TagTracker extends React.Component<Props, State> {
         };
 
         // If there is a transaction id, add the parameters to create the TagRelations
-        if(this.props.targetId) {
+        if (this.props.targetId) {
             requestData.target_id = this.props.targetId;
             requestData.type = this.props.type;
         }
 
-        axiosInstance.post(`/tags`, requestData).then(response => {
-            console.log("response", response);
-        }).catch(error => {
-            console.log("Error: ", error);
-        }).then(() => {
-            this.setState({
-                newTagText: ""
-            });
+        axiosInstance
+            .post(`/tags`, requestData)
+            .then((response) => {
+                console.log("response", response);
+            })
+            .catch((error) => {
+                console.log("Error: ", error);
+            })
+            .then(() => {
+                this.setState({
+                    newTagText: ""
+                });
 
-            this.refreshData();
-        });
+                this.refreshData();
+            });
     }
 
     /**
@@ -157,15 +170,15 @@ export class TagTracker extends React.Component<Props, State> {
             tags: []
         });
 
-        axiosInstance.get(`/transaction/tag/list/${this.props.targetId}`)
-        .then(response => {
-            console.log("refreshData()", response);
+        axiosInstance
+            .get(`/transaction/tag/list/${this.props.targetId}`)
+            .then((response) => {
+                console.log("refreshData()", response);
 
-            this.setState({
-                isLoading: false,
-                tags: response.data.data.tags
+                this.setState({
+                    isLoading: false,
+                    tags: response.data.data.tags
+                });
             });
-        });
-
     }
 }

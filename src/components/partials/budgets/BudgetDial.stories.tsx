@@ -17,7 +17,7 @@ import {
     faCog,
     faEnvelope,
     faLock,
-    faCar,
+    faCar
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -33,17 +33,16 @@ library.add(
     faCog,
     faEnvelope,
     faLock,
-    faCar,
+    faCar
 );
 
-storiesOf("BudgetDial", module)
-  .add("default", () => (
+storiesOf("BudgetDial", module).add("default", () => (
     <BudgetDial
-      icon={text("Icon", "car")}
-      title={text("Title", "Automotive Care")}
-      budgetFigures={{
-        used: number("Used", 350),
-        budgetTotal: number("Budget total", 500)
-      }}
+        icon={text("Icon", "car")}
+        title={text("Title", "Automotive Care")}
+        budgetFigures={{
+            used: number("Used", 350),
+            budgetTotal: number("Budget total", 500)
+        }}
     />
-  ));
+));

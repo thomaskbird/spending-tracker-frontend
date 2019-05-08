@@ -5,10 +5,7 @@ import { BudgetListItem } from "src/components/partials/budgets/BudgetListItem";
 
 interface BudgetListViewProps {
     onReady(api: BudgetListView.Api): void;
-    onBudgetAction(
-        action: string,
-        budget: Budget
-    ): void;
+    onBudgetAction(action: string, budget: Budget): void;
 }
 
 interface State {
@@ -17,7 +14,10 @@ interface State {
 
 const COMPONENT_NAME = "BudgetListView";
 
-export class BudgetListView extends React.Component<BudgetListViewProps, State> {
+export class BudgetListView extends React.Component<
+    BudgetListViewProps,
+    State
+> {
     public static readonly displayName = COMPONENT_NAME;
 
     constructor(props: BudgetListViewProps, context: any) {
@@ -44,8 +44,7 @@ export class BudgetListView extends React.Component<BudgetListViewProps, State> 
         return (
             <div className={COMPONENT_NAME}>
                 {this.state.budgets &&
-                this.state.budgets.map(
-                    (budget: Budget, idx: number) => {
+                    this.state.budgets.map((budget: Budget, idx: number) => {
                         return (
                             <BudgetListItem
                                 key={idx}
@@ -62,8 +61,7 @@ export class BudgetListView extends React.Component<BudgetListViewProps, State> 
                                 }}
                             />
                         );
-                    }
-                )}
+                    })}
 
                 {!this.state.budgets || this.state.budgets.length < 1 ? (
                     <p>No budgets, go add some!</p>
@@ -79,23 +77,21 @@ export class BudgetListView extends React.Component<BudgetListViewProps, State> 
             budgets: undefined
         });
 
-        axiosInstance
-            .get(`/budgets`)
-            .then(budgets => {
-                this.setState({
-                    budgets: budgets.data.length !== 0 ? budgets.data : []
-                });
+        axiosInstance.get(`/budgets`).then((budgets) => {
+            this.setState({
+                budgets: budgets.data.length !== 0 ? budgets.data : []
             });
+        });
     }
 
     private budgetRemove(budget: Budget): void {
         axiosInstance
             .get(`/budgets/remove/${budget.id}`)
-            .then(response => {
+            .then((response) => {
                 console.log("response", response);
                 this.refreshBudgets();
             })
-            .catch(error => console.log("Error", error));
+            .catch((error) => console.log("Error", error));
     }
 }
 

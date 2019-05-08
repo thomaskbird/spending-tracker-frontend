@@ -2,9 +2,7 @@ import * as React from "react";
 import moment from "moment";
 import "./BudgetListItem.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    Budget
-} from "../../../services/Models";
+import { Budget } from "../../../services/Models";
 // import Draggable from "react-draggable";
 // import Gesture from "rc-gesture";
 
@@ -32,7 +30,7 @@ const COMPONENT_NAME = "BudgetListItem";
 export class BudgetListItem extends React.Component<
     BudgetListItemProps,
     State
-    > {
+> {
     constructor(props: BudgetListItemProps, context: any) {
         super(props, context);
 
@@ -47,7 +45,7 @@ export class BudgetListItem extends React.Component<
                 <div
                     className={`${COMPONENT_NAME}__main ${
                         this.state.isDragOpen ? "open" : ""
-                        }`}
+                    }`}
                 >
                     <div className={`${COMPONENT_NAME}__selects`}>
                         <input type={"checkbox"} id={"transaction-box"} />
@@ -63,19 +61,21 @@ export class BudgetListItem extends React.Component<
                     </div>
                     <div className={`${COMPONENT_NAME}__info`}>
                         <div className={`${COMPONENT_NAME}__info--date`}>
-                            {moment(this.props.budget.updated_at).format("YYYY-MM-DD")}
+                            {moment(this.props.budget.updated_at).format(
+                                "YYYY-MM-DD"
+                            )}
                         </div>
 
-                        <div
-                            className={`${COMPONENT_NAME}__info--amount`}
-                        >
+                        <div className={`${COMPONENT_NAME}__info--amount`}>
                             ${this.props.budget.amount}
                         </div>
                     </div>
                     <div
                         className={`${COMPONENT_NAME}__drag-handle`}
                         onClick={() => {
-                            this.setState({ isDragOpen: !this.state.isDragOpen });
+                            this.setState({
+                                isDragOpen: !this.state.isDragOpen
+                            });
                         }}
                     >
                         <FontAwesomeIcon icon={"cog"} />

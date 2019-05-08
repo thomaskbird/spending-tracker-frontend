@@ -1,42 +1,42 @@
 @import "./variables.scss";
 @mixin formElement() {
-  font-size: 0.8rem;
-  padding: 10px 15px;
-  box-sizing: border-box;
-  border: 1px solid $color-grey-mid;
-  transition: 0.25s all ease-in;
+    font-size: 0.8rem;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border: 1px solid $color-grey-mid;
+    transition: 0.25s all ease-in;
 
-  &:hover {
-    border: 1px solid $color-grey;
-  }
+    &:hover {
+        border: 1px solid $color-grey;
+    }
 
-  &:focus {
-    outline: none;
-    border: 1px solid $color-blue;
-  }
+    &:focus {
+        outline: none;
+        border: 1px solid $color-blue;
+    }
 }
 
 @mixin slidePanel() {
-  top: 0;
-  z-index: 2;
-  height: 100%;
-  background: $color-white;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 40px 30px;
-  position: absolute;
-  transition: 0.25s all ease-in;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+    background: $color-white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 40px 30px;
+    position: absolute;
+    transition: 0.25s all ease-in;
 }
 
 @mixin slidePanelCloseBtn() {
-  top: 20px;
-  color: $color-grey;
-  right: 20px;
-  cursor: pointer;
-  padding: 0 10px;
-  position: absolute;
+    top: 20px;
+    color: $color-grey;
+    right: 20px;
+    cursor: pointer;
+    padding: 0 10px;
+    position: absolute;
 
-  &:hover {
-    color: $color-grey-dark;
-  }
+    &:hover {
+        color: $color-grey-dark;
+    }
 }

@@ -8,42 +8,42 @@ interface State {}
 const COMPONENT_NAME = "AddTransactionView";
 
 export class AddTransactionView extends React.Component<
-  AddTransactionViewProps,
-  State
+    AddTransactionViewProps,
+    State
 > {
-  constructor(props: AddTransactionViewProps, context: any) {
-    super(props, context);
+    constructor(props: AddTransactionViewProps, context: any) {
+        super(props, context);
 
-    this.state = {};
-  }
+        this.state = {};
+    }
 
-  public render(): JSX.Element {
-    return (
-      <div className={COMPONENT_NAME}>
-        <h2>Add transaction</h2>
+    public render(): JSX.Element {
+        return (
+            <div className={COMPONENT_NAME}>
+                <h2>Add transaction</h2>
 
-        <div className={"FormGroup"}>
-          <label htmlFor={"amount"}>Amount:</label>
-          <input type={"text"} id={"amount"} />
-        </div>
+                <div className={"FormGroup"}>
+                    <label htmlFor={"amount"}>Amount:</label>
+                    <input type={"text"} id={"amount"} />
+                </div>
 
-        <div className={"FormGroup"}>
-          <label htmlFor={"type"}>Type:</label>
-          <select id={"type"}>
-            <option value={"expense"}>Expense</option>
-            <option value={"income"}>Income</option>
-          </select>
-        </div>
+                <div className={"FormGroup"}>
+                    <label htmlFor={"type"}>Type:</label>
+                    <select id={"type"}>
+                        <option value={"expense"}>Expense</option>
+                        <option value={"income"}>Income</option>
+                    </select>
+                </div>
 
-        <div className={"Tagging"}>
-          <div className={"FormGroupBundle"}>
-            <input type={"text"} id={"amount"} />
-            <button type="button">Add</button>
-          </div>
-        </div>
+                <div className={"Tagging"}>
+                    <div className={"FormGroupBundle"}>
+                        <input type={"text"} id={"amount"} />
+                        <button type="button">Add</button>
+                    </div>
+                </div>
 
-        <button type="submit">Submit</button>
-      </div>
-    );
-  }
+                <button type="submit">Submit</button>
+            </div>
+        );
+    }
 }

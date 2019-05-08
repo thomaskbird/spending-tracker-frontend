@@ -1,15 +1,11 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Budget } from "../../../services/Models";
-import { IconPicker } from "../IconPicker";
 
 interface BudgetFormProps {
     budget?: Budget;
-
     onSubmit(formData: any): void;
-
     onReady(api: BudgetForm.Api): void;
-
     onCancel(): void;
 }
 
@@ -22,8 +18,7 @@ interface State {
 
 const COMPONENT_NAME = "TransactionForm";
 
-export class BudgetForm extends React.Component<BudgetFormProps,
-    State> {
+export class BudgetForm extends React.Component<BudgetFormProps, State> {
     public static readonly displayName = COMPONENT_NAME;
 
     constructor(props: BudgetFormProps, context: any) {
@@ -33,16 +28,20 @@ export class BudgetForm extends React.Component<BudgetFormProps,
             title: (this.props.budget && this.props.budget.title) || "",
             amount: (this.props.budget && this.props.budget.amount) || 0,
             icon: (this.props.budget && this.props.budget.icon) || "",
-            description: (this.props.budget && this.props.budget.description) || ""
+            description:
+                (this.props.budget && this.props.budget.description) || ""
         };
 
         const api: BudgetForm.Api = {
             clearData: () => {
                 this.setState({
                     title: (this.props.budget && this.props.budget.title) || "",
-                    amount: (this.props.budget && this.props.budget.amount) || 0,
+                    amount:
+                        (this.props.budget && this.props.budget.amount) || 0,
                     icon: (this.props.budget && this.props.budget.icon) || "",
-                    description: (this.props.budget && this.props.budget.description) || ""
+                    description:
+                        (this.props.budget && this.props.budget.description) ||
+                        ""
                 });
             }
         };
@@ -52,21 +51,23 @@ export class BudgetForm extends React.Component<BudgetFormProps,
 
     public componentDidUpdate(prevProps: BudgetFormProps): void {
         if (prevProps.budget !== this.props.budget) {
-
             this.setState({
                 title: (this.props.budget && this.props.budget.title) || "",
                 amount: (this.props.budget && this.props.budget.amount) || 0,
                 icon: (this.props.budget && this.props.budget.icon) || "",
-                description: (this.props.budget && this.props.budget.description) || ""
+                description:
+                    (this.props.budget && this.props.budget.description) || ""
             });
         }
     }
 
     public render(): JSX.Element {
-        const panelTitle = this.props.budget ? `Edit ${this.props.budget.title} Budget` : "Add Budget";
+        const panelTitle = this.props.budget
+            ? `Edit ${this.props.budget.title} Budget`
+            : "Add Budget";
         return (
             <form
-                onSubmit={event => {
+                onSubmit={(event) => {
                     this.handleFormSubmit(event);
                 }}
             >
@@ -80,12 +81,11 @@ export class BudgetForm extends React.Component<BudgetFormProps,
                         id={"title"}
                         placeholder={"Enter title..."}
                         value={this.state.title}
-                        onChange={e => {
+                        onChange={(e) => {
                             this.setState({ title: e.target.value });
                         }}
                     />
                 </div>
-
 
                 <div className={"FormGroup"}>
                     <label htmlFor={"icon"}>Icon:</label>
@@ -95,7 +95,7 @@ export class BudgetForm extends React.Component<BudgetFormProps,
                         id={"icon"}
                         placeholder={"Enter icon..."}
                         value={this.state.icon}
-                        onChange={e => {
+                        onChange={(e) => {
                             this.setState({ icon: e.target.value });
                         }}
                     />
@@ -105,7 +105,7 @@ export class BudgetForm extends React.Component<BudgetFormProps,
                     <label htmlFor={"amount"}>Amount:</label>
                     <div className={"FormGroup--input-indicator"}>
                         <span className={"FormGroup--input-indicator-icon"}>
-                          <FontAwesomeIcon icon={"dollar-sign"}/>
+                            <FontAwesomeIcon icon={"dollar-sign"} />
                         </span>
                         <input
                             type="text"
@@ -113,8 +113,9 @@ export class BudgetForm extends React.Component<BudgetFormProps,
                             id={"amount"}
                             placeholder={"Enter amount..."}
                             value={this.state.amount}
-                            onChange={e => {
-                                const newVal = (e.target.value as any) as number;
+                            onChange={(e) => {
+                                const newVal = (e.target
+                                    .value as any) as number;
                                 this.setState({ amount: newVal });
                             }}
                         />
@@ -127,7 +128,7 @@ export class BudgetForm extends React.Component<BudgetFormProps,
                         name="description"
                         id={"description"}
                         placeholder={"Enter description..."}
-                        onChange={e => {
+                        onChange={(e) => {
                             this.setState({ description: e.target.value });
                         }}
                         value={this.state.description}

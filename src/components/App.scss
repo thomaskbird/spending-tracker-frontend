@@ -1,69 +1,69 @@
 pre {
-  padding: 15px 30px;
-  background: $color-grey-white;
-  border: 1px solid $color-grey-light;
+    padding: 15px 30px;
+    background: $color-grey-white;
+    border: 1px solid $color-grey-light;
 }
 
 .FormGroup {
-  display: flex;
-  margin-bottom: 15px;
-  flex-direction: column;
-
-  &__inline {
-    flex-direction: row;
-
-    > *:first-child {
-      margin-right: 10px;
-    }
-  }
-
-  label {
-    color: $color-grey;
-    margin: 0 0 5px;
-    font-size: 0.8rem;
-  }
-
-  &--input-indicator {
     display: flex;
+    margin-bottom: 15px;
+    flex-direction: column;
+
+    &__inline {
+        flex-direction: row;
+
+        > *:first-child {
+            margin-right: 10px;
+        }
+    }
+
+    label {
+        color: $color-grey;
+        margin: 0 0 5px;
+        font-size: 0.8rem;
+    }
+
+    &--input-indicator {
+        display: flex;
+
+        input {
+            @include formElement();
+        }
+
+        &-icon {
+            padding: 8px 15px;
+            border-left: 1px solid $color-grey-mid;
+            border-top: 1px solid $color-grey-mid;
+            border-bottom: 1px solid $color-grey-mid;
+        }
+    }
+
+    button:not(.ant-switch) {
+        border-radius: 0;
+        width: fit-content;
+    }
+
+    & > input,
+    & > textarea {
+        @include formElement();
+    }
 
     input {
-      @include formElement();
+        flex: 1;
     }
 
-    &-icon {
-      padding: 8px 15px;
-      border-left: 1px solid $color-grey-mid;
-      border-top: 1px solid $color-grey-mid;
-      border-bottom: 1px solid $color-grey-mid;
-    }
-  }
-
-  button:not(.ant-switch) {
-    border-radius: 0;
-    width: fit-content;
-  }
-
-  & > input,
-  & > textarea {
-    @include formElement();
-  }
-
-  input {
-    flex: 1;
-  }
-
-  textarea {
-    height: 100px;
-  }
-
-  &Bundle {
-    display: flex;
-
-    input,
-    select,
     textarea {
-      flex: 1;
-      @include formElement();
+        height: 100px;
     }
-  }
+
+    &Bundle {
+        display: flex;
+
+        input,
+        select,
+        textarea {
+            flex: 1;
+            @include formElement();
+        }
+    }
 }

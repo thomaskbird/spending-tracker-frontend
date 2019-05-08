@@ -1,49 +1,49 @@
 .BudgetDial {
-  width: 75%;
-  margin: 0 auto;
-  text-align: center;
-
-  &__dial {
-    width: 230px;
-    height: 230px;
-    display: flex;
+    width: 75%;
     margin: 0 auto;
-    border-radius: 100%;
-    justify-content: center;
+    text-align: center;
 
-    &--border {
-      width: 250px;
-      height: 250px;
-      display: flex;
-      margin: 0 auto 20px;
-      border-radius: 100%;
-      align-items: center;
-      box-shadow: 0 0 18px rgba(0, 0, 0, .05);
+    &__dial {
+        width: 230px;
+        height: 230px;
+        display: flex;
+        margin: 0 auto;
+        border-radius: 100%;
+        justify-content: center;
+
+        &--border {
+            width: 250px;
+            height: 250px;
+            display: flex;
+            margin: 0 auto 20px;
+            border-radius: 100%;
+            align-items: center;
+            box-shadow: 0 0 18px rgba(0, 0, 0, 0.05);
+        }
+
+        &--icon {
+            width: 150px;
+            height: 150px;
+            padding: 35px;
+            font-size: 3.5rem;
+            color: $color-orange-red;
+            background: $color-red;
+            align-self: center;
+            text-align: center;
+            border-radius: 100%;
+            box-sizing: border-box;
+        }
     }
 
-    &--icon {
-      width: 150px;
-      height: 150px;
-      padding: 35px;
-      font-size: 3.5rem;
-      color: $color-orange-red;
-      background: $color-red;
-      align-self: center;
-      text-align: center;
-      border-radius: 100%;
-      box-sizing: border-box;
-    }
-  }
+    &__text {
+        h3 {
+            margin-bottom: 0;
+        }
 
-  &__text {
-    h3 {
-      margin-bottom: 0;
+        &--subtext {
+            color: $color-grey-mid;
+            font-size: 1rem;
+            line-height: 150%;
+        }
     }
-
-    &--subtext {
-      color: $color-grey-mid;
-      font-size: 1rem;
-      line-height: 150%;
-    }
-  }
 }

@@ -1,35 +1,35 @@
 .SidebarPartial {
-  @include slidePanel();
+    @include slidePanel();
 
-  width: 70%;
-  left: -70%;
-  box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
+    width: 70%;
+    left: -70%;
+    box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
 
-  &.open {
-    left: 0%;
-  }
-
-  &--close-btn {
-    top: 20px;
-    color: $color-grey;
-    right: 20px;
-    cursor: pointer;
-    padding: 0 10px;
-    position: absolute;
-
-    &:hover {
-      color: $color-grey-dark;
+    &.open {
+        left: 0%;
     }
-  }
+
+    &--close-btn {
+        top: 20px;
+        color: $color-grey;
+        right: 20px;
+        cursor: pointer;
+        padding: 0 10px;
+        position: absolute;
+
+        &:hover {
+            color: $color-grey-dark;
+        }
+    }
 }
 
 @media (max-width: 600px) {
-  .SidebarPartial {
-    width: 100%;
-    left: -100%;
+    .SidebarPartial {
+        width: 100%;
+        left: -100%;
 
-    &.open {
-      left: 0%;
+        &.open {
+            left: 0%;
+        }
     }
-  }
 }
