@@ -1,11 +1,15 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Budget } from "../../../services/Models";
+import { IconPicker } from "../IconPicker";
 
 interface BudgetFormProps {
     budget?: Budget;
+
     onSubmit(formData: any): void;
+
     onReady(api: BudgetForm.Api): void;
+
     onCancel(): void;
 }
 
@@ -18,10 +22,8 @@ interface State {
 
 const COMPONENT_NAME = "TransactionForm";
 
-export class BudgetForm extends React.Component<
-    BudgetFormProps,
-    State
-> {
+export class BudgetForm extends React.Component<BudgetFormProps,
+    State> {
     public static readonly displayName = COMPONENT_NAME;
 
     constructor(props: BudgetFormProps, context: any) {
@@ -84,25 +86,26 @@ export class BudgetForm extends React.Component<
                     />
                 </div>
 
-              <div className={"FormGroup"}>
-                <label htmlFor={"icon"}>Icon:</label>
-                <input
-                  type="text"
-                  name="icon"
-                  id={"icon"}
-                  placeholder={"Enter icon..."}
-                  value={this.state.icon}
-                  onChange={e => {
-                    this.setState({ icon: e.target.value });
-                  }}
-                />
-              </div>
+
+                <div className={"FormGroup"}>
+                    <label htmlFor={"icon"}>Icon:</label>
+                    <input
+                        type="text"
+                        name="icon"
+                        id={"icon"}
+                        placeholder={"Enter icon..."}
+                        value={this.state.icon}
+                        onChange={e => {
+                            this.setState({ icon: e.target.value });
+                        }}
+                    />
+                </div>
 
                 <div className={"FormGroup"}>
                     <label htmlFor={"amount"}>Amount:</label>
                     <div className={"FormGroup--input-indicator"}>
                         <span className={"FormGroup--input-indicator-icon"}>
-                          <FontAwesomeIcon icon={"dollar-sign"} />
+                          <FontAwesomeIcon icon={"dollar-sign"}/>
                         </span>
                         <input
                             type="text"
