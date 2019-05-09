@@ -1,6 +1,7 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Budget } from "../../../services/Models";
+import { IconPicker } from "../IconPicker";
 
 interface BudgetFormProps {
     budget?: Budget;
@@ -100,6 +101,10 @@ export class BudgetForm extends React.Component<BudgetFormProps, State> {
                         }}
                     />
                 </div>
+
+                <IconPicker
+                    val={"dollar-sign"}
+                />
 
                 <div className={"FormGroup"}>
                     <label htmlFor={"amount"}>Amount:</label>

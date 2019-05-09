@@ -1,0 +1,45 @@
+.IconPicker {
+  margin-bottom: 15px;
+
+  &__filter {
+    margin-bottom: 0;
+
+    .FormGroup--input-indicator {
+      position: relative;
+    }
+
+    &--clear-btn {
+      position: absolute;
+      right: 5px;
+      top: 0px;
+      padding: 10px 15px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+  }
+
+  &__icon-preview {
+    height: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    cursor: pointer;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all .5s ease;
+    background: $color-grey-white;
+    border: 1px solid $color-grey-white;
+
+    &.open {
+      height: 250px;
+    }
+
+    &--icon {
+      width: 20%;
+      float: left;
+      font-size: 2rem;
+      padding: 20px 10px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+  }
+}

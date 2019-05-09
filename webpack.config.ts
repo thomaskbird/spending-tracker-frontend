@@ -264,9 +264,7 @@ export default (env: Env = {}) => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                title: isSandbox
-                    ? "The Sandbox"
-                    : "React Typescript Boilerplate",
+                title: "React Typescript Boilerplate",
                 template: PATHS.src + "/index.ejs",
                 publicPath: webAppRootPath + URL_PATHS.publicStatic
             }),
