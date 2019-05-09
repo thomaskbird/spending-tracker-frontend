@@ -171,7 +171,7 @@ export class TagTracker extends React.Component<Props, State> {
         });
 
         axiosInstance
-            .get(`/transaction/tag/list/${this.props.targetId}`)
+            .get(`/tag/relation/${this.props.type}/${this.props.targetId}`)
             .then((response) => {
                 console.log("refreshData()", response);
 

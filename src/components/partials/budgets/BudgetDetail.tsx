@@ -1,7 +1,8 @@
 import * as React from "react";
-import "./BudgetDetailView.scss";
-import { Budget } from "../../../services/Models";
+import "./BudgetDetail.scss";
+import { Budget, TagType } from "../../../services/Models";
 import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
+import { TagTracker } from "../tags/TagTracker";
 
 interface BudgetDetailViewProps {
     budget: Budget;
@@ -9,7 +10,7 @@ interface BudgetDetailViewProps {
 
 interface State {}
 
-const COMPONENT_NAME = "BudgetDetailView";
+const COMPONENT_NAME = "BudgetDetail";
 
 export class BudgetDetailView extends React.Component<
     BudgetDetailViewProps,
@@ -59,6 +60,13 @@ export class BudgetDetailView extends React.Component<
                         ${this.props.budget && this.props.budget.amount}
                     </span>
                 </div>
+
+                <TagTracker
+                    type={TagType.budget}
+                    targetId={
+                        this.props.budget && this.props.budget.id
+                    }
+                />
             </div>
         );
     }
