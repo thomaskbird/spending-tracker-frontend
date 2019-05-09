@@ -8,6 +8,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface Props {
     val?: string;
+    onReady(api: IconPicker.Api): void;
 }
 
 interface State {
@@ -27,6 +28,14 @@ export class IconPicker extends React.Component<Props, State> {
             filterText: this.props.val || "",
             isOpen: false
         };
+
+        const api: IconPicker.Api = {
+            getValue: () => {
+                return this.state.filterText;
+            }
+        };
+
+        this.props.onReady(api);
     }
 
     public render(): JSX.Element {
@@ -105,5 +114,11 @@ export class IconPicker extends React.Component<Props, State> {
             filterText: icon,
             isOpen: false
         });
+    }
+}
+
+export namespace IconPicker {
+    export interface Api {
+        getValue(): string;
     }
 }

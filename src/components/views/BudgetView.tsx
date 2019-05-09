@@ -108,7 +108,8 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
         let formattedData: any = {
             title: formData.title,
             description: formData.description,
-            amount: formData.amount
+            amount: formData.amount,
+            icon: formData.icon
         };
 
         // Determine if this is an edit action

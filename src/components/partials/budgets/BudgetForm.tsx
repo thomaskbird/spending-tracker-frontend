@@ -2,6 +2,7 @@ import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Budget } from "../../../services/Models";
 import { IconPicker } from "../IconPicker";
+import { Icon } from "@fortawesome/fontawesome-svg-core";
 
 interface BudgetFormProps {
     budget?: Budget;
@@ -21,6 +22,8 @@ const COMPONENT_NAME = "TransactionForm";
 
 export class BudgetForm extends React.Component<BudgetFormProps, State> {
     public static readonly displayName = COMPONENT_NAME;
+
+    private iconPickerApi?: IconPicker.Api;
 
     constructor(props: BudgetFormProps, context: any) {
         super(props, context);
@@ -103,7 +106,9 @@ export class BudgetForm extends React.Component<BudgetFormProps, State> {
                 </div>
 
                 <IconPicker
-                    val={"dollar-sign"}
+                    onReady={(api) => {
+                        this.iconPickerApi = api;
+                    }}
                 />
 
                 <div className={"FormGroup"}>
@@ -159,7 +164,11 @@ export class BudgetForm extends React.Component<BudgetFormProps, State> {
     }
 
     private handleFormSubmit(event: any): void {
-        this.props.onSubmit(this.state);
+        this.setState({
+            icon: this.iconPickerApi!.getValue()
+        }, () => {
+            this.props.onSubmit(this.state);
+        });
 
         event.preventDefault();
     }
