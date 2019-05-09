@@ -153,7 +153,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
      *
      * @param {boolean} isOpen - Indicates whether the panel should be open
      * @param {string | undefined} actionType - What actions is taking place
-     * @param {Budget | undefined} transaction - The transaction the action is happening to
+     * @param {Budget | undefined} budget - The budget the action is happening to
      */
     private toggleBudgetPanel(
         isOpen: boolean,

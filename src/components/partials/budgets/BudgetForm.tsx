@@ -93,23 +93,13 @@ export class BudgetForm extends React.Component<BudgetFormProps, State> {
 
                 <div className={"FormGroup"}>
                     <label htmlFor={"icon"}>Icon:</label>
-                    <input
-                        type="text"
-                        name="icon"
-                        id={"icon"}
-                        placeholder={"Enter icon..."}
-                        value={this.state.icon}
-                        onChange={(e) => {
-                            this.setState({ icon: e.target.value });
+                    <IconPicker
+                        val={this.state.icon}
+                        onReady={(api) => {
+                            this.iconPickerApi = api;
                         }}
                     />
                 </div>
-
-                <IconPicker
-                    onReady={(api) => {
-                        this.iconPickerApi = api;
-                    }}
-                />
 
                 <div className={"FormGroup"}>
                     <label htmlFor={"amount"}>Amount:</label>

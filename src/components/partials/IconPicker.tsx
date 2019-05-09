@@ -38,6 +38,14 @@ export class IconPicker extends React.Component<Props, State> {
         this.props.onReady(api);
     }
 
+    public componentDidUpdate(prevProps: Props): void {
+        if(prevProps.val !== this.props.val) {
+            this.setState({
+                filterText: this.props.val || ""
+            })
+        }
+    }
+
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
