@@ -1,11 +1,12 @@
 import * as React from "react";
 import "./TagTracker.scss";
-import { Tag, TagType } from "../../../services/Models";
+import { Tag, TaggableType } from "../../../services/Models";
 import { axiosInstance } from "../../../index";
 
 interface Props {
     targetId?: number;
-    type: TagType;
+    type: TaggableType;
+    onToggleTag(): void;
 }
 
 interface State {
@@ -114,16 +115,17 @@ export class TagTracker extends React.Component<Props, State> {
     private handleToggleSelected(tag: Tag): void {
         console.log("handleToggleSelected()", {
             tag_id: tag.id,
-            target_id: this.props.targetId
+            taggable_id: this.props.targetId
         });
         const togglePromise = axiosInstance
             .post(tag.selected ? `/tag/relation/remove` : `/tag/relation/add`, {
                 tag_id: tag.id,
-                target_id: this.props.targetId,
-                type: this.props.type
+                taggable_id: this.props.targetId,
+                taggable_type: this.props.type
             })
             .then((response: any) => {
                 this.refreshData();
+                this.props.onToggleTag();
             })
             .catch((error: any) => {
                 console.log("Error: ", error);
@@ -140,8 +142,8 @@ export class TagTracker extends React.Component<Props, State> {
 
         // If there is a transaction id, add the parameters to create the TagRelations
         if (this.props.targetId) {
-            requestData.target_id = this.props.targetId;
-            requestData.type = this.props.type;
+            requestData.taggable_id = this.props.targetId;
+            requestData.taggable_type = this.props.type;
         }
 
         axiosInstance
@@ -171,7 +173,10 @@ export class TagTracker extends React.Component<Props, State> {
         });
 
         axiosInstance
-            .get(`/tag/relation/${this.props.type}/${this.props.targetId}`)
+            .post(`/tag/relation`, {
+                taggable_id: this.props.targetId,
+                taggable_type: this.props.type
+            })
             .then((response) => {
                 console.log("refreshData()", response);
 

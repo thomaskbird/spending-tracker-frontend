@@ -33,14 +33,13 @@ export class BudgetDial extends React.Component<BudgetDialViewProps, State> {
     }
 
     public componentDidMount(): void {
-        const percent =
-            this.props.budgetFigures.used /
-            this.props.budgetFigures.budgetTotal;
+        this.doMath();
+    }
 
-        this.setState({
-            percent: Math.round(percent * 100),
-            percentDegrees: percent * 360
-        });
+    public componentDidUpdate(prevProps: Readonly<BudgetDialViewProps>): void {
+        if(prevProps.budgetFigures.used !== this.props.budgetFigures.used || prevProps.budgetFigures.budgetTotal !== this.props.budgetFigures.budgetTotal) {
+            this.doMath();
+        }
     }
 
     public render(): JSX.Element {
@@ -100,5 +99,16 @@ export class BudgetDial extends React.Component<BudgetDialViewProps, State> {
 
     private popupInfoDialogue(): void {
         alert(`${this.state.percent}% of budget`);
+    }
+
+    private doMath(): void {
+        const percent = this.props.budgetFigures.used ?
+            this.props.budgetFigures.used /
+            this.props.budgetFigures.budgetTotal : 0;
+
+        this.setState({
+            percent: Math.round(percent * 100),
+            percentDegrees: percent * 360
+        });
     }
 }

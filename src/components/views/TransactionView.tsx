@@ -121,6 +121,9 @@ export class TransactionView extends React.Component<
                                 undefined
                             );
                         }}
+                        onTransactionTagToggle={() => {
+                            this.listApi!.refreshData();
+                        }}
                     />
                 </div>
             </div>

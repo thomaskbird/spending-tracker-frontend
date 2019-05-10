@@ -77,10 +77,12 @@ export class BudgetListView extends React.Component<
             budgets: undefined
         });
 
-        axiosInstance.get(`/budgets`).then((budgets) => {
-            this.setState({
-                budgets: budgets.data.length !== 0 ? budgets.data : []
-            });
+        axiosInstance.get(`/budgets`).then((response) => {
+            if(response.data.status) {
+                this.setState({
+                    budgets: response.data.data.budgets.length !== 0 ? response.data.data.budgets : []
+                });
+            }
         });
     }
 

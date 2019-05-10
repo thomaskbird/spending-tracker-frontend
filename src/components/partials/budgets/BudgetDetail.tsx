@@ -1,14 +1,19 @@
 import * as React from "react";
+import _ from "lodash";
 import "./BudgetDetail.scss";
-import { Budget, TagType } from "../../../services/Models";
+import { Budget, TaggableType, Transaction } from "../../../services/Models";
+
 import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 import { TagTracker } from "../tags/TagTracker";
 
 interface BudgetDetailViewProps {
     budget: Budget;
+    onBudgetTagToggle(): void;
 }
 
-interface State {}
+interface State {
+    usedBudget: number;
+}
 
 const COMPONENT_NAME = "BudgetDetail";
 
@@ -19,7 +24,43 @@ export class BudgetDetailView extends React.Component<
     constructor(props: BudgetDetailViewProps, context: any) {
         super(props, context);
 
-        this.state = {};
+        this.state = {
+            usedBudget: 0
+        };
+    }
+
+    public componentDidMount(): void {
+        if(this.props.budget.tags) {
+            const transactions: any = [];
+            const tags = this.props.budget.tags.map(tag => {
+                return tag.transactions!.map(transaction => {
+                    transactions.push(parseFloat(transaction.amount as any));
+                });
+            });
+
+            if(transactions.length) {
+                const transactionSum = transactions.reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+                this.setState({ usedBudget: transactionSum });
+            }
+        }
+    }
+
+    public componentDidUpdate(prevProps: Readonly<BudgetDetailViewProps>): void {
+        if(prevProps.budget !== this.props.budget) {
+            if(this.props.budget.tags) {
+                const transactions: any = [];
+                this.props.budget.tags.map(tag => {
+                    return tag.transactions!.map(transaction => {
+                        transactions.push(parseFloat(transaction.amount as any));
+                    });
+                });
+
+                if(transactions.length) {
+                    const transactionSum = transactions.reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+                    this.setState({ usedBudget: transactionSum });
+                }
+            }
+        }
     }
 
     public render(): JSX.Element {
@@ -38,7 +79,7 @@ export class BudgetDetailView extends React.Component<
                     title={this.props.budget.title}
                     icon={this.props.budget.icon}
                     budgetFigures={{
-                        used: 175,
+                        used: this.state.usedBudget,
                         budgetTotal: this.props.budget.amount
                     }}
                 />
@@ -62,10 +103,13 @@ export class BudgetDetailView extends React.Component<
                 </div>
 
                 <TagTracker
-                    type={TagType.budget}
+                    type={TaggableType.budget}
                     targetId={
                         this.props.budget && this.props.budget.id
                     }
+                    onToggleTag={() => {
+                        this.props.onBudgetTagToggle();
+                    }}
                 />
             </div>
         );

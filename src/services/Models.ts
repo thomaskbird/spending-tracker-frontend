@@ -35,9 +35,9 @@ export enum AlertType {
     error = "error"
 }
 
-export enum TagType {
-    transaction = "transaction",
-    budget = "budget"
+export enum TaggableType {
+    transaction = "App\\Http\\Models\\Transaction",
+    budget = "App\\Http\\Models\\Budget"
 }
 
 export enum AvailableIcons {
@@ -329,6 +329,7 @@ export interface Tag extends Timestamps {
     slug: string;
     description: string;
     selected?: boolean;
+    transactions?: Transaction[];
 }
 
 export interface Budget extends Timestamps {
@@ -339,6 +340,7 @@ export interface Budget extends Timestamps {
     description?: string;
     icon: string;
     amount: number;
+    tags?: Tag[];
 }
 
 export interface PaginatedListResults {
