@@ -2,7 +2,6 @@ import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Budget } from "../../../services/Models";
 import { IconPicker } from "../IconPicker";
-import { Icon } from "@fortawesome/fontawesome-svg-core";
 
 interface BudgetFormProps {
     budget?: Budget;

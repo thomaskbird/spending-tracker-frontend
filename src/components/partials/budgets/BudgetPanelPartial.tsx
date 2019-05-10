@@ -13,6 +13,7 @@ interface BudgetPanelPartialProps {
     onReady(api: BudgetForm.Api): void;
     onBudgetAdd(formData: any): void;
     onToggleBudgetPanel(): void;
+    onBudgetTagToggle(): void;
 }
 
 interface State {}
@@ -32,7 +33,6 @@ export class BudgetPanelPartial extends React.Component<
     }
 
     public componentDidUpdate(prevProps: BudgetPanelPartialProps): void {
-        // test
     }
 
     public render(): JSX.Element {
@@ -67,7 +67,12 @@ export class BudgetPanelPartial extends React.Component<
                         }}
                     />
                 ) : (
-                    <BudgetDetailView budget={this.props.budgetToEdit!} />
+                    <BudgetDetailView
+                        budget={this.props.budgetToEdit!}
+                        onBudgetTagToggle={() => {
+                            this.props.onBudgetTagToggle();
+                        }}
+                    />
                 )}
             </div>
         );

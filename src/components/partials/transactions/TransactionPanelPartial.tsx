@@ -19,6 +19,7 @@ interface TransactionPanelPartialProps {
     onReady(api: TransactionForm.Api): void;
     onTransactionAdd(formData: any): void;
     onToggleTransactionPanel(): void;
+    onTransactionTagToggle(): void;
 }
 
 interface State {}
@@ -75,6 +76,7 @@ export class TransactionPanelPartial extends React.Component<
                 ) : (
                     <TransactionDetailView
                         transaction={this.props.transactionToEdit!}
+                        onTransactionTagToggle={() => this.props.onToggleTransactionPanel()}
                     />
                 )}
             </div>

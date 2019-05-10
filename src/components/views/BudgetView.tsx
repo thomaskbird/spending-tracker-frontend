@@ -6,9 +6,7 @@ import { SidebarPartial } from "../partials/SidebarPartial";
 import { BudgetListView } from "src/components/partials/budgets/BudgetListView";
 import {
     Budget,
-    DateRange,
     PanelActionTypes,
-    TransactionWithRecurring
 } from "src/services/Models";
 import { BudgetPanelPartial } from "src/components/partials/budgets/BudgetPanelPartial";
 import { BudgetForm } from "src/components/partials/budgets/BudgetForm";
@@ -92,6 +90,9 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                         }}
                         onToggleBudgetPanel={() => {
                             this.toggleBudgetPanel(false, undefined, undefined);
+                        }}
+                        onBudgetTagToggle={() => {
+                            this.listApi!.refreshData();
                         }}
                     />
                 </div>

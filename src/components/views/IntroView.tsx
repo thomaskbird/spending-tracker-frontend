@@ -89,7 +89,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                         this.handleSubmit(event);
                     }}
                 >
-                    <h2>Signup</h2>
+                    <h2>{submitBtnText}</h2>
 
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing
