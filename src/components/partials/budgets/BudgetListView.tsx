@@ -1,4 +1,5 @@
 import * as React from "react";
+import { NoData } from "../../helpers/NoData";
 import { Budget, TransactionWithRecurring } from "src/services/Models";
 import { axiosInstance } from "src/index";
 import { BudgetListItem } from "src/components/partials/budgets/BudgetListItem";
@@ -64,7 +65,7 @@ export class BudgetListView extends React.Component<
                     })}
 
                 {!this.state.budgets || this.state.budgets.length < 1 ? (
-                    <p>No budgets, go add some!</p>
+                    <NoData type={"budgets"} />
                 ) : (
                     undefined
                 )}
