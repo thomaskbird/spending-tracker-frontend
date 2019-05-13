@@ -18,7 +18,7 @@ interface BudgetPanelPartialProps {
 
 interface State {}
 
-const COMPONENT_NAME = "BudgetPanelPartial";
+const COMPONENT_NAME = "PanelPartial";
 
 export class BudgetPanelPartial extends React.Component<
     BudgetPanelPartialProps,

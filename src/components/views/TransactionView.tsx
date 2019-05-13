@@ -26,7 +26,7 @@ interface State {
     transactionActionType: PanelActionTypes | undefined;
 }
 
-const COMPONENT_NAME = "TransactionView";
+const COMPONENT_NAME = "View";
 
 export class TransactionView extends React.Component<
     TransactionViewProps,

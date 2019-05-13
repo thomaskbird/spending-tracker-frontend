@@ -1,7 +1,5 @@
 import * as React from "react";
-import _ from "lodash";
-import "./BudgetDetail.scss";
-import { Budget, TaggableType, Transaction } from "../../../services/Models";
+import { Budget, TaggableType } from "../../../services/Models";
 
 import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 import { TagTracker } from "../tags/TagTracker";
@@ -15,7 +13,7 @@ interface State {
     usedBudget: number;
 }
 
-const COMPONENT_NAME = "BudgetDetail";
+const COMPONENT_NAME = "DetailView";
 
 export class BudgetDetailView extends React.Component<
     BudgetDetailViewProps,

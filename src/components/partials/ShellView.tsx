@@ -5,6 +5,7 @@ import { TransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";
 import { BudgetView } from "../views/BudgetView";
+import { TagView } from "../views/TagView";
 
 interface ShellViewProps {}
 
@@ -25,11 +26,20 @@ export class ShellView extends React.Component<ShellViewProps, State> {
         return (
             <Switch>
                 <>
-                    <Route exact={true} path={"/"} component={IntroView} />
+                    <Route
+                        exact={true}
+                        path={"/"}
+                        component={IntroView}
+                    />
                     <Route
                         exact={true}
                         path={"/admin/budgets"}
                         component={BudgetView}
+                    />
+                    <Route
+                        exact={true}
+                        path={"/admin/tags"}
+                        component={TagView}
                     />
                     <Route
                         exact={true}

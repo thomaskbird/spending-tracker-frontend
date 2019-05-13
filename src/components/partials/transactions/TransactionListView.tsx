@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./TransactionListView.scss";
 import { TransactionWithRecurring } from "../../../services/Models";
 import { TransactionListItem } from "./TransactionListItem";
 import { axiosInstance } from "../../../index";
@@ -57,7 +56,6 @@ export class TransactionListView extends React.Component<
     }
 
     public render(): JSX.Element {
-        console.log("this.state.transactions", this.state.transactions);
         return (
             <div className={COMPONENT_NAME}>
                 {this.state.transactions &&

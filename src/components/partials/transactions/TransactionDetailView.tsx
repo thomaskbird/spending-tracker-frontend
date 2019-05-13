@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./TransactionDetailView.scss";
 import {
     TaggableType,
     TransactionType,

@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./AddTransactionView.scss";
 
 interface AddTransactionViewProps {}
 

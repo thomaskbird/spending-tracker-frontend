@@ -1,13 +1,13 @@
 import * as React from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Budget } from "../../../services/Models";
+import { Tag } from "../../../services/Models";
 
-interface BudgetListItemProps {
+interface TagListItemProps {
     /**
      * The transactions data
      */
-    budget: Budget;
+    tag: Tag;
 
     /**
      * Triggers a prop with the provided params
@@ -15,7 +15,7 @@ interface BudgetListItemProps {
      * @param {string} actionType - The type of action to execute
      * @param {TransactionWithRecurring} transaction - The transaction data
      */
-    onAction(actionType: string, transaction: Budget): void;
+    onAction(actionType: string, transaction: Tag): void;
 }
 
 interface State {
@@ -24,11 +24,11 @@ interface State {
 
 const COMPONENT_NAME = "ListItem";
 
-export class BudgetListItem extends React.Component<
-    BudgetListItemProps,
+export class TagListItem extends React.Component<
+    TagListItemProps,
     State
-> {
-    constructor(props: BudgetListItemProps, context: any) {
+    > {
+    constructor(props: TagListItemProps, context: any) {
         super(props, context);
 
         this.state = {
@@ -42,7 +42,7 @@ export class BudgetListItem extends React.Component<
                 <div
                     className={`${COMPONENT_NAME}__main ${
                         this.state.isDragOpen ? "open" : ""
-                    }`}
+                        }`}
                 >
                     <div className={`${COMPONENT_NAME}__selects`}>
                         <input type={"checkbox"} id={"transaction-box"} />
@@ -50,22 +50,19 @@ export class BudgetListItem extends React.Component<
                     <div
                         className={`${COMPONENT_NAME}__text`}
                         onClick={() => {
-                            this.props.onAction("view", this.props.budget);
+                            this.props.onAction("view", this.props.tag);
                         }}
                     >
-                        <h5>{this.props.budget.title}</h5>
-                        <small>{this.props.budget.description}</small>
+                        <h5>{this.props.tag.title}</h5>
+                        <small>{this.props.tag.description}</small>
                     </div>
                     <div className={`${COMPONENT_NAME}__info`}>
                         <div className={`${COMPONENT_NAME}__info--date`}>
-                            {moment(this.props.budget.updated_at).format(
+                            {moment(this.props.tag.updated_at).format(
                                 "YYYY-MM-DD"
                             )}
                         </div>
 
-                        <div className={`${COMPONENT_NAME}__info--amount`}>
-                            ${this.props.budget.amount}
-                        </div>
                     </div>
                     <div
                         className={`${COMPONENT_NAME}__drag-handle`}
@@ -88,7 +85,7 @@ export class BudgetListItem extends React.Component<
                     <button
                         className={"view"}
                         onClick={() => {
-                            this.props.onAction("view", this.props.budget);
+                            this.props.onAction("view", this.props.tag);
                         }}
                     >
                         View
@@ -96,7 +93,7 @@ export class BudgetListItem extends React.Component<
                     <button
                         className={"edit"}
                         onClick={() => {
-                            this.props.onAction("edit", this.props.budget);
+                            this.props.onAction("edit", this.props.tag);
                         }}
                     >
                         Edit
@@ -104,7 +101,7 @@ export class BudgetListItem extends React.Component<
                     <button
                         className={"remove"}
                         onClick={() => {
-                            this.props.onAction("remove", this.props.budget);
+                            this.props.onAction("remove", this.props.tag);
                         }}
                     >
                         Remove

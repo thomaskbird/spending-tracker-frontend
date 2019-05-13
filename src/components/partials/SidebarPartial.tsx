@@ -56,7 +56,7 @@ export class SidebarPartial extends React.Component<
                         <Link to={"/admin/budgets"}>Budgets</Link>
                     </li>
                     <li>
-                        <a>Tags</a>
+                        <Link to={"/admin/tags"}>Tags</Link>
                     </li>
                 </ul>
 

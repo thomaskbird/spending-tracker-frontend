@@ -1,8 +1,5 @@
 import * as React from "react";
 import "./TransactionPanelPartial.scss";
-import { HeaderPartial } from "../../partials/HeaderPartial";
-import { Redirect, RouteComponentProps } from "react-router";
-import { axiosInstance } from "../../../index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TransactionForm } from "./TransactionForm";
 import { TransactionDetailView } from "./TransactionDetailView";
@@ -24,7 +21,7 @@ interface TransactionPanelPartialProps {
 
 interface State {}
 
-const COMPONENT_NAME = "TransactionPanelPartial";
+const COMPONENT_NAME = "PanelPartial";
 
 export class TransactionPanelPartial extends React.Component<
     TransactionPanelPartialProps,

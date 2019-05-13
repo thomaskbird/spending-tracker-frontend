@@ -1,13 +1,10 @@
 import * as React from "react";
 import moment from "moment";
-import "./TransactionListItem.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     TransactionType,
     TransactionWithRecurring
 } from "../../../services/Models";
-// import Draggable from "react-draggable";
-// import Gesture from "rc-gesture";
 
 interface TransactionListItemProps {
     /**
@@ -28,7 +25,7 @@ interface State {
     isDragOpen: boolean;
 }
 
-const COMPONENT_NAME = "TransactionListItem";
+const COMPONENT_NAME = "ListItem";
 
 export class TransactionListItem extends React.Component<
     TransactionListItemProps,
