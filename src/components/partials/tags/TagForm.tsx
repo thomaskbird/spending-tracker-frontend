@@ -41,6 +41,16 @@ export class TagForm extends React.Component<TagFormProps, State> {
         this.props.onReady(api);
     }
 
+    public componentDidUpdate(prevProps: TagFormProps): void {
+        if (prevProps.tag !== this.props.tag) {
+            this.setState({
+                title: (this.props.tag && this.props.tag.title) || "",
+                description:
+                    (this.props.tag && this.props.tag.description) || ""
+            });
+        }
+    }
+
     public render(): JSX.Element {
         const panelTitle = this.props.tag
             ? `Edit ${this.props.tag.title} tag`

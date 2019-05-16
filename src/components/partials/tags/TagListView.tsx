@@ -25,41 +25,12 @@ export class TagListView extends React.Component<
         super(props, context);
 
         this.state = {
-            tags: [
-                {
-                    id: 1,
-                    title: "Tag 1",
-                    slug: "tag-1",
-                    description: "Tag 1",
-                    created_at: "2019-05-12",
-                    updated_at: "2019-05-12",
-                    deleted_at: null
-                },
-                {
-                    id: 2,
-                    title: "Tag 2",
-                    slug: "tag-2",
-                    description: "Tag 2",
-                    created_at: "2019-05-12",
-                    updated_at: "2019-05-12",
-                    deleted_at: null
-                },
-                {
-                    id: 3,
-                    title: "Tag 3",
-                    slug: "tag-3",
-                    description: "Tag 3",
-                    created_at: "2019-05-12",
-                    updated_at: "2019-05-12",
-                    deleted_at: null
-                }
-            ]
+            tags: []
         };
     }
 
     public componentDidMount(): void {
-        // todo: remove this comment below when api is working again
-        // this.refreshTags();
+        this.refreshTags();
 
         const api: TagListView.Api = {
             refreshData: () => {
