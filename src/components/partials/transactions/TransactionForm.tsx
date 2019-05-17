@@ -17,6 +17,7 @@ interface State {
     title: string | undefined;
     amount: number | undefined;
     description: string | undefined;
+    occurred_at: string | undefined;
     type: string | undefined;
     isRecurring: boolean;
     recurring_type: string | undefined;
@@ -62,6 +63,7 @@ export class TransactionForm extends React.Component<
                 (this.props.transaction &&
                     this.props.transaction.description) ||
                 "",
+            occurred_at: "",
             type:
                 (this.props.transaction && this.props.transaction.type) ||
                 "expense",
@@ -86,6 +88,7 @@ export class TransactionForm extends React.Component<
                         (this.props.transaction &&
                             this.props.transaction.description) ||
                         "",
+                    occurred_at: "",
                     type:
                         (this.props.transaction &&
                             this.props.transaction.type) ||
@@ -119,6 +122,7 @@ export class TransactionForm extends React.Component<
                     (this.props.transaction &&
                         this.props.transaction.description) ||
                     "",
+                occurred_at: "",
                 type:
                     (this.props.transaction && this.props.transaction.type) ||
                     "expense",
@@ -155,6 +159,14 @@ export class TransactionForm extends React.Component<
                 this.props.transaction.recurring &&
                 (moment(
                     this.props.transaction.recurring.end_at,
+                    "YYYY-MM-DD"
+                ) as any));
+        const occurredAt =
+            (this.state.occurred_at && moment(this.state.occurred_at, this.dateFormat)) ||
+            (this.props.transaction &&
+                this.props.transaction.occurred_at &&
+                (moment(
+                    this.props.transaction.occurred_at,
                     "YYYY-MM-DD"
                 ) as any));
         const panelTitle = this.props.transaction
@@ -214,6 +226,18 @@ export class TransactionForm extends React.Component<
                             this.setState({ description: e.target.value });
                         }}
                         value={this.state.description}
+                    />
+                </div>
+
+                <div className={"FormGroup"}>
+                    <label htmlFor={"occurred_at"}>Occured on:</label>
+                    <DatePicker
+                        value={occurredAt}
+                        onChange={(date, dateString) => {
+                            this.setState({
+                                occurred_at: dateString
+                            });
+                        }}
                     />
                 </div>
 

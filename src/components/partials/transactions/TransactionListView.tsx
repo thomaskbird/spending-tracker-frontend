@@ -18,7 +18,7 @@ interface State {
     transactions: TransactionWithRecurring[] | undefined;
 }
 
-const COMPONENT_NAME = "TransactionListView";
+const COMPONENT_NAME = "ListView";
 
 export class TransactionListView extends React.Component<
     TransactionListViewProps,

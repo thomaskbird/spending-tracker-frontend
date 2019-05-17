@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tag } from "../../../services/Models";
+import { Tag, TransactionType } from "../../../services/Models";
 
 interface TagDetailViewProps {
     tag: Tag;
@@ -40,6 +40,37 @@ export class TagDetailView extends React.Component<
                         {this.props.tag && this.props.tag.description}
                     </span>
                 </div>
+
+                {this.props.tag && this.props.tag.transactions ? (
+                    <div className={`${COMPONENT_NAME}__detail--list`}>
+                        <div className={`${COMPONENT_NAME}__detail--list__header`}>
+                            Transactions
+                        </div>
+                        <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`}></div>
+                        <div className={`${COMPONENT_NAME}__detail--list__body`}>
+                            {this.props.tag.transactions.map((transaction, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`${COMPONENT_NAME}__detail--list__body-item`}
+                                    >
+                                        <span>
+                                            <b>{transaction.title}</b><br/>
+                                            {transaction.description}
+                                        </span>
+                                        <span>
+                                            {transaction.type ===
+                                            TransactionType.income
+                                                ? "+"
+                                                : "-"}{" "}
+                                            {transaction.amount}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ) : (undefined)}
             </div>
         );
     }

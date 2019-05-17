@@ -13,7 +13,7 @@ interface TransactionDetailViewProps {
 
 interface State {}
 
-const COMPONENT_NAME = "TransactionDetailView";
+const COMPONENT_NAME = "DetailView";
 
 export class TransactionDetailView extends React.Component<
     TransactionDetailViewProps,

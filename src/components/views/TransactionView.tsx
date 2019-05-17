@@ -139,6 +139,7 @@ export class TransactionView extends React.Component<
         let formattedData: any = {
             title: formData.title,
             description: formData.description,
+            occurred_at: formData.occurred_at,
             amount: formData.amount,
             type: formData.type
         };

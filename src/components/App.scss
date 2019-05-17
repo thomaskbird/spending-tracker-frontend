@@ -304,6 +304,48 @@ pre {
             font-size: 1rem;
             text-transform: capitalize;
         }
+
+        &--list {
+            border: 1px solid $color-grey-mid;
+
+            &__header {
+                font-weight: 100;
+                padding: 10px 15px;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+
+                &--border-bottom {
+                    height: 3px;
+                    @include backgroundGradientGenerator(#FF0C00, #FF8E38);
+                }
+            }
+
+            &__body {
+                overflow-y: auto;
+                max-height: 250px;
+                overflow-x: hidden;
+
+                &-item {
+                    display: flex;
+                    font-size: .8rem;
+                    padding: 5px 15px;
+                    border-bottom: 1px solid $color-grey-white;
+
+                    & span:first-child {
+                        flex: 1;
+                        color: $color-grey;
+
+                        b {
+                            color: $color-grey-dark-mid;
+                        }
+                    }
+
+                    &:nth-child(2n+1) {
+                        background: lighten($color-grey-white, 2%);
+                    }
+                }
+            }
+        }
     }
 }
 
