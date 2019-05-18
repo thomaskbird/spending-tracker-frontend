@@ -2,6 +2,7 @@ import * as React from "react";
 import "./TagTracker.scss";
 import { Tag, TaggableType } from "../../../services/Models";
 import { axiosInstance } from "../../../index";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
     targetId?: number;
@@ -62,6 +63,11 @@ export class TagTracker extends React.Component<Props, State> {
                                         newTagText: e.target.value
                                     });
                                 }}
+                                onKeyDown={(e: any) => {
+                                    if(e.key === "Enter") {
+                                        this.handleAddTag();
+                                    }
+                                }}
                             />
                             <span className={"FormGroup--input-indicator"}>
                                 <button
@@ -86,11 +92,21 @@ export class TagTracker extends React.Component<Props, State> {
                                     className={`tag ${
                                         tag.selected ? "tag--is-set" : ""
                                     }`}
-                                    onClick={() => {
-                                        this.handleToggleSelected(tag);
-                                    }}
                                 >
-                                    {tag.title}
+                                    <span
+                                        onClick={() => {
+                                            this.handleToggleSelected(tag);
+                                        }}>
+                                        {tag.title}
+                                    </span>
+                                    <span
+                                        className={`${COMPONENT_NAME}__tag-close-btn`}
+                                        onClick={() => {
+                                            this.handleTagRemoval(tag)
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={"times"} />
+                                    </span>
                                 </span>
                             );
                         })}
@@ -113,10 +129,6 @@ export class TagTracker extends React.Component<Props, State> {
      * @param tag - The tags data
      */
     private handleToggleSelected(tag: Tag): void {
-        console.log("handleToggleSelected()", {
-            tag_id: tag.id,
-            taggable_id: this.props.targetId
-        });
         const togglePromise = axiosInstance
             .post(tag.selected ? `/tag/relation/remove` : `/tag/relation/add`, {
                 tag_id: tag.id,
@@ -126,6 +138,17 @@ export class TagTracker extends React.Component<Props, State> {
             .then((response: any) => {
                 this.refreshData();
                 this.props.onToggleTag();
+            })
+            .catch((error: any) => {
+                console.log("Error: ", error);
+            });
+    }
+
+    private handleTagRemoval(tag: Tag): void {
+        axiosInstance
+            .get(`tags/remove/${tag.id}`)
+            .then(response => {
+                this.refreshData();
             })
             .catch((error: any) => {
                 console.log("Error: ", error);

@@ -142,7 +142,7 @@ export class TransactionDetailView extends React.Component<
                         this.props.transaction && this.props.transaction.id
                     }
                     onToggleTag={() => {
-                        this.props.onTransactionTagToggle();
+                        // this.props.onTransactionTagToggle();
                     }}
                 />
             </div>
