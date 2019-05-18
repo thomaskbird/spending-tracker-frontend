@@ -145,14 +145,19 @@ export class TagTracker extends React.Component<Props, State> {
     }
 
     private handleTagRemoval(tag: Tag): void {
-        axiosInstance
-            .get(`tags/remove/${tag.id}`)
-            .then(response => {
-                this.refreshData();
-            })
-            .catch((error: any) => {
-                console.log("Error: ", error);
-            });
+
+        const handleTagRemovalConfirm = confirm(`Are you sure you want to delete the tag: ${tag.title}`);
+
+        if(handleTagRemovalConfirm) {
+            axiosInstance
+                .get(`tags/remove/${tag.id}`)
+                .then(response => {
+                    this.refreshData();
+                })
+                .catch((error: any) => {
+                    console.log("Error: ", error);
+                });
+        }
     }
 
     /**
