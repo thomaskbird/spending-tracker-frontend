@@ -34,6 +34,14 @@ export class VisualizationsView extends React.Component<Props, State> {
                 <div className={"BodyPartial"}>
                     <div className={"route--viewport"}>
                         <h1>Visualizations</h1>
+
+                        <ul>
+                            <li>Over budget</li>
+                            <li>under budget</li>
+                            <li>Alerts for budgets</li>
+                            <li>Current balancegit </li>
+
+                        </ul>
                     </div>
 
                     <SidebarPartial
