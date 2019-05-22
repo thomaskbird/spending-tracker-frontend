@@ -326,15 +326,6 @@ pre {
 }
 
 @media (max-width: 600px) {
-    .SidebarPartial {
-        width: 100%;
-        left: -100%;
-
-        &.open {
-            left: 0%;
-        }
-    }
-
     .PanelPartial {
         width: 100%;
         right: -100%;

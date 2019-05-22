@@ -145,7 +145,8 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
      */
     private toggleSidebarPanel(isOpen: boolean): void {
         this.setState({
-            isSidebarOpen: isOpen
+            isSidebarOpen: isOpen,
+            isAddBudgetOpen: false
         });
     }
 

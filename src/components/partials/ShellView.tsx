@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./ShellView.scss";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, match, RouteProps } from "react-router-dom";
 import { TransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";
@@ -8,9 +8,11 @@ import { BudgetView } from "../views/BudgetView";
 import { TagView } from "../views/TagView";
 import { VisualizationsView } from "../views/VisualizationsView";
 
-interface ShellViewProps {}
+interface ShellViewProps extends RouteProps {}
 
-interface State {}
+interface State {
+    currentPath: string | undefined;
+}
 
 const COMPONENT_NAME = "ShellView";
 
@@ -20,7 +22,17 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     constructor(props: ShellViewProps, context: any) {
         super(props, context);
 
-        this.state = {};
+        this.state = {
+            currentPath: undefined
+        };
+    }
+
+    public componentDidUpdate(prevProps: Readonly<ShellViewProps>, prevState: Readonly<State>, snapshot?: any): void {
+        if(this.props.location && prevProps.location && this.props.location.pathname !== prevProps.location.pathname) {
+            this.setState({
+                currentPath: this.props.location && this.props.location.pathname
+            });
+        }
     }
 
     public render(): JSX.Element {

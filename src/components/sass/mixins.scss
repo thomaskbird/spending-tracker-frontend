@@ -49,3 +49,15 @@
     background: linear-gradient(to right, $startColor 0%, $endColor 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$startColor', endColorstr='$endColor', GradientType=1 );
 }
+
+@mixin borderGradientGenerator($startColor, $endColor, $width: 3px, $marginRight: 0px) {
+    content: " ";
+    height: auto;
+    width: $width;
+    background: $startColor;
+    margin-right: $marginRight;
+    background: -webkit-gradient(left top, right top, color-stop(0%, $startColor), color-stop(100%, $endColor));
+    background: -webkit-gradient(linear, left top, right top, from($startColor), to($endColor));
+    background: linear-gradient(to right, $startColor 0%, $endColor 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$startColor', endColorstr='$endColor', GradientType=1 );
+}

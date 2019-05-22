@@ -137,7 +137,8 @@ export class TagView extends React.Component<Props, State> {
      */
     private toggleSidebarPanel(isOpen: boolean): void {
         this.setState({
-            isSidebarOpen: isOpen
+            isSidebarOpen: isOpen,
+            isAddTagOpen: false
         });
     }
 

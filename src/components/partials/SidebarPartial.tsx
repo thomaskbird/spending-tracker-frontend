@@ -25,6 +25,10 @@ export class SidebarPartial extends React.Component<
         this.state = {};
     }
 
+    public componentDidUpdate(prevProps: Readonly<SidebarPartialProps>, prevState: Readonly<State>, snapshot?: any): void {
+        // console.log("componentDidUpdate", prevProps, this.props);
+    }
+
     public render(): JSX.Element {
         return (
             <div
@@ -45,27 +49,48 @@ export class SidebarPartial extends React.Component<
 
                 <h2>Sidebar</h2>
 
-                <ul>
-                    <li>
-                        <Link to={"/admin"}>Home</Link>
-                    </li>
-                    <li>
-                        <Link to={"/admin/visualizations"}>Visualizations</Link>
-                    </li>
-                    <li>
-                        <Link to={"/admin/budgets"}>Budgets</Link>
-                    </li>
-                    <li>
-                        <Link to={"/admin/tags"}>Tags</Link>
-                    </li>
-                </ul>
+                <div className={`${COMPONENT_NAME}--link-container`}>
+                    <ul>
+                        {mainNavItems.map((mainNavItem, index) => {
+                            return (
+                                <li key={index}>
+                                    <Link to={mainNavItem.to}>{mainNavItem.text}</Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
 
-                <ul>
-                    <li>
-                        <a>Logout</a>
-                    </li>
-                </ul>
+                    <ul>
+                        <li>
+                            <a>Logout</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         );
     }
 }
+
+interface NavItem {
+    to: string;
+    text: string;
+}
+
+const mainNavItems: NavItem[] = [
+    {
+        to: "/admin",
+        text: "Home"
+    },
+    {
+        to: "/admin/visualizations",
+        text: "Visualizations"
+    },
+    {
+        to: "/admin/budgets",
+        text: "Budgets"
+    },
+    {
+        to: "/admin/tags",
+        text: "Tags"
+    }
+];

@@ -1,0 +1,76 @@
+.SidebarPartial {
+  @include slidePanel();
+
+  width: 70%;
+  left: -70%;
+  box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
+
+  &.open {
+    left: 0%;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    flex-direction: column;
+
+    li {
+      display: flex;
+
+      &:before {
+        width: 3px;
+        height: auto;
+        margin-right: 10px;
+      }
+
+      &:hover {
+        &:before {
+          @include borderGradientGenerator(#FF0C00, #FF8E38);
+        }
+      }
+    }
+
+    a {
+      flex: 1;
+      display: flex;
+      padding: 10px 20px;
+      color: $color-grey-dark-mid;
+
+      &:hover {
+        background: #f5f5f5;
+        color: $color-black;
+      }
+    }
+  }
+
+  &--close-btn {
+    top: 20px;
+    color: $color-grey;
+    right: 20px;
+    cursor: pointer;
+    padding: 0 10px;
+    position: absolute;
+
+    &:hover {
+      color: $color-grey-dark;
+    }
+  }
+
+  &--link-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .SidebarPartial {
+    width: 100%;
+    left: -100%;
+
+    &.open {
+      left: 0%;
+    }
+  }
+}
