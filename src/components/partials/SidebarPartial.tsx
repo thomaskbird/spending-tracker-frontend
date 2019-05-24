@@ -2,7 +2,7 @@ import * as React from "react";
 import "./SidebarPartial.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 interface SidebarPartialProps {
     sidebarClass: boolean;

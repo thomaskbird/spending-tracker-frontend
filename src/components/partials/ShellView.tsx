@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./ShellView.scss";
-import { BrowserRouter as Router, Switch, Route, Link, match, RouteProps } from "react-router-dom";
+import { Switch, Route, RouteProps, Redirect } from "react-router-dom";
 import { TransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";
@@ -12,6 +12,8 @@ interface ShellViewProps extends RouteProps {}
 
 interface State {
     currentPath: string | undefined;
+    isLoggedIn: boolean;
+    isLoginChecked: boolean;
 }
 
 const COMPONENT_NAME = "ShellView";
@@ -23,7 +25,9 @@ export class ShellView extends React.Component<ShellViewProps, State> {
         super(props, context);
 
         this.state = {
-            currentPath: undefined
+            currentPath: undefined,
+            isLoggedIn: false,
+            isLoginChecked: false
         };
     }
 
@@ -32,7 +36,14 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             this.setState({
                 currentPath: this.props.location && this.props.location.pathname
             });
+
+            console.log("this.props.location", this.props.location);
+            this.checkAuth();
         }
+    }
+
+    public componentDidMount(): void {
+        this.checkAuth();
     }
 
     public render(): JSX.Element {
@@ -71,5 +82,16 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                 </>
             </Switch>
         );
+    }
+
+    private async checkAuth(): Promise<boolean> {
+        console.log("localStorage.getItem(\"token\")", localStorage.getItem("token"));
+        if(await localStorage.getItem("token")) {
+            this.setState({ isLoginChecked: true, isLoggedIn: true });
+            return Promise.resolve(true);
+        }
+
+        this.setState({ isLoginChecked: true, isLoggedIn: false });
+        return Promise.resolve(false);
     }
 }
