@@ -9,8 +9,14 @@ import { BrowserRouter } from "react-router-dom";
 import { App } from "./components/App";
 import axios from "axios";
 
+const location = window.location;
+const protocol = location.protocol;
+const host = location.hostname;
+console.log("protocol", protocol);
+const builtApiUrl = host === "localhost" ? `http://budget-dev.thomaskbird.com/api` : `http://budget-api.thomaskbird.com/api`;
+console.log("builtApiUrl", builtApiUrl);
 export const axiosInstance = axios.create({
-    baseURL: "//budget-api.thomaskbird.com/api"
+    baseURL: builtApiUrl
 });
 
 if (localStorage.getItem("token")) {
