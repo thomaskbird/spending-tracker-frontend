@@ -75,6 +75,11 @@ export class TransactionForm extends React.Component<
 
         const api: TransactionForm.Api = {
             clearData: () => {
+                isRecurring = false;
+                if (this.props.transaction && this.props.transaction.recurring) {
+                    isRecurring = true;
+                }
+
                 this.setState({
                     title:
                         (this.props.transaction &&
