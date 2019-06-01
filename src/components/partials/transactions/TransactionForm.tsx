@@ -54,55 +54,11 @@ export class TransactionForm extends React.Component<
             isRecurring = true;
         }
 
-        this.state = {
-            title:
-                (this.props.transaction && this.props.transaction.title) || "",
-            amount:
-                (this.props.transaction && this.props.transaction.amount) || 0,
-            description:
-                (this.props.transaction &&
-                    this.props.transaction.description) ||
-                "",
-            occurred_at: "",
-            type:
-                (this.props.transaction && this.props.transaction.type) ||
-                "expense",
-            isRecurring: isRecurring,
-            recurring_type: "",
-            start_at: "",
-            end_at: ""
-        };
+        this.state = this.handleResetData();
 
         const api: TransactionForm.Api = {
             clearData: () => {
-                isRecurring = false;
-                if (this.props.transaction && this.props.transaction.recurring) {
-                    isRecurring = true;
-                }
-
-                this.setState({
-                    title:
-                        (this.props.transaction &&
-                            this.props.transaction.title) ||
-                        "",
-                    amount:
-                        (this.props.transaction &&
-                            this.props.transaction.amount) ||
-                        0,
-                    description:
-                        (this.props.transaction &&
-                            this.props.transaction.description) ||
-                        "",
-                    occurred_at: "",
-                    type:
-                        (this.props.transaction &&
-                            this.props.transaction.type) ||
-                        "expense",
-                    isRecurring: isRecurring,
-                    recurring_type: "",
-                    start_at: "",
-                    end_at: ""
-                });
+                this.setState(this.handleResetData());
             }
         };
 
@@ -111,43 +67,7 @@ export class TransactionForm extends React.Component<
 
     public componentDidUpdate(prevProps: TransactionFormProps): void {
         if (prevProps.transaction !== this.props.transaction) {
-            let isRecurring = false;
-            if (this.props.transaction && this.props.transaction.recurring) {
-                isRecurring = true;
-            }
-
-            this.setState({
-                title:
-                    (this.props.transaction && this.props.transaction.title) ||
-                    "",
-                amount:
-                    (this.props.transaction && this.props.transaction.amount) ||
-                    0,
-                description:
-                    (this.props.transaction &&
-                        this.props.transaction.description) ||
-                    "",
-                occurred_at: "",
-                type:
-                    (this.props.transaction && this.props.transaction.type) ||
-                    "expense",
-                isRecurring: isRecurring,
-                recurring_type:
-                    (this.props.transaction &&
-                        this.props.transaction.recurring &&
-                        this.props.transaction.recurring.recurring_type) ||
-                    "",
-                start_at:
-                    (this.props.transaction &&
-                        this.props.transaction.recurring &&
-                        this.props.transaction.recurring.start_at) ||
-                    "",
-                end_at:
-                    (this.props.transaction &&
-                        this.props.transaction.recurring &&
-                        this.props.transaction.recurring.end_at) ||
-                    ""
-            });
+            this.setState(this.handleResetData());
         }
     }
 
@@ -263,6 +183,7 @@ export class TransactionForm extends React.Component<
                     <label>Is this recurring?</label>
                     <Switch
                         defaultChecked={this.state.isRecurring}
+                        checked={this.state.isRecurring}
                         onChange={(checked) => {
                             this.setState({
                                 isRecurring: !this.state.isRecurring
@@ -340,6 +261,37 @@ export class TransactionForm extends React.Component<
         this.props.onSubmit(this.state);
 
         event.preventDefault();
+    }
+
+    private handleResetData(): State {
+        let isRecurring = false;
+        if (this.props.transaction && this.props.transaction.recurring && this.props.transaction !== undefined) {
+            isRecurring = true;
+        }
+
+        return {
+            title:
+                (this.props.transaction &&
+                    this.props.transaction.title) ||
+                "",
+            amount:
+                (this.props.transaction &&
+                    this.props.transaction.amount) ||
+                0,
+            description:
+                (this.props.transaction &&
+                    this.props.transaction.description) ||
+                "",
+            occurred_at: "",
+            type:
+                (this.props.transaction &&
+                    this.props.transaction.type) ||
+                "expense",
+            isRecurring: isRecurring,
+            recurring_type: "",
+            start_at: "",
+            end_at: ""
+        };
     }
 }
 

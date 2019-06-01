@@ -186,7 +186,8 @@ export class TransactionView extends React.Component<
     private closeSlidePanels(): void {
         this.setState({
             isSidebarOpen: false,
-            isAddTransactionOpen: false
+            isAddTransactionOpen: false,
+            transactionToEdit: undefined
         });
     }
 
