@@ -37,7 +37,6 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                 currentPath: this.props.location && this.props.location.pathname
             });
 
-            console.log("this.props.location", this.props.location);
             this.checkAuth();
         }
     }
@@ -85,7 +84,6 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     }
 
     private async checkAuth(): Promise<boolean> {
-        console.log("localStorage.getItem(\"token\")", localStorage.getItem("token"));
         if(await localStorage.getItem("token")) {
             this.setState({ isLoginChecked: true, isLoggedIn: true });
             return Promise.resolve(true);
