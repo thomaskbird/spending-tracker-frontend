@@ -74,6 +74,10 @@ const PATHS = {
      */
     publicStatic: path.resolve(__dirname, "./public"),
     /**
+     * Folder containing files for production
+     */
+    publicAssets: path.resolve(__dirname, "./dist-files"),
+    /**
      * Build output folder.
      */
     dist: path.resolve(__dirname, "./dist")
@@ -279,7 +283,13 @@ export default (env: Env = {}) => {
                               from: PATHS.publicStatic,
                               to: `${PATHS.dist}/${URL_PATHS.publicStatic}`
                           }
-                      ])
+                      ]),
+                      new CopyWebpackPlugin([
+                          {
+                              from: PATHS.publicAssets,
+                              to: `${PATHS.dist}`
+                          }
+                    ])
                   ]
                 : [
                       new ForkTsCheckerWebpackPlugin({
