@@ -13,12 +13,10 @@ const location = window.location;
 const protocol = location.protocol;
 const host = location.hostname;
 
-console.log("process.env", process.env);
-
-const builtApiUrl = host === "localhost" ? `http://budget-dev.thomaskbird.com/api` : `http://budget-api.thomaskbird.com/api`;
+const env = host === "localhost" ? `dev` : `api`;
 
 export const axiosInstance = axios.create({
-    baseURL: builtApiUrl
+    baseURL: `http://budget-${env}.thomaskbird.com/api`
 });
 
 if (localStorage.getItem("token")) {
