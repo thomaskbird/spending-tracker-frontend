@@ -282,14 +282,12 @@ export default (env: Env = {}) => {
                           {
                               from: PATHS.publicStatic,
                               to: `${PATHS.dist}/${URL_PATHS.publicStatic}`
-                          }
-                      ]),
-                      new CopyWebpackPlugin([
+                          },
                           {
                               from: PATHS.publicAssets,
                               to: `${PATHS.dist}`
                           }
-                    ])
+                      ])
                   ]
                 : [
                       new ForkTsCheckerWebpackPlugin({
