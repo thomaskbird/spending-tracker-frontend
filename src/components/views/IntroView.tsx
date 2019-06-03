@@ -20,6 +20,7 @@ interface State {
     cpassword: string | undefined;
     errors: ErrorDisplay;
     loginSuccess: boolean;
+    forgotPassword: boolean;
 }
 
 const COMPONENT_NAME = "IntroView";
@@ -35,18 +36,23 @@ export class IntroView extends React.Component<IntroViewProps, State> {
             password: "",
             cpassword: "",
             action: IntroActionType.login,
+            loginSuccess: false,
+            forgotPassword: false,
             errors: {
                 error: false,
                 type: undefined,
                 msgs: []
-            },
-            loginSuccess: false
+            }
         };
     }
 
     public render(): JSX.Element {
         if (this.state.loginSuccess) {
             return <Redirect to={"/admin"} />;
+        }
+
+        if(this.state.forgotPassword) {
+            return <Redirect to={"/forgot-password"} />
         }
 
         const errorMsgs =
@@ -182,7 +188,11 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                         >
                             {secondaryBtnText}
                         </button>
-                        <button type="button" className={"btn btn-default"}>
+                        <button
+                            type="button"
+                            className={"btn btn-default"}
+                            onClick={() => this.setState({ forgotPassword: true })}
+                        >
                             Forgot password?
                         </button>
                     </div>

@@ -7,6 +7,8 @@ import { ActivationView } from "../views/ActivationView";
 import { BudgetView } from "../views/BudgetView";
 import { TagView } from "../views/TagView";
 import { VisualizationsView } from "../views/VisualizationsView";
+import { ForgotPasswordView } from "../views/ForgotPasswordView";
+import { ResetPasswordView } from "../views/ResetPasswordView";
 
 interface ShellViewProps extends RouteProps {}
 
@@ -53,6 +55,16 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                         exact={true}
                         path={"/"}
                         component={IntroView}
+                    />
+                    <Route
+                        exact={true}
+                        path={"/forgot-password"}
+                        component={ForgotPasswordView}
+                    />
+                    <Route
+                        exact={true}
+                        path={"/reset-password/:token"}
+                        component={ResetPasswordView}
                     />
                     <Route
                         exact={true}
