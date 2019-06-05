@@ -9,7 +9,9 @@ interface SidebarPartialProps {
     onClose(): void;
 }
 
-interface State {}
+interface State {
+    isLogout: boolean;
+}
 
 const COMPONENT_NAME = "SidebarPartial";
 
@@ -22,7 +24,9 @@ export class SidebarPartial extends React.Component<
     constructor(props: SidebarPartialProps, context: any) {
         super(props, context);
 
-        this.state = {};
+        this.state = {
+            isLogout: false
+        };
     }
 
     public componentDidUpdate(prevProps: Readonly<SidebarPartialProps>, prevState: Readonly<State>, snapshot?: any): void {
@@ -30,6 +34,10 @@ export class SidebarPartial extends React.Component<
     }
 
     public render(): JSX.Element {
+        if (this.state.isLogout) {
+            return <Redirect to={"/"} />;
+        }
+
         return (
             <div
                 className={
@@ -47,8 +55,6 @@ export class SidebarPartial extends React.Component<
                     <FontAwesomeIcon icon={"times"} />
                 </span>
 
-                <h2>Sidebar</h2>
-
                 <div className={`${COMPONENT_NAME}--link-container`}>
                     <ul>
                         {mainNavItems.map((mainNavItem, index) => {
@@ -62,7 +68,7 @@ export class SidebarPartial extends React.Component<
 
                     <ul>
                         <li>
-                            <a>Logout</a>
+                            <a onClick={() => { this.setState({ isLogout: true }) }}>Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -83,7 +89,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         to: "/admin/visualizations",
-        text: "Visualizations"
+        text: "Visualize"
     },
     {
         to: "/admin/budgets",

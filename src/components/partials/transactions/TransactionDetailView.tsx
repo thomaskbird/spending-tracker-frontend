@@ -28,10 +28,7 @@ export class TransactionDetailView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Title:
-                    </span>
+                <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width`}>
                     <span className={`${COMPONENT_NAME}__detail--value`}>
                         <h2>
                             {this.props.transaction &&
@@ -40,10 +37,7 @@ export class TransactionDetailView extends React.Component<
                     </span>
                 </div>
 
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Description:
-                    </span>
+                <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width`}>
                     <span className={`${COMPONENT_NAME}__detail--value`}>
                         {this.props.transaction &&
                             this.props.transaction.description}

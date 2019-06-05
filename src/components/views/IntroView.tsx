@@ -241,6 +241,15 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                             }
                         });
                     }
+                })
+                .catch((error) => {console.log("error", error);
+                    this.setState({
+                        errors: {
+                            error: true,
+                            type: AlertType.error,
+                            msgs: [error.message]
+                        }
+                    });
                 });
         } else {
             this.setState({

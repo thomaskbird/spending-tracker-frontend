@@ -94,8 +94,8 @@ pre {
     padding: 40px 30px;
 
     width: 70%;
-    right: -70%;
-    box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
+    right: -80%;
+    box-shadow: -1px 0 15px rgba(0, 0, 0, 0.1);
 
     &.open {
         right: 0%;
@@ -262,10 +262,18 @@ pre {
 }
 
 .DetailView {
+    display: flex;
+    flex-wrap: wrap;
+
     &__detail {
         display: flex;
-        flex-direction: column;
+        flex: 1 1 50%;
         margin-bottom: 20px;
+        flex-direction: column;
+
+        &--full-width {
+            flex: 1 1 100%;
+        }
 
         &:first-child {
             border-bottom: 1px solid $color-grey-mid;
