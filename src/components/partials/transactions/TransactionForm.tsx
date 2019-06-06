@@ -2,7 +2,7 @@ import * as React from "react";
 import "./TransactionForm.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "react-select";
-import { Switch, DatePicker } from "antd";
+import { Switch, DatePicker, Button } from "antd";
 import { TransactionWithRecurring } from "../../../services/Models";
 import moment from "moment";
 
@@ -240,18 +240,21 @@ export class TransactionForm extends React.Component<
                 </div>
 
                 <div className={"FormGroup FormGroup__inline"}>
-                    <button type="submit" className={"btn btn-primary"}>
+                    <Button
+                        type="primary"
+                        htmlType={"submit"}
+                        className={"btn btn-primary"}>
                         Submit
-                    </button>
-                    <button
-                        type="button"
+                    </Button>
+                    <Button
+                        type="default"
                         className={"btn btn-default"}
                         onClick={() => {
                             this.props.onCancel();
                         }}
                     >
                         Cancel
-                    </button>
+                    </Button>
                 </div>
             </form>
         );

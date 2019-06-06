@@ -225,6 +225,11 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                             response.data.data.user.api_token
                         );
 
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(response.data.data.user)
+                        );
+
                         axiosInstance.defaults.headers.common[
                             "Authorization"
                         ] = `Bearer ${localStorage.getItem("token")}`;

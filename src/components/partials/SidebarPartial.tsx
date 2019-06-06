@@ -3,6 +3,9 @@ import "./SidebarPartial.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, Redirect } from "react-router-dom";
+import { User } from "../../services/Models";
+import { axiosInstance } from "../../index";
+import axios from "axios";
 
 interface SidebarPartialProps {
     sidebarClass: boolean;
@@ -11,6 +14,7 @@ interface SidebarPartialProps {
 
 interface State {
     isLogout: boolean;
+    user: User | undefined;
 }
 
 const COMPONENT_NAME = "SidebarPartial";
@@ -20,13 +24,22 @@ export class SidebarPartial extends React.Component<
     State
 > {
     public static readonly displayName = "Sidebar Partial";
+    private fileInput: any;
 
     constructor(props: SidebarPartialProps, context: any) {
         super(props, context);
 
         this.state = {
-            isLogout: false
+            isLogout: false,
+            user: undefined
         };
+    }
+
+    public componentDidMount(): void {
+        const localStorageUser = localStorage.getItem("user");
+        if(localStorageUser) {
+            this.setState({ user: JSON.parse(localStorageUser)});
+        }
     }
 
     public componentDidUpdate(prevProps: Readonly<SidebarPartialProps>, prevState: Readonly<State>, snapshot?: any): void {
@@ -34,6 +47,10 @@ export class SidebarPartial extends React.Component<
     }
 
     public render(): JSX.Element {
+        const host = location.hostname;
+        const env = host === "localhost" ? `dev` : `api`;
+        const imageBaseUrl = `http://budget-${env}.thomaskbird.com`;
+
         if (this.state.isLogout) {
             return <Redirect to={"/"} />;
         }
@@ -56,15 +73,40 @@ export class SidebarPartial extends React.Component<
                 </span>
 
                 <div className={`${COMPONENT_NAME}--link-container`}>
-                    <ul>
-                        {mainNavItems.map((mainNavItem, index) => {
-                            return (
-                                <li key={index}>
-                                    <Link to={mainNavItem.to}>{mainNavItem.text}</Link>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    <div className={`${COMPONENT_NAME}--link-container--top`}>
+                        <div className={`${COMPONENT_NAME}--link-container--top__profile`}>
+                            {this.state.user ? (
+                                <div className={`${COMPONENT_NAME}--link-container--top__profile--image-input`}>
+                                    <input
+                                        type={"file"}
+                                        ref={input => this.fileInput = input}
+                                        onChange={event => this.handleUpload(event)}
+                                    />
+                                    <img
+                                        src={`${imageBaseUrl}${this.state.user.profile}`}
+                                        alt={`${this.state.user.first_name} ${this.state.user.last_name}`}
+                                    />
+                                    <span
+                                        onClick={() => {
+                                            this.fileInput.click();
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={"camera"} />
+                                    </span>
+                                </div>
+                            ): (undefined)}
+                            <h2>Welcome back, {this.state.user && this.state.user.first_name}!</h2>
+                        </div>
+                        <ul>
+                            {mainNavItems.map((mainNavItem, index) => {
+                                return (
+                                    <li key={index}>
+                                        <Link to={mainNavItem.to}>{mainNavItem.text}</Link>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
 
                     <ul>
                         <li>
@@ -74,6 +116,26 @@ export class SidebarPartial extends React.Component<
                 </div>
             </div>
         );
+    }
+
+    private handleUpload(event: any):void {
+        const data = new FormData();
+        data.append("image", event.target.files[0]);
+
+        axiosInstance
+            .post(`/upload/profile`, data)
+            .then((response) => {
+                if(response.status) {
+                    localStorage.setItem(
+                        "user",
+                        JSON.stringify(response.data.data.user)
+                    );
+                    this.setState({
+                        user: response.data.data.user
+                    })
+                }
+            })
+            .catch(error => console.log("error", error));
     }
 }
 

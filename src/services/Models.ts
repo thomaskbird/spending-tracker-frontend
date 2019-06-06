@@ -40,6 +40,12 @@ export enum TaggableType {
     budget = "App\\Http\\Models\\Budget"
 }
 
+export enum UserStatusEnum {
+    active = "active",
+    unactivated = "unactivated",
+    deleted = "deleted"
+}
+
 export enum AvailableIcons {
     faAddressCard = "address-card",
     faAmbulance = "ambulance",
@@ -356,4 +362,31 @@ export interface PaginatedListResults {
     path: string | null;
     first_page_url: string | null;
     data: any;
+}
+
+export interface AccountUserPivot {
+    account_id: number;
+    user_id: number;
+}
+
+export interface Account extends Timestamps {
+    created_by: number;
+    description: string;
+    id: number;
+    pivot: AccountUserPivot;
+    account_id: number;
+    user_id: number;
+    title: string;
+}
+
+export interface User extends Timestamps {
+    accounts: Account[];
+    api_token: string;
+    email: string;
+    first_name: string;
+    id: number;
+    last_name: string;
+    reset_token: string;
+    status: UserStatusEnum;
+    profile: string;
 }
