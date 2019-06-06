@@ -110,6 +110,9 @@ export class SidebarPartial extends React.Component<
 
                     <ul>
                         <li>
+                            <Link to={"/settings"}>Settings</Link>
+                        </li>
+                        <li>
                             <a onClick={() => { this.setState({ isLogout: true }) }}>Logout</a>
                         </li>
                     </ul>
