@@ -2,6 +2,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow-scrolling: touch;
 
     .HeaderPartial {
         &--top {
@@ -115,6 +116,7 @@
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
+            overflow-scrolling: touch;
         }
 
         .SlidePanel,
