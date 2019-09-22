@@ -58,7 +58,7 @@ npm-debug.log
 out/
 
 # Project build output
-dist/
+# dist/
 dist.zip
 
 # Unit test results and coverage output
