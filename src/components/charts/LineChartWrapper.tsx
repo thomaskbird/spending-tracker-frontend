@@ -36,6 +36,8 @@ export class LineChartWrapper extends React.Component<Props, State> {
     public render(): JSX.Element {
         return (
             <LineChart
+                width={600}
+                height={300}
                 data={data}
                 margin={{top: 5, right: 30, left: 20, bottom: 5}}
             >
