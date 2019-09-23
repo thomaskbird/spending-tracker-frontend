@@ -13,8 +13,8 @@ import {
 } from "recharts";
 
 const data = [
-    {month: "September", inc: 2400, exp: 1347},
-    {month: "August", inc: 2210, exp: 1000},
+    {month: "September", income: 2400, expense: 1347},
+    {month: "August", income: 2210, expense: 1000},
 ];
 
 interface Props {
@@ -45,8 +45,8 @@ export class LineChartWrapper extends React.Component<Props, State> {
                     <CartesianGrid strokeDasharray="3 3"/>
                     <Tooltip/>
                     <Legend />
-                    <Line type="monotone" dataKey="inc" stroke="#8884d8" activeDot={{r: 8}}/>
-                    <Line type="monotone" dataKey="exp" stroke="#82ca9d" />
+                    <Line type="monotone" dataKey="income" stroke="#8884d8" activeDot={{r: 8}}/>
+                    <Line type="monotone" dataKey="expense" stroke="#82ca9d" />
                 </LineChart>
             </ResponsiveContainer>
         );
