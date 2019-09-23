@@ -1,4 +1,6 @@
 import * as React from "react";
+import "./charts.scss";
+
 import {
     ResponsiveContainer,
     LineChart,
