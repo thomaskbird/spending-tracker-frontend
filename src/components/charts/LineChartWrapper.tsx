@@ -49,8 +49,8 @@ export class LineChartWrapper extends React.Component<Props, State> {
                     <CartesianGrid strokeDasharray="3 3"/>
                     <Tooltip/>
                     <Legend />
-                    <Line type="monotone" dataKey="income" stroke="#8884d8" activeDot={{r: 8}}/>
-                    <Line type="monotone" dataKey="expense" stroke="#82ca9d" />
+                    <Line type="monotone" dataKey="income" stroke="#82ca9d" activeDot={{r: 8}}/>
+                    <Line type="monotone" dataKey="expense" stroke="#d46b6b" />
                 </LineChart>
             </ResponsiveContainer>
         );
