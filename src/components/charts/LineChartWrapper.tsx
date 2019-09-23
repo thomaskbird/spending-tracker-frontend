@@ -13,8 +13,12 @@ import {
 } from "recharts";
 
 const data = [
-    {month: "September", income: 2400, expense: 1347},
+    {month: "April", income: 1710, expense: 904},
+    {month: "May", income: 2210, expense: 2341},
+    {month: "June", income: 1710, expense: 1941},
+    {month: "July", income: 789, expense: 1000},
     {month: "August", income: 2210, expense: 1000},
+    {month: "September", income: 2400, expense: 1347},
 ];
 
 interface Props {
