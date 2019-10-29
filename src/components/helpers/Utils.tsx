@@ -3,3 +3,5 @@ export class Utils {
         return obj && obj[key];
     }
 }
+
+export const APP_DATE_FORMAT = "YYYY-MM-DD";

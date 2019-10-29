@@ -32,9 +32,6 @@ export class BudgetPanelPartial extends React.Component<
         this.state = {};
     }
 
-    public componentDidUpdate(prevProps: BudgetPanelPartialProps): void {
-    }
-
     public render(): JSX.Element {
         return (
             <div
