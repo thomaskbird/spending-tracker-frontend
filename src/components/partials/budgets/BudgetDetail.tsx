@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Budget, TaggableType } from "../../../services/Models";
+import { Budget, TaggableType, Transaction } from "../../../services/Models";
 
 import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 import { TagTracker } from "../tags/TagTracker";
+import { CompactTable } from "../CompactTable";
 
 interface BudgetDetailViewProps {
     budget: Budget;
@@ -11,6 +12,7 @@ interface BudgetDetailViewProps {
 
 interface State {
     usedBudget: number;
+    transactions: Transaction[];
 }
 
 const COMPONENT_NAME = "DetailView";
@@ -23,41 +25,41 @@ export class BudgetDetailView extends React.Component<
         super(props, context);
 
         this.state = {
-            usedBudget: 0
+            usedBudget: 0,
+            transactions: []
         };
     }
 
     public componentDidMount(): void {
         if(this.props.budget.tags) {
-            const transactions: any = [];
-            const tags = this.props.budget.tags.map(tag => {
-                return tag.transactions!.map(transaction => {
-                    transactions.push(parseFloat(transaction.amount as any));
-                });
-            });
-
-            if(transactions.length) {
-                const transactionSum = transactions.reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
-                this.setState({ usedBudget: transactionSum });
-            }
+            this.calculateUsedBudget();
         }
     }
 
     public componentDidUpdate(prevProps: Readonly<BudgetDetailViewProps>): void {
         if(prevProps.budget !== this.props.budget) {
             if(this.props.budget.tags) {
-                const transactions: any = [];
-                this.props.budget.tags.map(tag => {
-                    return tag.transactions!.map(transaction => {
-                        transactions.push(parseFloat(transaction.amount as any));
-                    });
-                });
-
-                if(transactions.length) {
-                    const transactionSum = transactions.reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
-                    this.setState({ usedBudget: transactionSum });
-                }
+                this.calculateUsedBudget();
             }
+        }
+    }
+
+    private calculateUsedBudget(): void {
+        const transactions: any = [];
+        const transactionsCalculation: any = [];
+        this.props.budget.tags!.map(tag => {
+            return tag.transactions!.map(transaction => {
+                transactionsCalculation.push(parseFloat(transaction.amount as any));
+                transactions.push(transaction);
+            });
+        });
+
+        if(transactionsCalculation.length) {
+            const transactionSum = transactionsCalculation.reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+            this.setState({
+                usedBudget: transactionSum,
+                transactions: transactions
+            });
         }
     }
 
@@ -109,6 +111,13 @@ export class BudgetDetailView extends React.Component<
                         this.props.onBudgetTagToggle();
                     }}
                 />
+
+                {this.state.transactions.length ? (
+                    <CompactTable
+                        items={this.state.transactions}
+                        headings={["title", "amount"]}
+                    />
+                ) : (undefined)}
             </div>
         );
     }
