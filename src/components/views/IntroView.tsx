@@ -1,11 +1,7 @@
 import * as React from "react";
 import "./IntroView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
-import {
-    IntroActionType,
-    ErrorDisplay,
-    AlertType
-} from "../../services/Models";
+import { AlertType, ErrorDisplay, IntroActionType } from "../../services/Models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "antd";
 import { axiosInstance } from "../../index";
@@ -202,7 +198,7 @@ export class IntroView extends React.Component<IntroViewProps, State> {
     }
 
     private handleSubmit(e: any): void {
-        if (this.state.cpassword) {
+        if (this.state.action === IntroActionType.signup) {
             this.handleSignupSubmit(e);
         } else {
             this.handleLoginSubmit(e);
