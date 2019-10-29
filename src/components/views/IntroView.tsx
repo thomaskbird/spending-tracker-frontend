@@ -287,7 +287,11 @@ export class IntroView extends React.Component<IntroViewProps, State> {
                                     msgs: [
                                         "Your account has been created, check your email for verification link!"
                                     ]
-                                }
+                                },
+                                email: "",
+                                password: "",
+                                cpassword: "",
+                                action: IntroActionType.login
                             });
                         }
                     })
