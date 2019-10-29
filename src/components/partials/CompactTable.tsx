@@ -4,6 +4,7 @@ import "./CompactTable.scss";
 interface CompactTableProps {
     items: any[];
     headings: string[];
+    maxHeight?: number;
 }
 
 interface State {
@@ -53,7 +54,7 @@ export class CompactTable extends React.Component<CompactTableProps, State> {
                     ))}
                 </div>
 
-                <div className={`${COMPONENT_NAME}__body`}>
+                <div className={`${COMPONENT_NAME}__body`} style={{ maxHeight: this.props.maxHeight ? this.props.maxHeight : 250 }}>
                     {this.state.items.map((item, rowIndex) => (
                         <div className={`${COMPONENT_NAME}__row`} key={rowIndex}>
                             {item.map((column: string, columnIndex: number) => (
