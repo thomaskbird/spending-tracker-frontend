@@ -59,7 +59,6 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                                 action: PanelActionTypes,
                                 budget
                             ) => {
-                                console.log(action, budget);
                                 this.toggleBudgetPanel(true, action, budget);
                             }}
                             onReady={(api: BudgetListView.Api) => {
