@@ -14,6 +14,7 @@ import { HeaderPartial } from "../partials/HeaderPartial";
 import { axiosInstance } from "../../index";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { TransactionPanelPartial } from "../partials/transactions/TransactionPanelPartial";
+import { APP_DATE_FORMAT } from "../helpers/Utils";
 
 interface TransactionViewProps {}
 
@@ -54,8 +55,6 @@ export class TransactionView extends React.Component<
     }
 
     public render(): JSX.Element {
-        const DATE_FORMAT = "YYYY-MM-DD";
-
         return (
             <div className={COMPONENT_NAME}>
                 <HeaderPartial
@@ -76,8 +75,8 @@ export class TransactionView extends React.Component<
                 <div className={"BodyPartial"}>
                     <div className={"route--viewport"}>
                         <TransactionListView
-                            start={this.state.range.start.format(DATE_FORMAT)}
-                            end={this.state.range.end.format(DATE_FORMAT)}
+                            start={this.state.range.start.format(APP_DATE_FORMAT)}
+                            end={this.state.range.end.format(APP_DATE_FORMAT)}
                             onTransactionAction={(
                                 action: PanelActionTypes,
                                 transaction

@@ -3,6 +3,7 @@ import { NoData } from "../../helpers/NoData";
 import { Budget, DateRange } from "src/services/Models";
 import { axiosInstance } from "src/index";
 import { BudgetListItem } from "src/components/partials/budgets/BudgetListItem";
+import moment from "moment";
 import { APP_DATE_FORMAT } from "../../helpers/Utils";
 
 interface BudgetListViewProps {
@@ -13,6 +14,7 @@ interface BudgetListViewProps {
 
 interface State {
     budgets: Budget[] | undefined;
+    range: DateRange;
 }
 
 const COMPONENT_NAME = "BudgetListView";
@@ -27,7 +29,11 @@ export class BudgetListView extends React.Component<
         super(props, context);
 
         this.state = {
-            budgets: undefined
+            budgets: undefined,
+            range: {
+                start: moment().startOf("month"),
+                end: moment()
+            }
         };
     }
 
@@ -86,7 +92,7 @@ export class BudgetListView extends React.Component<
             budgets: undefined
         });
 
-        axiosInstance.get(`/budgets/${this.props.range.start.format(APP_DATE_FORMAT)}/${this.props.range.end.format(APP_DATE_FORMAT)}`).then((response) => {
+        axiosInstance.get(`/budgets/${this.state.range.start.format(APP_DATE_FORMAT)}/${this.state.range.end.format(APP_DATE_FORMAT)}`).then((response) => {
             if(response.data.status) {
                 this.setState({
                     budgets: response.data.data.budgets.length !== 0 ? response.data.data.budgets : []

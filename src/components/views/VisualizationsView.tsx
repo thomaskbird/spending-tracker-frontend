@@ -3,6 +3,7 @@ import "./VisualizationsView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { LineChartWrapper } from "../charts/LineChartWrapper";
 
 interface Props {
 
@@ -67,6 +68,8 @@ export class VisualizationsView extends React.Component<Props, State> {
                                                 <Link to={baseUrl}>Back</Link>
 
                                                 <p>This will be for information in regards to the current month, income vs expenses, indicators for budgets and percentage used</p>
+
+                                                <LineChartWrapper />
                                             </>
                                         );
                                     }}

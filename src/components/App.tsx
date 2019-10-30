@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./App.scss";
-import { Route, Switch } from "react-router";
 
 import { ShellView } from "./partials/ShellView";
 
@@ -474,9 +473,7 @@ export class App extends React.Component<AppProps, State> {
 
     public render(): JSX.Element {
         return (
-            <Switch>
-                <Route path={"*"} component={ShellView} />
-            </Switch>
+            <ShellView />
         );
     }
 }
