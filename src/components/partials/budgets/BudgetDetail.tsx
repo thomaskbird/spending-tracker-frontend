@@ -8,13 +8,13 @@ import { CompactTable } from "../CompactTable";
 
 interface BudgetDetailViewProps {
     budget: Budget;
+    transactions: Transaction[];
     onBudgetTagToggle(): void;
     onPaginationClick?(direction: string): void;
 }
 
 interface State {
     usedBudget: number;
-    transactions: Transaction[];
 }
 
 const COMPONENT_NAME = "DetailView";
@@ -27,40 +27,29 @@ export class BudgetDetailView extends React.Component<
         super(props, context);
 
         this.state = {
-            usedBudget: 0,
-            transactions: []
+            usedBudget: 0
         };
     }
 
     public componentDidMount(): void {
-        if(this.props.budget.tags) {
+        this.calculateUsedBudget();
+    }
+
+    public componentDidUpdate(prevProps: Readonly<BudgetDetailViewProps>): void {
+        if(!_.isEqual(prevProps.transactions, this.props.transactions)) {
             this.calculateUsedBudget();
         }
     }
 
-    public componentDidUpdate(prevProps: Readonly<BudgetDetailViewProps>): void {
-        if(!_.isEqual(prevProps.budget, this.props.budget)) {
-            if(this.props.budget.tags) {
-                this.calculateUsedBudget();
-            }
-        }
-    }
-
     private calculateUsedBudget(): void {
-        const transactions: any = [];
-        const transactionsCalculation: any = [];
-        this.props.budget.tags!.map(tag => {
-            return tag.transactions!.map(transaction => {
-                transactionsCalculation.push(parseFloat(transaction.amount as any));
-                transactions.push(transaction);
-            });
-        });
-
-        if(transactionsCalculation.length) {
-            const transactionSum = transactionsCalculation.reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+        if(this.props.transactions.length) {
+            const transactionSum = this.props.transactions && this.props.transactions.map(transaction => transaction.amount).reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
             this.setState({
                 usedBudget: transactionSum,
-                transactions: transactions
+            });
+        } else {
+            this.setState({
+                usedBudget: 0,
             });
         }
     }
@@ -130,12 +119,12 @@ export class BudgetDetailView extends React.Component<
                     }}
                 />
 
-                {this.state.transactions.length ? (
+                {this.props.transactions && this.props.transactions.length ? (
                     <CompactTable
-                        items={this.state.transactions}
+                        items={this.props.transactions}
                         headings={["title", "amount"]}
                     />
-                ) : (undefined)}
+                ) : (<p>No current transactions...</p>)}
             </div>
         );
     }

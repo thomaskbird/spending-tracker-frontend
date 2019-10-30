@@ -87,7 +87,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                             this.closeSlidePanels();
                         }}
                         budgetActionType={this.state.budgetActionType}
-                        budget={this.state.budget}
+                        budgetId={this.state.budget && this.state.budget.id}
                         onReady={(api) => {
                             this.formBudgetAddApi = api;
                         }}
@@ -100,29 +100,10 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                         onBudgetTagToggle={() => {
                             this.listApi!.refreshData();
                         }}
-                        onPaginationClick={(direction) => this.handlePaginationClick(direction)}
                     />
                 </div>
             </div>
         );
-    }
-
-    private handlePaginationClick(direction: string): void {
-        if(direction === "previous") {
-            this.setState({
-                range: {
-                    start: moment().subtract(1, "month").startOf("month"),
-                    end: moment().subtract(1, "month").endOf("month")
-                }
-            });
-        } else {
-            this.setState({
-                range: {
-                    start: moment().add(1, "month").startOf("month"),
-                    end: moment().add(1, "month").endOf("month")
-                }
-            });
-        }
     }
 
     /**

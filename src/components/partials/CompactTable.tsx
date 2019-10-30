@@ -1,4 +1,5 @@
 import * as React from "react";
+import _ from "lodash";
 import "./CompactTable.scss";
 
 interface CompactTableProps {
@@ -25,6 +26,16 @@ export class CompactTable extends React.Component<CompactTableProps, State> {
     }
 
     public componentDidMount(): void {
+        this.refreshData();
+    }
+
+    public componentDidUpdate(prevProps: Readonly<CompactTableProps>): void {
+        if(!_.isEqual(prevProps.items, this.props.items)) {
+            this.refreshData();
+        }
+    }
+
+    private refreshData(): void {
         const items: any = [];
 
         this.props.items.map(item => {
