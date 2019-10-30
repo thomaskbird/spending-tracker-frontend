@@ -5,12 +5,13 @@ import { RouteComponentProps } from "react-router";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { BudgetListView } from "src/components/partials/budgets/BudgetListView";
 import {
-    Budget,
-    PanelActionTypes,
+    Budget, DateRange,
+    PanelActionTypes
 } from "src/services/Models";
 import { BudgetPanelPartial } from "src/components/partials/budgets/BudgetPanelPartial";
 import { BudgetForm } from "src/components/partials/budgets/BudgetForm";
 import { axiosInstance } from "src/index";
+import moment from "moment";
 
 interface BudgetViewProps extends RouteComponentProps<any> {}
 
@@ -18,7 +19,8 @@ interface State {
     isSidebarOpen: boolean;
     isAddBudgetOpen: boolean;
     budgetActionType: PanelActionTypes | undefined;
-    budgetToEdit: Budget | undefined;
+    budget: Budget | undefined;
+    range: DateRange;
 }
 
 const COMPONENT_NAME = "BudgetView";
@@ -35,8 +37,12 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
         this.state = {
             isSidebarOpen: false,
             isAddBudgetOpen: false,
-            budgetToEdit: undefined,
-            budgetActionType: undefined
+            budget: undefined,
+            budgetActionType: undefined,
+            range: {
+                start: moment().startOf("month"),
+                end: moment()
+            }
         };
     }
 
@@ -64,6 +70,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                             onReady={(api: BudgetListView.Api) => {
                                 this.listApi = api;
                             }}
+                            range={this.state.range}
                         />
                     </div>
 
@@ -80,7 +87,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                             this.closeSlidePanels();
                         }}
                         budgetActionType={this.state.budgetActionType}
-                        budgetToEdit={this.state.budgetToEdit}
+                        budget={this.state.budget}
                         onReady={(api) => {
                             this.formBudgetAddApi = api;
                         }}
@@ -93,10 +100,29 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                         onBudgetTagToggle={() => {
                             this.listApi!.refreshData();
                         }}
+                        onPaginationClick={(direction) => this.handlePaginationClick(direction)}
                     />
                 </div>
             </div>
         );
+    }
+
+    private handlePaginationClick(direction: string): void {
+        if(direction === "previous") {
+            this.setState({
+                range: {
+                    start: moment().subtract(1, "month").startOf("month"),
+                    end: moment().subtract(1, "month").endOf("month")
+                }
+            });
+        } else {
+            this.setState({
+                range: {
+                    start: moment().add(1, "month").startOf("month"),
+                    end: moment().add(1, "month").endOf("month")
+                }
+            });
+        }
     }
 
     /**
@@ -113,10 +139,10 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
         };
 
         // Determine if this is an edit action
-        if (this.state.budgetToEdit) {
-            apiUrl = `/budgets/${this.state.budgetToEdit.id}`;
+        if (this.state.budget) {
+            apiUrl = `/budgets/${this.state.budget.id}`;
             formattedData = {
-                ...this.state.budgetToEdit,
+                ...this.state.budget,
                 ...formattedData
             };
         }
@@ -165,7 +191,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
             isSidebarOpen: false,
             isAddBudgetOpen: isOpen,
             budgetActionType: actionType,
-            budgetToEdit: budget
+            budget: budget
         });
     }
 

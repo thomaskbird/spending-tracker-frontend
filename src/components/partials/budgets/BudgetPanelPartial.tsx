@@ -9,11 +9,12 @@ interface BudgetPanelPartialProps {
     isAddBudgetOpen: boolean;
     onClose(): void;
     budgetActionType: PanelActionTypes | undefined;
-    budgetToEdit: Budget | undefined;
+    budget: Budget | undefined;
     onReady(api: BudgetForm.Api): void;
     onBudgetAdd(formData: any): void;
     onToggleBudgetPanel(): void;
     onBudgetTagToggle(): void;
+    onPaginationClick?(direction: string): void;
 }
 
 interface State {}
@@ -55,7 +56,7 @@ export class BudgetPanelPartial extends React.Component<
 
                 {this.props.budgetActionType !== "view" ? (
                     <BudgetForm
-                        budget={this.props.budgetToEdit}
+                        budget={this.props.budget}
                         onReady={(api) => {
                             this.props.onReady(api);
                         }}
@@ -68,10 +69,9 @@ export class BudgetPanelPartial extends React.Component<
                     />
                 ) : (
                     <BudgetDetailView
-                        budget={this.props.budgetToEdit!}
-                        onBudgetTagToggle={() => {
-                            this.props.onBudgetTagToggle();
-                        }}
+                        budget={this.props.budget!}
+                        onBudgetTagToggle={() => this.props.onBudgetTagToggle()}
+                        onPaginationClick={(direction) => this.props.onPaginationClick && this.props.onPaginationClick(direction)}
                     />
                 )}
             </div>

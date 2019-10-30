@@ -1,12 +1,14 @@
 import * as React from "react";
 import { NoData } from "../../helpers/NoData";
-import { Budget, TransactionWithRecurring } from "src/services/Models";
+import { Budget, DateRange } from "src/services/Models";
 import { axiosInstance } from "src/index";
 import { BudgetListItem } from "src/components/partials/budgets/BudgetListItem";
+import { APP_DATE_FORMAT } from "../../helpers/Utils";
 
 interface BudgetListViewProps {
     onReady(api: BudgetListView.Api): void;
     onBudgetAction(action: string, budget: Budget): void;
+    range: DateRange;
 }
 
 interface State {
@@ -39,6 +41,12 @@ export class BudgetListView extends React.Component<
         };
 
         this.props.onReady(api);
+    }
+
+    public componentDidUpdate(prevProps: Readonly<BudgetListViewProps>): void {
+        if(prevProps.range !== this.props.range) {
+            this.refreshBudgets();
+        }
     }
 
     public render(): JSX.Element {
@@ -78,7 +86,7 @@ export class BudgetListView extends React.Component<
             budgets: undefined
         });
 
-        axiosInstance.get(`/budgets`).then((response) => {
+        axiosInstance.get(`/budgets/${this.props.range.start.format(APP_DATE_FORMAT)}/${this.props.range.end.format(APP_DATE_FORMAT)}`).then((response) => {
             if(response.data.status) {
                 this.setState({
                     budgets: response.data.data.budgets.length !== 0 ? response.data.data.budgets : []

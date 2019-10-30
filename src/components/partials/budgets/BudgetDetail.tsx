@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Budget, TaggableType, Transaction } from "../../../services/Models";
+import _ from "lodash";
 
+import { Budget, TaggableType, Transaction } from "../../../services/Models";
 import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 import { TagTracker } from "../tags/TagTracker";
 import { CompactTable } from "../CompactTable";
@@ -8,6 +9,7 @@ import { CompactTable } from "../CompactTable";
 interface BudgetDetailViewProps {
     budget: Budget;
     onBudgetTagToggle(): void;
+    onPaginationClick?(direction: string): void;
 }
 
 interface State {
@@ -37,7 +39,7 @@ export class BudgetDetailView extends React.Component<
     }
 
     public componentDidUpdate(prevProps: Readonly<BudgetDetailViewProps>): void {
-        if(prevProps.budget !== this.props.budget) {
+        if(!_.isEqual(prevProps.budget, this.props.budget)) {
             if(this.props.budget.tags) {
                 this.calculateUsedBudget();
             }
@@ -66,6 +68,22 @@ export class BudgetDetailView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
+                <div className={`${COMPONENT_NAME}__pagination pagination`}>
+                    <button
+                        type={"button"}
+                        className={"pagination__button"}
+                        onClick={() => this.props.onPaginationClick && this.props.onPaginationClick("previous")}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        type={"button"}
+                        className={"pagination__button"}
+                        onClick={() => this.props.onPaginationClick && this.props.onPaginationClick("next")}
+                    >
+                        Next
+                    </button>
+                </div>
                 <div className={`${COMPONENT_NAME}__detail`}>
                     <span className={`${COMPONENT_NAME}__detail--label`}>
                         Title:

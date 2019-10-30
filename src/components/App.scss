@@ -264,6 +264,7 @@ pre {
 .DetailView {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
 
     &__detail {
         display: flex;
