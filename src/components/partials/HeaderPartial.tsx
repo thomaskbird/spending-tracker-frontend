@@ -8,6 +8,7 @@ import moment from "moment";
 const { RangePicker } = DatePicker;
 
 import { DateRange, PanelActionTypes } from "../../services/Models";
+import { APP_DATE_FORMAT } from "../helpers/Utils";
 
 interface HeaderPartialProps {
     /**
@@ -37,6 +38,7 @@ interface State {
      * The range to initially set the rangpicker to
      */
     range: DateRange;
+    rangePickerArr: any[];
 }
 
 const COMPONENT_NAME = "HeaderPartial";
@@ -49,13 +51,12 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
 
         this.state = {
             range: {
-                start: moment().subtract(1, "month"),
-                end: moment()
-            }
+                start: moment().startOf("month"),
+                end: moment().endOf("month")
+            },
+            rangePickerArr: [moment().startOf("month"), moment().endOf("month")]
         };
     }
-
-    private DATE_FORMAT = "YYYY-MM-DD";
 
     public render(): JSX.Element {
         return (
@@ -91,25 +92,71 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                     )}
                 </div>
                 {this.props.onDateRangeChange ? (
-                    <div className={"HeaderPartial--bottom"}>
-                        <RangePicker
-                            defaultValue={[
-                                this.state.range.start,
-                                this.state.range.end
-                            ]}
-                            format={this.DATE_FORMAT}
-                            onChange={(dates, dateStrings) => {
-                                this.props.onDateRangeChange!({
-                                    start: dates[0],
-                                    end: dates[1]
-                                });
-                            }}
-                        />
-                    </div>
+                    <>
+                        <div className={"HeaderPartial--bottom"}>
+                            <button
+                                type={"button"}
+                                className={"pagination__button"}
+                                onClick={() => this.handlePaginationClick("previous")}
+                            >
+                                <FontAwesomeIcon icon={"chevron-left"} />
+                            </button>
+                            <RangePicker
+                                defaultValue={this.state.rangePickerArr}
+                                value={this.state.rangePickerArr}
+                                format={APP_DATE_FORMAT}
+                                onChange={(dates, dateStrings) => {
+                                    this.props.onDateRangeChange!({
+                                        start: dates[0],
+                                        end: dates[1]
+                                    });
+                                }}
+                            />
+                            <button
+                                type={"button"}
+                                className={"pagination__button"}
+                                onClick={() => this.handlePaginationClick("next")}
+                            >
+                                <FontAwesomeIcon icon={"chevron-right"} />
+                            </button>
+                        </div>
+                        <div className={"HeaderPartial--bottom"}>
+                            {moment(this.state.range && this.state.range.start).format("MMMM, YYYY")}
+                        </div>
+                    </>
                 ) : (
                     undefined
                 )}
             </div>
         );
+    }
+
+    private handlePaginationClick(direction: string): void {
+        const newDates: any = [];
+
+        if(direction === "previous") {
+            newDates.push(
+                moment(this.state.range.start).subtract(1, "month").startOf("month"),
+                moment(this.state.range.start).subtract(1, "month").endOf("month")
+            );
+        } else {
+            newDates.push(
+                moment(this.state.range.start).add(1, "month").startOf("month"),
+                moment(this.state.range.start).add(1, "month").endOf("month")
+            );
+        }
+
+        this.setState({
+            range: {
+                start: newDates[0],
+                end: newDates[1]
+            },
+            rangePickerArr: newDates
+        }, () => {
+            this.props.onDateRangeChange!({
+                start: newDates[0],
+                end: newDates[1]
+            });
+        });
     }
 }
