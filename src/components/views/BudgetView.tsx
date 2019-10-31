@@ -135,6 +135,10 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
             })
             .then((response) => {
                 if (response.status) {
+                    this.setState({
+                        budget: undefined,
+                        budgetActionType: undefined,
+                    });
                     this.listApi!.refreshData();
                     this.closeSlidePanels();
                     this.formBudgetAddApi!.clearData();
