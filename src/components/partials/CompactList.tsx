@@ -1,7 +1,7 @@
 import * as React from "react";
 import _ from "lodash";
 import "./CompactList.scss";
-import { TransactionType } from "../../services/Models";
+import { mapCollectionToArray } from "../helpers/Utils";
 
 interface CompactListProps {
     items: any[];
@@ -37,22 +37,7 @@ export class CompactList extends React.Component<CompactListProps, State> {
     }
 
     private refreshData(): void {
-        const items: any = [];
-
-        this.props.items.map(item => {
-            const itemToAdd: any = [];
-            this.props.headings.map(title => {
-                if(title === "amount") {
-                    itemToAdd.push(`$${item[title]}`);
-                } else {
-                    itemToAdd.push(item[title]);
-                }
-            });
-
-            items.push(itemToAdd);
-        });
-
-        this.setState({ items: items });
+        this.setState({ items: mapCollectionToArray(this.props.items, this.props.headings) });
     }
 
     public render(): JSX.Element {
@@ -62,20 +47,27 @@ export class CompactList extends React.Component<CompactListProps, State> {
                     Transactions
                 </div>
                 <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`} />
+                <div
+                    className={`${COMPONENT_NAME}__detail--list__body-item ${COMPONENT_NAME}__detail--list__body--header`}
+                >
+                    {this.props.headings && this.props.headings.map((title, index) => (
+                        <div className={`${COMPONENT_NAME}__column ${COMPONENT_NAME}`} key={index}>
+                            {title}
+                        </div>
+                    ))}
+                </div>
                 <div className={`${COMPONENT_NAME}__detail--list__body`}>
-                    {this.props.tag.transactions.map((transaction, index) => {
+                    {this.state.items.map((item, itemIndex) => {console.log("item", item);
                         return (
                             <div
-                                key={index}
+                                key={itemIndex}
                                 className={`${COMPONENT_NAME}__detail--list__body-item`}
                             >
-                                <span>
-                                    <b>{transaction.title}</b><br/>
-                                    {transaction.description}
-                                </span>
-                                <span>
-                                    {transaction.type === TransactionType.income ? "+" : "-"}{" "}{transaction.amount}
-                                </span>
+                                {this.props.headings.map((heading, headingIndex) => (
+                                    <span key={headingIndex}>
+                                        {item[headingIndex]}
+                                    </span>
+                                ))}
                             </div>
                         );
                     })}

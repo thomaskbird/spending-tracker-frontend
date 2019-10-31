@@ -1,3 +1,57 @@
 .CompactList {
+  &__detail {
+    &--list {
+      border: 1px solid $color-grey-mid;
 
+      &__header {
+        font-weight: 100;
+        padding: 10px 15px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+
+        &--border-bottom {
+          height: 3px;
+          @include backgroundGradientGenerator(#FF0C00, #FF8E38);
+        }
+      }
+
+      &__body {
+        overflow-y: auto;
+        max-height: 250px;
+        overflow-x: hidden;
+
+        &--header {
+          display: flex;
+          font-weight: 600;
+          background: #fff!important;
+
+          .CompactList {
+            flex: 1;
+            text-transform: capitalize;
+          }
+        }
+
+        &-item {
+          display: flex;
+          font-size: .8rem;
+          padding: 5px 15px;
+          border-bottom: 1px solid $color-grey-white;
+
+          & span {
+            flex: 1;
+            color: $color-grey;
+
+            b {
+              text-transform: capitalize;
+              color: $color-grey-dark-mid;
+            }
+          }
+
+          &:nth-child(2n+1) {
+            background: lighten($color-grey-white, 2%);
+          }
+        }
+      }
+    }
+  }
 }

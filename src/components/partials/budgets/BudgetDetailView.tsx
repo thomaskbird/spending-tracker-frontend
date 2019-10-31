@@ -6,6 +6,7 @@ import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 import { TagTracker } from "../tags/TagTracker";
 import { CompactTable } from "../CompactTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CompactList } from "../CompactList";
 
 interface BudgetDetailViewProps {
     budget: Budget;
@@ -118,10 +119,12 @@ export class BudgetDetailView extends React.Component<
                 />
 
                 {this.props.transactions && this.props.transactions.length ? (
-                    <CompactTable
-                        items={this.props.transactions}
-                        headings={["title", "amount", "type", "occurred_at"]}
-                    />
+                    <>
+                        <CompactList
+                            items={this.props.transactions}
+                            headings={["title", "amount", "type", "occurred_at"]}
+                        />
+                    </>
                 ) : (<p>No current transactions...</p>)}
             </div>
         );
