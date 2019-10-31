@@ -112,9 +112,19 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
 
         // Determine if this is an edit action
         if (this.state.budget) {
+            const formattedBudget = this.state.budget;
+
+            delete formattedBudget.tags;
+            console.log("formattedBudget", formattedBudget);
+
             apiUrl = `/budgets/${this.state.budget.id}`;
             formattedData = {
-                ...this.state.budget,
+                ...formattedBudget,
+                ...formattedData
+            };
+        } else {
+            formattedData = {
+                ...this.state.budget as any,
                 ...formattedData
             };
         }
