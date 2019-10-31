@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, Redirect } from "react-router-dom";
 import { User } from "../../services/Models";
 import { axiosInstance } from "../../index";
-import axios from "axios";
 
 interface SidebarPartialProps {
     sidebarClass: boolean;
@@ -110,7 +109,7 @@ export class SidebarPartial extends React.Component<
 
                     <ul>
                         <li>
-                            <Link to={"/settings"}>Settings</Link>
+                            <Link to={"/admin/settings"}>Settings</Link>
                         </li>
                         <li>
                             <a onClick={() => { this.setState({ isLogout: true }) }}>Logout</a>

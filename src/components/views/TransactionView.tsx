@@ -27,7 +27,7 @@ interface State {
     transactionActionType: PanelActionTypes | undefined;
 }
 
-const COMPONENT_NAME = "View";
+const COMPONENT_NAME = "TransactionView";
 
 export class TransactionView extends React.Component<
     TransactionViewProps,
@@ -56,7 +56,7 @@ export class TransactionView extends React.Component<
 
     public render(): JSX.Element {
         return (
-            <div className={COMPONENT_NAME}>
+            <div className={`${COMPONENT_NAME} PageView`}>
                 <HeaderPartial
                     onToggleSidebar={() => {
                         this.toggleSidebarPanel(true);

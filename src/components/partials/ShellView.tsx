@@ -10,6 +10,7 @@ import { VisualizationsView } from "../views/VisualizationsView";
 import { ForgotPasswordView } from "../views/ForgotPasswordView";
 import { ResetPasswordView } from "../views/ResetPasswordView";
 import { NotFoundView } from "../views/NotFoundView";
+import { SettingsView } from "./SettingsView";
 
 interface ShellViewProps extends RouteProps {}
 
@@ -51,7 +52,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
     public render(): JSX.Element {
         return (
             <Switch>
-                <>
+
                     <Route
                         exact={true}
                         path={"/"}
@@ -78,6 +79,10 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                         component={VisualizationsView}
                     />
                     <Route
+                        path={"/admin/settings"}
+                        component={SettingsView}
+                    />
+                    <Route
                         path={"/admin"}
                         component={TransactionView}
                     />
@@ -88,7 +93,7 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                     <Route
                         component={NotFoundView}
                     />
-                </>
+
             </Switch>
         );
     }
