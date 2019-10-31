@@ -9,7 +9,7 @@ import {
     PanelActionTypes,
     Transaction
 } from "../../../services/Models";
-import { BudgetDetailView } from "src/components/partials/budgets/BudgetDetail";
+import { BudgetDetailView } from "src/components/partials/budgets/BudgetDetailView";
 import { axiosInstance } from "../../../index";
 import { APP_DATE_FORMAT } from "../../helpers/Utils";
 import moment from "moment";
@@ -28,6 +28,7 @@ interface BudgetPanelPartialProps {
 interface State {
     budget: Budget | undefined;
     budgetTransactions: Transaction[];
+    monthDisplay: any;
     range: DateRange;
 }
 
@@ -45,6 +46,7 @@ export class BudgetPanelPartial extends React.Component<
         this.state = {
             budget: undefined,
             budgetTransactions: [],
+            monthDisplay: moment().startOf("month"),
             range: {
                 start: moment().startOf("month"),
                 end: moment()
@@ -63,7 +65,7 @@ export class BudgetPanelPartial extends React.Component<
     }
 
     private refreshBudgetData(): void {
-        if(this.props.budgetId) {console.log(`/budgets/${this.props.budgetId}/${this.state.range.start.format(APP_DATE_FORMAT)}/${this.state.range.end.format(APP_DATE_FORMAT)}`);
+        if(this.props.budgetId !== undefined) {
             axiosInstance.get(`/budgets/${this.props.budgetId}/${this.state.range.start.format(APP_DATE_FORMAT)}/${this.state.range.end.format(APP_DATE_FORMAT)}`).then((response) => {
                 if(response.data.status) {
                     this.setState({
@@ -106,17 +108,16 @@ export class BudgetPanelPartial extends React.Component<
                     <BudgetDetailView
                         budget={this.state.budget}
                         transactions={this.state.budgetTransactions}
+                        monthDisplay={this.state.monthDisplay}
                         onBudgetTagToggle={() => this.props.onBudgetTagToggle()}
                         onPaginationClick={(direction) => this.handlePaginationClick(direction)}
                     />
                 );
-            } else {
-                returnMarkup = undefined;
             }
         } else {
             returnMarkup = (
                 <BudgetForm
-                    budget={this.state.budget}
+                    budget={this.props.budgetId ? this.state.budget : undefined}
                     onReady={(api) => {
                         this.props.onReady(api);
                     }}
@@ -136,6 +137,7 @@ export class BudgetPanelPartial extends React.Component<
     private handlePaginationClick(direction: string): void {
         if(direction === "previous") {
             this.setState({
+                monthDisplay: moment(this.state.range.start).subtract(1, "month").startOf("month"),
                 range: {
                     start: moment(this.state.range.start).subtract(1, "month").startOf("month"),
                     end: moment(this.state.range.start).subtract(1, "month").endOf("month")
@@ -145,6 +147,7 @@ export class BudgetPanelPartial extends React.Component<
             });
         } else {
             this.setState({
+                monthDisplay: moment(this.state.range.start).add(1, "month").startOf("month"),
                 range: {
                     start: moment(this.state.range.start).add(1, "month").startOf("month"),
                     end: moment(this.state.range.start).add(1, "month").endOf("month")

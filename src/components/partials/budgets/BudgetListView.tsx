@@ -105,7 +105,6 @@ export class BudgetListView extends React.Component<
         axiosInstance
             .get(`/budgets/remove/${budget.id}`)
             .then((response) => {
-                console.log("response", response);
                 this.refreshBudgets();
             })
             .catch((error) => console.log("Error", error));

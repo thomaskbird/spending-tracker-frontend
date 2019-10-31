@@ -1,6 +1,7 @@
 import * as React from "react";
 import _ from "lodash";
 import "./CompactTable.scss";
+import { mapCollectionToArray } from "../helpers/Utils";
 
 interface CompactTableProps {
     items: any[];
@@ -36,22 +37,7 @@ export class CompactTable extends React.Component<CompactTableProps, State> {
     }
 
     private refreshData(): void {
-        const items: any = [];
-
-        this.props.items.map(item => {
-            const itemToAdd: any = [];
-            this.props.headings.map(title => {
-                if(title === "amount") {
-                    itemToAdd.push(`$${item[title]}`);
-                } else {
-                    itemToAdd.push(item[title]);
-                }
-            });
-
-            items.push(itemToAdd);
-        });
-
-        this.setState({ items: items });
+        this.setState({ items: mapCollectionToArray(this.props.items, this.props.headings) });
     }
 
     public render(): JSX.Element {

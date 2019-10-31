@@ -1,4 +1,5 @@
 import * as React from "react";
+import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Budget } from "../../../services/Models";
 import { IconPicker } from "../IconPicker";
@@ -53,7 +54,7 @@ export class BudgetForm extends React.Component<BudgetFormProps, State> {
     }
 
     public componentDidUpdate(prevProps: BudgetFormProps): void {
-        if (prevProps.budget !== this.props.budget) {
+        if (!_.isEqual(prevProps.budget, this.props.budget)) {
             this.setState({
                 title: (this.props.budget && this.props.budget.title) || "",
                 amount: (this.props.budget && this.props.budget.amount) || 0,

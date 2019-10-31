@@ -4,10 +4,7 @@ import { HeaderPartial } from "../partials/HeaderPartial";
 import { RouteComponentProps } from "react-router";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { BudgetListView } from "src/components/partials/budgets/BudgetListView";
-import {
-    Budget, DateRange,
-    PanelActionTypes
-} from "src/services/Models";
+import { Budget, DateRange, PanelActionTypes } from "src/services/Models";
 import { BudgetPanelPartial } from "src/components/partials/budgets/BudgetPanelPartial";
 import { BudgetForm } from "src/components/partials/budgets/BudgetForm";
 import { axiosInstance } from "src/index";
@@ -53,9 +50,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                     onToggleSidebar={() => {
                         this.toggleSidebarPanel(true);
                     }}
-                    onToggleContextPanel={(isOpen, actionType) => {
-                        this.toggleBudgetPanel(isOpen, actionType);
-                    }}
+                    onToggleContextPanel={(isOpen, actionType) => this.toggleBudgetPanel(isOpen, actionType, undefined)}
                 />
 
                 <div className={"BodyPartial"}>
@@ -64,9 +59,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                             onBudgetAction={(
                                 action: PanelActionTypes,
                                 budget
-                            ) => {
-                                this.toggleBudgetPanel(true, action, budget);
-                            }}
+                            ) => this.toggleBudgetPanel(true, action, budget)}
                             onReady={(api: BudgetListView.Api) => {
                                 this.listApi = api;
                             }}
@@ -94,9 +87,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                         onBudgetAdd={(formData) => {
                             this.budgetAdd(formData);
                         }}
-                        onToggleBudgetPanel={() => {
-                            this.toggleBudgetPanel(false, undefined, undefined);
-                        }}
+                        onToggleBudgetPanel={() => this.toggleBudgetPanel(false, undefined, undefined)}
                         onBudgetTagToggle={() => {
                             this.listApi!.refreshData();
                         }}
@@ -133,16 +124,13 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                 ...formattedData
             })
             .then((response) => {
-                console.log("success", response);
                 if (response.status) {
                     this.listApi!.refreshData();
                     this.closeSlidePanels();
                     this.formBudgetAddApi!.clearData();
                 }
             })
-            .catch((error) => {
-                console.log("error", error);
-            });
+            .catch((error) => console.log("error", error));
     }
 
     /**

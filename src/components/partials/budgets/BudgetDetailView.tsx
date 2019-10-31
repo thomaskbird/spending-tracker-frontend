@@ -5,9 +5,11 @@ import { Budget, TaggableType, Transaction } from "../../../services/Models";
 import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 import { TagTracker } from "../tags/TagTracker";
 import { CompactTable } from "../CompactTable";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface BudgetDetailViewProps {
     budget: Budget;
+    monthDisplay: any;
     transactions: Transaction[];
     onBudgetTagToggle(): void;
     onPaginationClick?(direction: string): void;
@@ -17,7 +19,8 @@ interface State {
     usedBudget: number;
 }
 
-const COMPONENT_NAME = "DetailView";
+const COMPONENT_NAME = "BudgetDetailView";
+const COMPONENT_CLASS_NAME = "DetailView";
 
 export class BudgetDetailView extends React.Component<
     BudgetDetailViewProps,
@@ -56,30 +59,25 @@ export class BudgetDetailView extends React.Component<
 
     public render(): JSX.Element {
         return (
-            <div className={COMPONENT_NAME}>
-                <div className={`${COMPONENT_NAME}__pagination pagination`}>
+            <div className={COMPONENT_CLASS_NAME}>
+                <div className={`${COMPONENT_CLASS_NAME}__pagination pagination`}>
                     <button
                         type={"button"}
                         className={"pagination__button"}
                         onClick={() => this.props.onPaginationClick && this.props.onPaginationClick("previous")}
                     >
-                        Previous
+                        <FontAwesomeIcon icon={"chevron-left"} />
                     </button>
+                    <h2 className={`${COMPONENT_CLASS_NAME}__pagination--current`}>
+                        {this.props.monthDisplay.format("MMMM, YYYY")}
+                    </h2>
                     <button
                         type={"button"}
                         className={"pagination__button"}
                         onClick={() => this.props.onPaginationClick && this.props.onPaginationClick("next")}
                     >
-                        Next
+                        <FontAwesomeIcon icon={"chevron-right"} />
                     </button>
-                </div>
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Title:
-                    </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
-                        <h2>{this.props.budget && this.props.budget.title}</h2>
-                    </span>
                 </div>
 
                 <BudgetDial
@@ -91,20 +89,20 @@ export class BudgetDetailView extends React.Component<
                     }}
                 />
 
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
+                <div className={`${COMPONENT_CLASS_NAME}__detail`}>
+                    <span className={`${COMPONENT_CLASS_NAME}__detail--label`}>
                         Description:
                     </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
+                    <span className={`${COMPONENT_CLASS_NAME}__detail--value`}>
                         {this.props.budget && this.props.budget.description}
                     </span>
                 </div>
 
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
+                <div className={`${COMPONENT_CLASS_NAME}__detail`}>
+                    <span className={`${COMPONENT_CLASS_NAME}__detail--label`}>
                         Amount:
                     </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
+                    <span className={`${COMPONENT_CLASS_NAME}__detail--value`}>
                         ${this.props.budget && this.props.budget.amount}
                     </span>
                 </div>
@@ -122,7 +120,7 @@ export class BudgetDetailView extends React.Component<
                 {this.props.transactions && this.props.transactions.length ? (
                     <CompactTable
                         items={this.props.transactions}
-                        headings={["title", "amount"]}
+                        headings={["title", "amount", "type", "occurred_at"]}
                     />
                 ) : (<p>No current transactions...</p>)}
             </div>

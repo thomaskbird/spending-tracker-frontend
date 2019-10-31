@@ -288,6 +288,12 @@ pre {
             color: $color-grey-dark;
             font-size: 1rem;
             text-transform: capitalize;
+
+            .larger-headline {
+                margin: 0 auto;
+                width: fit-content;
+                font-size: 4rem;
+            }
         }
 
         &--list {
@@ -330,6 +336,16 @@ pre {
                     }
                 }
             }
+        }
+    }
+
+    &__pagination {
+        margin: 1rem 0;
+
+        &--current {
+            margin-bottom: 0;
+            margin-top: .4rem;
+            font-size: 1.6rem;
         }
     }
 }

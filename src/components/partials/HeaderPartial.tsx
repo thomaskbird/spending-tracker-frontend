@@ -64,9 +64,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                     {this.props.onToggleSidebar ? (
                         <span
                             className={"HeaderPartial--top--icons"}
-                            onClick={() => {
-                                this.props.onToggleSidebar!(true);
-                            }}
+                            onClick={() => this.props.onToggleSidebar!(true)}
                         >
                             <FontAwesomeIcon icon={"bars"} />
                         </span>
@@ -84,12 +82,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                     {this.props.onToggleContextPanel ? (
                         <span
                             className={"HeaderPartial--top--icons"}
-                            onClick={() => {
-                                this.props.onToggleContextPanel!(
-                                    true,
-                                    PanelActionTypes.add
-                                );
-                            }}
+                            onClick={() => this.props.onToggleContextPanel!(true, PanelActionTypes.add)}
                         >
                             <FontAwesomeIcon icon={"plus"} />
                         </span>
