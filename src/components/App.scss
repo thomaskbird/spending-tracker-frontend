@@ -119,11 +119,10 @@ pre {
         z-index: 2;
         display: flex;
         padding: 15px;
-        background: $color-white;
-        margin-top: -1px;
         position: relative;
-        border: 1px solid $color-grey-light;
+        background: $color-white;
         transition: 0.25s left ease-in;
+        border-bottom: 1px solid $color-grey-light;
 
         &.open {
             left: -291px;

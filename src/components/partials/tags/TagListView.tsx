@@ -1,10 +1,10 @@
 import * as React from "react";
 import { NoData } from "../../helpers/NoData";
-import { Tag } from "src/services/Models";
+import { LoadingProps, Tag } from "src/services/Models";
 import { axiosInstance } from "src/index";
 import { TagListItem } from "src/components/partials/tags/TagListItem";
 
-interface TagListViewProps {
+interface TagListViewProps extends LoadingProps {
     onReady(api: TagListView.Api): void;
     onTagAction(action: string, tag: Tag): void;
 }
@@ -74,6 +74,7 @@ export class TagListView extends React.Component<
     }
 
     private refreshTags(): void {
+        this.props.onToggleLoading(true);
         this.setState({
             tags: undefined
         });
@@ -84,6 +85,8 @@ export class TagListView extends React.Component<
                     tags: response.data.data.tags.length !== 0 ? response.data.data.tags : []
                 });
             }
+
+            this.props.onToggleLoading(false);
         });
     }
 
@@ -91,7 +94,6 @@ export class TagListView extends React.Component<
         axiosInstance
         .get(`/tags/remove/${tag.id}`)
         .then((response) => {
-            console.log("response", response);
             this.refreshTags();
         })
         .catch((error) => console.log("Error", error));

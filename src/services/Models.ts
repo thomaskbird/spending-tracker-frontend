@@ -255,6 +255,10 @@ export enum AvailableIcons {
     faWrench = "wrench"
 }
 
+export interface LoadingProps {
+    onToggleLoading(action: boolean): void;
+}
+
 export interface BudgetFigures {
     used: number;
     budgetTotal: number;

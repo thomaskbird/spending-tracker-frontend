@@ -9,6 +9,7 @@ import { BudgetPanelPartial } from "src/components/partials/budgets/BudgetPanelP
 import { BudgetForm } from "src/components/partials/budgets/BudgetForm";
 import { axiosInstance } from "src/index";
 import moment from "moment";
+import { RouteViewport } from "../partials/RouteViewport";
 
 interface BudgetViewProps extends RouteComponentProps<any> {}
 
@@ -18,6 +19,7 @@ interface State {
     budgetActionType: PanelActionTypes | undefined;
     budget: Budget | undefined;
     range: DateRange;
+    isLoading: boolean;
 }
 
 const COMPONENT_NAME = "BudgetView";
@@ -39,7 +41,8 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
             range: {
                 start: moment().startOf("month"),
                 end: moment()
-            }
+            },
+            isLoading: false
         };
     }
 
@@ -54,7 +57,9 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                 />
 
                 <div className={"BodyPartial"}>
-                    <div className={"route--viewport"}>
+                    <RouteViewport
+                        isLoading={this.state.isLoading}
+                    >
                         <BudgetListView
                             onBudgetAction={(
                                 action: PanelActionTypes,
@@ -65,7 +70,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                             }}
                             range={this.state.range}
                         />
-                    </div>
+                    </RouteViewport>
 
                     <SidebarPartial
                         sidebarClass={this.state.isSidebarOpen}
@@ -102,6 +107,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
      * @param formData - The form transaction data
      */
     private budgetAdd(formData: any): void {
+        this.setState({ isLoading: true });
         let apiUrl = "/budgets";
         let formattedData: any = {
             title: formData.title,
@@ -144,7 +150,8 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                     this.formBudgetAddApi!.clearData();
                 }
             })
-            .catch((error) => console.log("error", error));
+            .catch((error) => console.log("error", error))
+            .then(() => this.setState({ isLoading: false }));
     }
 
     /**

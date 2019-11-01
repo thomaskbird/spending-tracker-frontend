@@ -7,6 +7,7 @@ import { TagListView } from "../partials/tags/TagListView";
 import { TagForm } from "../partials/tags/TagForm";
 import { TagPanelPartial } from "../partials/tags/TagPanelPartial";
 import { axiosInstance } from "../../index";
+import { RouteViewport } from "../partials/RouteViewport";
 
 interface Props {
 
@@ -17,6 +18,7 @@ interface State {
     isAddTagOpen: boolean;
     tagActionType: PanelActionTypes | undefined;
     tagToEdit: Tag | undefined;
+    isLoading: boolean;
 }
 
 const COMPONENT_NAME = "View";
@@ -33,7 +35,8 @@ export class TagView extends React.Component<Props, State> {
             isSidebarOpen: false,
             isAddTagOpen: false,
             tagActionType: undefined,
-            tagToEdit: undefined
+            tagToEdit: undefined,
+            isLoading: false
         };
     }
 
@@ -50,7 +53,9 @@ export class TagView extends React.Component<Props, State> {
                 />
 
                 <div className={"BodyPartial"}>
-                    <div className={"route--viewport"}>
+                    <RouteViewport
+                        isLoading={this.state.isLoading}
+                    >
                         <TagListView
                             onTagAction={(
                                 action: PanelActionTypes,
@@ -62,8 +67,9 @@ export class TagView extends React.Component<Props, State> {
                             onReady={(api: TagListView.Api) => {
                                 this.listApi = api;
                             }}
+                            onToggleLoading={(action) => this.setState({ isLoading: action })}
                         />
-                    </div>
+                    </RouteViewport>
 
                     <SidebarPartial
                         sidebarClass={this.state.isSidebarOpen}
@@ -99,7 +105,8 @@ export class TagView extends React.Component<Props, State> {
      * @param formData - The form transaction data
      */
     private tagAdd(formData: any): void {
-        let apiUrl = "/tag";
+        this.setState({ isLoading: true });
+        let apiUrl = "/tags";
         let formattedData: any = {
             title: formData.title,
             description: formData.description
@@ -128,6 +135,8 @@ export class TagView extends React.Component<Props, State> {
         })
         .catch((error) => {
             console.log("error", error);
+        }).then(() => {
+            this.setState({ isLoading: false });
         });
     }
 

@@ -15,6 +15,7 @@ import { axiosInstance } from "../../index";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { TransactionPanelPartial } from "../partials/transactions/TransactionPanelPartial";
 import { APP_DATE_FORMAT } from "../helpers/Utils";
+import { RouteViewport } from "../partials/RouteViewport";
 
 interface TransactionViewProps {}
 
@@ -22,6 +23,7 @@ interface State {
     isSidebarOpen: boolean;
     isAddTransactionOpen: boolean;
     range: DateRange;
+    isLoading: boolean;
     isPickerOpen: boolean;
     transactionToEdit: TransactionWithRecurring | undefined;
     transactionActionType: PanelActionTypes | undefined;
@@ -50,7 +52,8 @@ export class TransactionView extends React.Component<
                 end: moment()
             },
             transactionToEdit: undefined,
-            transactionActionType: undefined
+            transactionActionType: undefined,
+            isLoading: false
         };
     }
 
@@ -73,7 +76,9 @@ export class TransactionView extends React.Component<
                 />
 
                 <div className={"BodyPartial"}>
-                    <div className={"route--viewport"}>
+                    <RouteViewport
+                        isLoading={this.state.isLoading}
+                    >
                         <TransactionListView
                             start={this.state.range.start.format(APP_DATE_FORMAT)}
                             end={this.state.range.end.format(APP_DATE_FORMAT)}
@@ -90,8 +95,9 @@ export class TransactionView extends React.Component<
                             onReady={(api) => {
                                 this.listApi = api;
                             }}
+                            onToggleLoading={(action) => this.setState({ isLoading: action })}
                         />
-                    </div>
+                    </RouteViewport>
 
                     <SidebarPartial
                         sidebarClass={this.state.isSidebarOpen}
@@ -134,6 +140,7 @@ export class TransactionView extends React.Component<
      * @param formData - The form transaction data
      */
     private transactionAdd(formData: any): void {
+        this.setState({ isLoading: true });
         let apiUrl = "/transactions/create";
         let formattedData: any = {
             title: formData.title,
@@ -176,6 +183,8 @@ export class TransactionView extends React.Component<
             })
             .catch((error) => {
                 console.log("error", error);
+            }).then(() => {
+                this.setState({ isLoading: false });
             });
     }
 

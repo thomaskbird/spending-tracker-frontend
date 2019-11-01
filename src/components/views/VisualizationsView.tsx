@@ -4,6 +4,7 @@ import { HeaderPartial } from "../partials/HeaderPartial";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { LineChartWrapper } from "../charts/LineChartWrapper";
+import { RouteViewport } from "../partials/RouteViewport";
 
 interface Props {
 
@@ -11,6 +12,7 @@ interface Props {
 
 interface State {
     isSidebarOpen: boolean;
+    isLoading: boolean;
 }
 
 const COMPONENT_NAME = "VisualizationsView";
@@ -21,7 +23,8 @@ export class VisualizationsView extends React.Component<Props, State> {
         super(props, context);
 
         this.state = {
-            isSidebarOpen: false
+            isSidebarOpen: false,
+            isLoading: false
         };
     }
 
@@ -35,7 +38,9 @@ export class VisualizationsView extends React.Component<Props, State> {
                 />
 
                 <div className={"BodyPartial"}>
-                    <div className={"route--viewport"}>
+                    <RouteViewport
+                        isLoading={this.state.isLoading}
+                    >
 
                         <BrowserRouter>
                             <div className={`${COMPONENT_NAME}__viewport`}>
@@ -90,7 +95,7 @@ export class VisualizationsView extends React.Component<Props, State> {
                             </div>
                         </BrowserRouter>
 
-                    </div>
+                    </RouteViewport>
 
                     <SidebarPartial
                         sidebarClass={this.state.isSidebarOpen}

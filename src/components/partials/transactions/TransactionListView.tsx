@@ -1,10 +1,10 @@
 import * as React from "react";
-import { TransactionWithRecurring } from "../../../services/Models";
+import { LoadingProps, TransactionWithRecurring } from "../../../services/Models";
 import { TransactionListItem } from "./TransactionListItem";
 import { axiosInstance } from "../../../index";
 import { NoData } from "../../helpers/NoData";
 
-interface TransactionListViewProps {
+interface TransactionListViewProps extends LoadingProps {
     start: string;
     end: string;
     onTransactionAction(
@@ -97,6 +97,7 @@ export class TransactionListView extends React.Component<
     }
 
     private refreshTransactions(): void {
+        this.props.onToggleLoading(true);
         this.setState({
             transactions: undefined
         });
@@ -108,17 +109,20 @@ export class TransactionListView extends React.Component<
                     transactions:
                         transactions.data.length !== 0 ? transactions.data : []
                 });
+                this.props.onToggleLoading(false);
             });
     }
 
     private transactionRemove(transaction: TransactionWithRecurring): void {
+        this.props.onToggleLoading(true);
         axiosInstance
             .get(`/transactions/remove/${transaction.id}`)
             .then((response) => {
                 console.log("response", response);
                 this.refreshTransactions();
             })
-            .catch((error) => console.log("Error", error));
+            .catch((error) => console.log("Error", error))
+            .then(() => this.props.onToggleLoading(false));
     }
 }
 

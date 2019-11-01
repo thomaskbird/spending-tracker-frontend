@@ -16,6 +16,7 @@ import {
     faBars,
     faTimes,
     faEllipsisV,
+    faSpinner,
 
     faAddressBook,
     faAddressCard,
@@ -242,6 +243,7 @@ library.add(
     faBars,
     faTimes,
     faEllipsisV,
+    faSpinner,
 
     faAddressBook,
     faAddressCard,
