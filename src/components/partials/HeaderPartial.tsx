@@ -11,7 +11,7 @@ import { DateRange, PanelActionTypes } from "../../services/Models";
 import { APP_DATE_FORMAT } from "../helpers/Utils";
 
 interface HeaderPartialProps {
-    range: DateRange;
+    range?: DateRange;
     /**
      * Toggles the sidebar
      *
@@ -80,7 +80,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                         undefined
                     )}
                 </div>
-                {this.props.onDateRangeChange ? (
+                {this.props.onDateRangeChange && this.props.range ? (
                     <>
                         <div className={"HeaderPartial--bottom"}>
                             <button
