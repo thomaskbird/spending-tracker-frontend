@@ -48,8 +48,8 @@ export class TransactionView extends React.Component<
             isSidebarOpen: false,
             isAddTransactionOpen: false,
             range: {
-                start: moment().subtract(1, "month"),
-                end: moment()
+                start: moment().startOf("month"),
+                end: moment().endOf("month")
             },
             transactionToEdit: undefined,
             transactionActionType: undefined,
@@ -61,18 +61,14 @@ export class TransactionView extends React.Component<
         return (
             <div className={`${COMPONENT_NAME} PageView`}>
                 <HeaderPartial
+                    range={this.state.range}
                     onToggleSidebar={() => {
                         this.toggleSidebarPanel(true);
                     }}
                     onToggleContextPanel={(isOpen, actionType) => {
                         this.toggleTransactionPanel(isOpen, actionType);
                     }}
-                    onDateRangeChange={(range) => {
-                        this.setState({
-                            range: range
-                        });
-                        this.listApi!.refreshData();
-                    }}
+                    onDateRangeChange={(range) => this.handleDateRangeChange(range)}
                 />
 
                 <div className={"BodyPartial"}>
@@ -80,8 +76,8 @@ export class TransactionView extends React.Component<
                         isLoading={this.state.isLoading}
                     >
                         <TransactionListView
-                            start={this.state.range.start.format(APP_DATE_FORMAT)}
-                            end={this.state.range.end.format(APP_DATE_FORMAT)}
+                            start={moment(this.state.range.start).format(APP_DATE_FORMAT)}
+                            end={moment(this.state.range.end).format(APP_DATE_FORMAT)}
                             onTransactionAction={(
                                 action: PanelActionTypes,
                                 transaction
@@ -133,6 +129,30 @@ export class TransactionView extends React.Component<
                 </div>
             </div>
         );
+    }
+
+    private handleDateRangeChange(next: DateRange | string): void {
+        if(typeof next === "object") {console.log("object", next);
+            this.setState({
+                range: next
+            });
+        } else {
+            if(next === "previous") {
+                this.setState({
+                    range: {
+                        start: moment(this.state.range.start).subtract(1, "month").startOf(),
+                        end: moment(this.state.range.end).subtract(1, "month").endOf()
+                    }
+                });
+            } else {
+                this.setState({
+                    range: {
+                        start: moment(this.state.range.start).add(1, "month").startOf(),
+                        end: moment(this.state.range.end).add(1, "month").endOf()
+                    }
+                });
+            }
+        }
     }
 
     /**

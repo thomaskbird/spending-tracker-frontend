@@ -11,6 +11,7 @@ import { DateRange, PanelActionTypes } from "../../services/Models";
 import { APP_DATE_FORMAT } from "../helpers/Utils";
 
 interface HeaderPartialProps {
+    range: DateRange;
     /**
      * Toggles the sidebar
      *
@@ -30,16 +31,10 @@ interface HeaderPartialProps {
      *
      * @param {DateRange} range - An object containing the start/end values
      */
-    onDateRangeChange?(range: DateRange): void;
+    onDateRangeChange(direction: DateRange | string): void;
 }
 
-interface State {
-    /**
-     * The range to initially set the rangpicker to
-     */
-    range: DateRange;
-    rangePickerArr: any[];
-}
+interface State {}
 
 const COMPONENT_NAME = "HeaderPartial";
 
@@ -49,13 +44,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
     constructor(props: HeaderPartialProps, context: any) {
         super(props, context);
 
-        this.state = {
-            range: {
-                start: moment().startOf("month"),
-                end: moment().endOf("month")
-            },
-            rangePickerArr: [moment().startOf("month"), moment().endOf("month")]
-        };
+        this.state = {};
     }
 
     public render(): JSX.Element {
@@ -102,11 +91,11 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                                 <FontAwesomeIcon icon={"chevron-left"} />
                             </button>
                             <RangePicker
-                                defaultValue={this.state.rangePickerArr}
-                                value={this.state.rangePickerArr}
+                                defaultValue={[this.props.range.start, this.props.range.end]}
+                                value={[this.props.range.start, this.props.range.end]}
                                 format={APP_DATE_FORMAT}
                                 onChange={(dates, dateStrings) => {
-                                    this.props.onDateRangeChange!({
+                                    this.props.onDateRangeChange({
                                         start: dates[0],
                                         end: dates[1]
                                     });
@@ -121,7 +110,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                             </button>
                         </div>
                         <div className={"HeaderPartial--bottom"}>
-                            {moment(this.state.range && this.state.range.start).format("MMMM, YYYY")}
+                            {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
                         </div>
                     </>
                 ) : (
@@ -132,31 +121,6 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
     }
 
     private handlePaginationClick(direction: string): void {
-        const newDates: any = [];
-
-        if(direction === "previous") {
-            newDates.push(
-                moment(this.state.range.start).subtract(1, "month").startOf("month"),
-                moment(this.state.range.start).subtract(1, "month").endOf("month")
-            );
-        } else {
-            newDates.push(
-                moment(this.state.range.start).add(1, "month").startOf("month"),
-                moment(this.state.range.start).add(1, "month").endOf("month")
-            );
-        }
-
-        this.setState({
-            range: {
-                start: newDates[0],
-                end: newDates[1]
-            },
-            rangePickerArr: newDates
-        }, () => {
-            this.props.onDateRangeChange!({
-                start: newDates[0],
-                end: newDates[1]
-            });
-        });
+        this.props.onDateRangeChange(direction);
     }
 }

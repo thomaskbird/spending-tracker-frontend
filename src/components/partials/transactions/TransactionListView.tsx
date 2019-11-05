@@ -24,8 +24,6 @@ export class TransactionListView extends React.Component<
     TransactionListViewProps,
     State
 > {
-    private dateFormat = "YYYY-MM-DD";
-
     constructor(props: TransactionListViewProps, context: any) {
         super(props, context);
 
@@ -35,7 +33,9 @@ export class TransactionListView extends React.Component<
     }
 
     public componentDidMount(): void {
-        this.refreshTransactions();
+        if(this.props.start && this.props.end) {
+            this.refreshTransactions();
+        }
 
         const api: TransactionListView.Api = {
             refreshData: () => {
@@ -58,33 +58,31 @@ export class TransactionListView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
-                {this.state.transactions &&
-                    this.state.transactions.length > 0 &&
-                    this.state.transactions.map(
-                        (
-                            transaction: TransactionWithRecurring,
-                            idx: number
-                        ) => {
-                            return (
-                                <TransactionListItem
-                                    key={idx}
-                                    transaction={transaction}
-                                    onAction={(actionType, transactionData) => {
-                                        if (actionType === "remove") {
-                                            this.transactionRemove(
-                                                transactionData
-                                            );
-                                        } else {
-                                            this.props.onTransactionAction(
-                                                actionType,
-                                                transactionData
-                                            );
-                                        }
-                                    }}
-                                />
-                            );
-                        }
-                    )}
+                {this.state.transactions && this.state.transactions.map(
+                    (
+                        transaction: TransactionWithRecurring,
+                        idx: number
+                    ) => {
+                        return (
+                            <TransactionListItem
+                                key={idx}
+                                transaction={transaction}
+                                onAction={(actionType, transactionData) => {
+                                    if (actionType === "remove") {
+                                        this.transactionRemove(
+                                            transactionData
+                                        );
+                                    } else {
+                                        this.props.onTransactionAction(
+                                            actionType,
+                                            transactionData
+                                        );
+                                    }
+                                }}
+                            />
+                        );
+                    }
+                )}
 
                 {!this.state.transactions ||
                 this.state.transactions.length < 1 ? (
