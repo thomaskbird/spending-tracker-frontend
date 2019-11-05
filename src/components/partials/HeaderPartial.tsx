@@ -31,7 +31,7 @@ interface HeaderPartialProps {
      *
      * @param {DateRange} range - An object containing the start/end values
      */
-    onDateRangeChange(direction: DateRange | string): void;
+    onDateRangeChange?(direction: DateRange | string): void;
 }
 
 interface State {}
@@ -95,10 +95,12 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                                 value={[this.props.range.start, this.props.range.end]}
                                 format={APP_DATE_FORMAT}
                                 onChange={(dates, dateStrings) => {
-                                    this.props.onDateRangeChange({
-                                        start: dates[0],
-                                        end: dates[1]
-                                    });
+                                    if(this.props.onDateRangeChange) {
+                                        this.props.onDateRangeChange({
+                                            start: dates[0],
+                                            end: dates[1]
+                                        });
+                                    }
                                 }}
                             />
                             <button
@@ -121,6 +123,8 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
     }
 
     private handlePaginationClick(direction: string): void {
-        this.props.onDateRangeChange(direction);
+        if(this.props.onDateRangeChange) {
+            this.props.onDateRangeChange(direction);
+        }
     }
 }
