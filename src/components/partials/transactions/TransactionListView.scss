@@ -1,0 +1,31 @@
+.ListView {
+  &__summary {
+    padding: 2rem;
+    display: flex;
+    font-size: 3rem;
+    text-align: center;
+    flex-direction: column;
+    font-family: trumpgothicpro, sans-serif;
+
+    &--details {
+      line-height: 130%;
+    }
+
+    &--label {
+      color: #ccc;
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 100%;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    &--income {
+      color: $color-green;
+    }
+
+    &--expense {
+      color: $color-red;
+    }
+  }
+}

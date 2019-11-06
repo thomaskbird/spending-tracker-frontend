@@ -1,5 +1,13 @@
 import * as React from "react";
-import { LoadingProps, TransactionWithRecurring } from "../../../services/Models";
+import "./TransactionListView.scss";
+
+import _ from "lodash";
+import {
+    LoadingProps,
+    TransactionSummaryDetails,
+    TransactionType,
+    TransactionWithRecurring
+} from "../../../services/Models";
 import { TransactionListItem } from "./TransactionListItem";
 import { axiosInstance } from "../../../index";
 import { NoData } from "../../helpers/NoData";
@@ -16,6 +24,7 @@ interface TransactionListViewProps extends LoadingProps {
 
 interface State {
     transactions: TransactionWithRecurring[] | undefined;
+    transactionSummary: TransactionSummaryDetails | undefined;
 }
 
 const COMPONENT_NAME = "ListView";
@@ -28,7 +37,8 @@ export class TransactionListView extends React.Component<
         super(props, context);
 
         this.state = {
-            transactions: undefined
+            transactions: undefined,
+            transactionSummary: undefined
         };
     }
 
@@ -58,6 +68,17 @@ export class TransactionListView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
+                <div className={`${COMPONENT_NAME}__summary`}>
+                    <span className={`${COMPONENT_NAME}__summary--label`}>Monthly Summary</span>
+                    <div className={`${COMPONENT_NAME}__summary--details`}>
+                        <span className={`${COMPONENT_NAME}__summary--income`}>${this.state.transactionSummary && this.state.transactionSummary.incomeTotal}</span>
+                        <span> - </span>
+                        <span className={`${COMPONENT_NAME}__summary--expense`}>{this.state.transactionSummary && this.state.transactionSummary.expenseTotal}</span>
+                        <span> = </span>
+                        <span className={`${COMPONENT_NAME}__summary--remaining`}>{this.state.transactionSummary && this.state.transactionSummary.remainingTotal.toFixed(2)}</span>
+                    </div>
+                </div>
+
                 {this.state.transactions && this.state.transactions.map(
                     (
                         transaction: TransactionWithRecurring,
@@ -103,7 +124,25 @@ export class TransactionListView extends React.Component<
         axiosInstance
             .get(`/transactions/${this.props.start}/${this.props.end}`)
             .then((transactions) => {
+                // todo: provide income, expenses, and how much left after expenses
+                const expenseTotal = _(transactions.data)
+                    .filter(transaction => transaction.type === TransactionType.expense)
+                    .map(transaction => transaction.amount)
+                    .value()
+                    .reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+                const incomeTotal = _(transactions.data)
+                    .filter(transaction => transaction.type === TransactionType.income)
+                    .map(transaction => transaction.amount)
+                    .value()
+                    .reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+
+                console.log("expenseTotal", expenseTotal, incomeTotal, (incomeTotal - expenseTotal));
                 this.setState({
+                    transactionSummary: {
+                        expenseTotal: expenseTotal,
+                        incomeTotal: incomeTotal,
+                        remainingTotal: (incomeTotal - expenseTotal)
+                    },
                     transactions:
                         transactions.data.length !== 0 ? transactions.data : []
                 });

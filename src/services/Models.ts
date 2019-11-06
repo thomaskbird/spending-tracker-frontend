@@ -394,3 +394,9 @@ export interface User extends Timestamps {
     status: UserStatusEnum;
     profile: string;
 }
+
+export interface TransactionSummaryDetails {
+    expenseTotal: number;
+    incomeTotal: number;
+    remainingTotal: number;
+}
