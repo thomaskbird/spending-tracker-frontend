@@ -1,8 +1,12 @@
 .ListView {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
   &__summary {
     padding: 2rem;
     display: flex;
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
     flex-direction: column;
     font-family: trumpgothicpro, sans-serif;
@@ -13,7 +17,7 @@
 
     &--label {
       color: #ccc;
-      font-size: 2rem;
+      font-size: 1.4rem;
       font-weight: 500;
       line-height: 100%;
       letter-spacing: 3px;
