@@ -68,16 +68,18 @@ export class TransactionListView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
-                <div className={`${COMPONENT_NAME}__summary`}>
-                    <span className={`${COMPONENT_NAME}__summary--label`}>Monthly Summary</span>
-                    <div className={`${COMPONENT_NAME}__summary--details`}>
-                        <span className={`${COMPONENT_NAME}__summary--income`}>${this.state.transactionSummary && this.state.transactionSummary.incomeTotal.toFixed(2)}</span>
-                        <span> - </span>
-                        <span className={`${COMPONENT_NAME}__summary--expense`}>{this.state.transactionSummary && this.state.transactionSummary.expenseTotal.toFixed(2)}</span>
-                        <span> = </span>
-                        <span className={`${COMPONENT_NAME}__summary--remaining`}>{this.state.transactionSummary && this.state.transactionSummary.remainingTotal.toFixed(2)}</span>
+                {this.state.transactionSummary ? (
+                    <div className={`${COMPONENT_NAME}__summary`}>
+                        <span className={`${COMPONENT_NAME}__summary--label`}>Monthly Summary</span>
+                        <div className={`${COMPONENT_NAME}__summary--details`}>
+                            <span className={`${COMPONENT_NAME}__summary--income`}>${this.state.transactionSummary && this.state.transactionSummary.incomeTotal.toFixed(2)}</span>
+                            <span> - </span>
+                            <span className={`${COMPONENT_NAME}__summary--expense`}>{this.state.transactionSummary && this.state.transactionSummary.expenseTotal.toFixed(2)}</span>
+                            <span> = </span>
+                            <span className={`${COMPONENT_NAME}__summary--remaining`}>{this.state.transactionSummary && this.state.transactionSummary.remainingTotal.toFixed(2)}</span>
+                        </div>
                     </div>
-                </div>
+                ): (undefined)}
 
                 {this.state.transactions && this.state.transactions.map(
                     (
