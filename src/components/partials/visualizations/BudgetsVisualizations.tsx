@@ -35,7 +35,9 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
         this.state = {
             budgets: undefined
         };
+    }
 
+    public componentDidMount(): void {
         this.refreshData();
     }
 
@@ -49,7 +51,7 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
                             width={600}
                             height={300}
                             data={this.state.budgets}
-                            margin={{top: 5, right: 30, left: 20, bottom: 5}}
+                            margin={{top: 5, right: 0, left: 0, bottom: 5}}
                         >
                             <CartesianGrid strokeDasharray="3 3"/>
                             <XAxis dataKey="name"/>
