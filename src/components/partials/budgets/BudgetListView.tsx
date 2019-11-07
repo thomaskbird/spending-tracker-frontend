@@ -32,7 +32,7 @@ export class BudgetListView extends React.Component<
             budgets: undefined,
             range: {
                 start: moment().startOf("month"),
-                end: moment()
+                end: moment().endOf("month")
             }
         };
     }
