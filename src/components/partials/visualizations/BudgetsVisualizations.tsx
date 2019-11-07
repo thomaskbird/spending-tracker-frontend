@@ -1,13 +1,15 @@
 import * as React from "react";
 import { BarChart, ResponsiveContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../../../index";
+import { BudgetVisualizationSummary } from "../../../services/Models";
 
 interface BudgetsVisualizationsProps {
 
 }
 
 interface State {
-
+    budgets: BudgetVisualizationSummary | undefined;
 }
 
 const COMPONENT_NAME = "BudgetsVisualizations";
@@ -29,30 +31,41 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
         super(props, context);
 
         this.state = {
+            budgets: undefined
         };
+
+        this.refreshData();
     }
 
     public render(): JSX.Element {
         return (
             <div className={`${COMPONENT_NAME}`}>
                 <Link to={"/admin/visualizations"}>Back</Link>
-                <ResponsiveContainer>
-                    <BarChart
-                        width={600}
-                        height={300}
-                        data={data}
-                        margin={{top: 5, right: 30, left: 20, bottom: 5}}
-                    >
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend />
-                        <Bar dataKey="limit" fill="#3c9e3c" />
-                        <Bar dataKey="current" fill="#ba5c5d" />
-                    </BarChart>
-                </ResponsiveContainer>
+                {this.state.budgets ? (
+                    <ResponsiveContainer>
+                        <BarChart
+                            width={600}
+                            height={300}
+                            data={this.state.budgets}
+                            margin={{top: 5, right: 30, left: 20, bottom: 5}}
+                        >
+                            <CartesianGrid strokeDasharray="3 3"/>
+                            <XAxis dataKey="name"/>
+                            <YAxis/>
+                            <Tooltip/>
+                            <Legend />
+                            <Bar dataKey="limit" fill="#3c9e3c" />
+                            <Bar dataKey="current" fill="#ba5c5d" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                ): (undefined)}
             </div>
         );
+    }
+
+    private refreshData(): void {
+        axiosInstance
+            .get(`/visualizations/budgets/2019-10-01/2019-11-30`)
+            .then((budgets) => this.setState({ budgets: budgets.data.data.budgets }));
     }
 }

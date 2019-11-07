@@ -400,3 +400,9 @@ export interface TransactionSummaryDetails {
     incomeTotal: number;
     remainingTotal: number;
 }
+
+export interface BudgetVisualizationSummary {
+    name: string;
+    limit: number;
+    current: number;
+}
