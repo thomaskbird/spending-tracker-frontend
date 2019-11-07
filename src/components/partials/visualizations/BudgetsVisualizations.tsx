@@ -9,7 +9,7 @@ interface BudgetsVisualizationsProps {
 }
 
 interface State {
-    budgets: BudgetVisualizationSummary | undefined;
+    budgets: BudgetVisualizationSummary[] | undefined;
 }
 
 const COMPONENT_NAME = "BudgetsVisualizations";
