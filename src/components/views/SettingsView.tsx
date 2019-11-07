@@ -1,31 +1,32 @@
 import * as React from "react";
-import "./VisualizationsView.scss";
+import "./SettingsView.scss";
+
 import { HeaderPartial } from "../partials/HeaderPartial";
 import { SidebarPartial } from "../partials/SidebarPartial";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
-import { LineChartWrapper } from "../charts/LineChartWrapper";
 import { RouteViewport } from "../partials/RouteViewport";
-import { BudgetsVisualizations } from "../partials/visualizations/BudgetsVisualizations";
+import { Route } from "react-router";
+import { BrowserRouter, Link } from "react-router-dom";
+import { ImportIntro } from "../partials/settings/ImportIntro";
 
-interface Props {
-
-}
+interface SettingsViewProps {}
 
 interface State {
     isSidebarOpen: boolean;
     isLoading: boolean;
 }
 
-const COMPONENT_NAME = "VisualizationsView";
-const baseUrl = "/admin/visualizations";
+const COMPONENT_NAME = "SettingsView";
+const baseUrl = "/admin/settings";
 
-export class VisualizationsView extends React.Component<Props, State> {
-    constructor(props: Props, context: any) {
+export class SettingsView extends React.Component<SettingsViewProps, State> {
+    public static readonly displayName = COMPONENT_NAME;
+
+    constructor(props: SettingsViewProps, context: any) {
         super(props, context);
 
         this.state = {
-            isSidebarOpen: false,
-            isLoading: false
+            isLoading: false,
+            isSidebarOpen: false
         };
     }
 
@@ -51,38 +52,18 @@ export class VisualizationsView extends React.Component<Props, State> {
                                     render={() => {
                                         return (
                                             <>
-                                                <h1>Visualizations</h1>
+                                                <h1>Settings</h1>
 
                                                 <ul>
-                                                    <li><Link to={`${baseUrl}/month`}>My Month</Link></li>
-                                                    <li><Link to={`${baseUrl}/budgets`}>Budgets</Link></li>
-                                                    <li>under budget</li>
-                                                    <li>Alerts for budgets</li>
-                                                    <li>Current balancegit </li>
-
+                                                    <li><Link to={`${baseUrl}/import`}>Import</Link></li>
                                                 </ul>
                                             </>
                                         );
                                     }}
                                 />
                                 <Route
-                                    path={`${baseUrl}/month`}
-                                    render={() => {
-                                        return (
-                                            <>
-                                                <h1>My Month</h1>
-                                                <Link to={baseUrl}>Back</Link>
-
-                                                <p>This will be for information in regards to the current month, income vs expenses, indicators for budgets and percentage used</p>
-
-                                                <LineChartWrapper />
-                                            </>
-                                        );
-                                    }}
-                                />
-                                <Route
-                                    path={`${baseUrl}/budgets`}
-                                    component={BudgetsVisualizations}
+                                    path={`${baseUrl}/import`}
+                                    component={ImportIntro}
                                 />
                             </div>
                         </BrowserRouter>

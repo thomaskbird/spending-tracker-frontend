@@ -10,7 +10,7 @@ import { VisualizationsView } from "../views/VisualizationsView";
 import { ForgotPasswordView } from "../views/ForgotPasswordView";
 import { ResetPasswordView } from "../views/ResetPasswordView";
 import { NotFoundView } from "../views/NotFoundView";
-import { SettingsView } from "./SettingsView";
+import { SettingsView } from "../views/SettingsView";
 
 interface ShellViewProps extends RouteProps {}
 
