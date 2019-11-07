@@ -3,7 +3,7 @@ import "./TransactionListView.scss";
 
 import _ from "lodash";
 import {
-    LoadingProps,
+    LoadingProps, Transaction,
     TransactionSummaryDetails,
     TransactionType,
     TransactionWithRecurring
@@ -81,9 +81,9 @@ export class TransactionListView extends React.Component<
                             <FontAwesomeIcon icon={this.state.isSummaryVisible ? "chevron-up" : "chevron-down"} />
                         </span>
                         <div className={`${COMPONENT_NAME}__summary--details ${this.state.isSummaryVisible ? "" : "hidden"}`}>
-                            <span className={`${COMPONENT_NAME}__summary--income`}>${this.state.transactionSummary && this.state.transactionSummary.incomeTotal.toFixed(2)}</span>
+                            <span className={`${COMPONENT_NAME}__summary--income`}>${this.state.transactionSummary && this.state.transactionSummary.incomeTotal}</span>
                             <span> - </span>
-                            <span className={`${COMPONENT_NAME}__summary--expense`}>{this.state.transactionSummary && this.state.transactionSummary.expenseTotal.toFixed(2)}</span>
+                            <span className={`${COMPONENT_NAME}__summary--expense`}>{this.state.transactionSummary && this.state.transactionSummary.expenseTotal}</span>
                             <span> = </span>
                             <span className={`${COMPONENT_NAME}__summary--remaining`}>{this.state.transactionSummary && this.state.transactionSummary.remainingTotal.toFixed(2)}</span>
                         </div>
@@ -126,6 +126,23 @@ export class TransactionListView extends React.Component<
         );
     }
 
+    private filterAndReduce(transactions: Transaction[], type: TransactionType): number {
+        const filtered = _(transactions)
+            .filter(transaction => transaction.type === type)
+            .map(transaction => transaction.amount)
+            .value();
+
+        let val = 0;
+
+        if(filtered.length === 0) {
+            val = 0;
+        } else {
+            val = filtered.reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+        }
+
+        return val.toFixed(2) as any as number;
+    }
+
     private refreshTransactions(): void {
         this.props.onToggleLoading(true);
         this.setState({
@@ -136,16 +153,8 @@ export class TransactionListView extends React.Component<
             .get(`/transactions/${this.props.start}/${this.props.end}`)
             .then((transactions) => {
                 if(transactions.data.length) {
-                    const expenseTotal = _(transactions.data)
-                    .filter(transaction => transaction.type === TransactionType.expense)
-                    .map(transaction => transaction.amount)
-                    .value()
-                    .reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
-                    const incomeTotal = _(transactions.data)
-                    .filter(transaction => transaction.type === TransactionType.income)
-                    .map(transaction => transaction.amount)
-                    .value()
-                    .reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
+                    const expenseTotal = this.filterAndReduce(transactions.data, TransactionType.expense);
+                    const incomeTotal = this.filterAndReduce(transactions.data, TransactionType.income);
 
                     this.setState({
                         transactionSummary: {

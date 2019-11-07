@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { Button } from "antd";
+import { axiosInstance } from "../../../index";
 
 interface ImportIntroProps {
 
@@ -35,6 +36,7 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
     public render(): JSX.Element {
         return (
             <form
+                method={"post"}
                 onSubmit={(event) => this.handleFormSubmit(event)}
             >
                 <h1>Import</h1>
@@ -62,10 +64,8 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
                         name="file"
                         id={"file"}
                         placeholder={"Select file..."}
-                        value={this.state.file}
                         onChange={(e) => {
-                            const newVal = (e.target
-                                .value as any) as number;
+                            const newVal = e.target.files![0];
                             this.setState({ file: newVal });
                         }}
                     />
@@ -91,7 +91,21 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
     }
 
     private handleFormSubmit(event: any): void {
-        console.log("submit", event, this.state);
+        const data = new FormData();
         event.preventDefault();
+
+        data.append("file", this.state.file);
+        data.append("sourceType", this.state.sourceType!);
+
+        console.log("submit", data);
+
+        axiosInstance
+            .post(`/import`, data)
+            .then((response) => {console.log("response", response);
+                if(response.status) {
+// test
+                }
+            })
+            .catch(error => console.log("error", error));
     }
 }
