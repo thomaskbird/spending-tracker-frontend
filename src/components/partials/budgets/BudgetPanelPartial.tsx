@@ -49,7 +49,7 @@ export class BudgetPanelPartial extends React.Component<
             monthDisplay: moment().startOf("month"),
             range: {
                 start: moment().startOf("month"),
-                end: moment()
+                end: moment().endOf("month")
             }
         };
     }
