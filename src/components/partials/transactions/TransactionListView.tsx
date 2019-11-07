@@ -135,28 +135,39 @@ export class TransactionListView extends React.Component<
         axiosInstance
             .get(`/transactions/${this.props.start}/${this.props.end}`)
             .then((transactions) => {
-                // todo: provide income, expenses, and how much left after expenses
-                const expenseTotal = _(transactions.data)
+                if(transactions.data.length) {
+                    const expenseTotal = _(transactions.data)
                     .filter(transaction => transaction.type === TransactionType.expense)
                     .map(transaction => transaction.amount)
                     .value()
                     .reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
-                const incomeTotal = _(transactions.data)
+                    const incomeTotal = _(transactions.data)
                     .filter(transaction => transaction.type === TransactionType.income)
                     .map(transaction => transaction.amount)
                     .value()
                     .reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
 
-                console.log("expenseTotal", expenseTotal, incomeTotal, (incomeTotal - expenseTotal));
-                this.setState({
-                    transactionSummary: {
-                        expenseTotal: expenseTotal,
-                        incomeTotal: incomeTotal,
-                        remainingTotal: (incomeTotal - expenseTotal)
-                    },
-                    transactions:
-                        transactions.data.length !== 0 ? transactions.data : []
-                });
+                    this.setState({
+                        transactionSummary: {
+                            expenseTotal: expenseTotal,
+                            incomeTotal: incomeTotal,
+                            remainingTotal: (incomeTotal - expenseTotal)
+                        },
+                        transactions:
+                            transactions.data.length !== 0 ? transactions.data : []
+                    });
+                } else {
+                    this.setState({
+                        transactionSummary: {
+                            expenseTotal: 0,
+                            incomeTotal: 0,
+                            remainingTotal: 0
+                        },
+                        transactions:
+                            transactions.data.length !== 0 ? transactions.data : []
+                    });
+                }
+
                 this.props.onToggleLoading(false);
             });
     }
