@@ -11,6 +11,7 @@ import {
 import { TransactionListItem } from "./TransactionListItem";
 import { axiosInstance } from "../../../index";
 import { NoData } from "../../helpers/NoData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface TransactionListViewProps extends LoadingProps {
     start: string;
@@ -25,6 +26,7 @@ interface TransactionListViewProps extends LoadingProps {
 interface State {
     transactions: TransactionWithRecurring[] | undefined;
     transactionSummary: TransactionSummaryDetails | undefined;
+    isSummaryVisible: boolean;
 }
 
 const COMPONENT_NAME = "ListView";
@@ -38,7 +40,8 @@ export class TransactionListView extends React.Component<
 
         this.state = {
             transactions: undefined,
-            transactionSummary: undefined
+            transactionSummary: undefined,
+            isSummaryVisible: true
         };
     }
 
@@ -70,8 +73,14 @@ export class TransactionListView extends React.Component<
             <div className={COMPONENT_NAME}>
                 {this.state.transactionSummary ? (
                     <div className={`${COMPONENT_NAME}__summary`}>
-                        <span className={`${COMPONENT_NAME}__summary--label`}>Monthly Summary</span>
-                        <div className={`${COMPONENT_NAME}__summary--details`}>
+                        <span
+                            className={`${COMPONENT_NAME}__summary--label`}
+                            onClick={() => this.setState({ isSummaryVisible: !this.state.isSummaryVisible })}
+                        >
+                            <span>Monthly Summary</span>
+                            <FontAwesomeIcon icon={this.state.isSummaryVisible ? "chevron-up" : "chevron-down"} />
+                        </span>
+                        <div className={`${COMPONENT_NAME}__summary--details ${this.state.isSummaryVisible ? "" : "hidden"}`}>
                             <span className={`${COMPONENT_NAME}__summary--income`}>${this.state.transactionSummary && this.state.transactionSummary.incomeTotal.toFixed(2)}</span>
                             <span> - </span>
                             <span className={`${COMPONENT_NAME}__summary--expense`}>{this.state.transactionSummary && this.state.transactionSummary.expenseTotal.toFixed(2)}</span>
