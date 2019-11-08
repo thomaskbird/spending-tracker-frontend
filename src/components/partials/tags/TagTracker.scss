@@ -24,6 +24,8 @@
                 background: $color-grey-light;
                 border: 1px solid darken($color-grey-light, 8%);
 
+                font-size: .8rem;
+
                 &--is-set {
                     color: $color-white;
                     background: $color-blue;
@@ -35,7 +37,7 @@
         &-close-btn {
             font-size: .7rem;
             margin-left: 5px;
-            padding: 5px 0 0 7px;
+            padding: 2px 0 0 7px;
         }
     }
 
