@@ -1,10 +1,7 @@
 import * as React from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    TransactionType,
-    TransactionWithRecurring
-} from "../../../services/Models";
+import { TransactionStatus, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 
 interface TransactionListItemProps {
     /**
@@ -79,6 +76,13 @@ export class TransactionListItem extends React.Component<
                                 ? "+"
                                 : "-"}{" "}
                             ${this.props.transaction.amount}
+                        </div>
+                        <div
+                            className={`${COMPONENT_NAME}__info--queued`}
+                        >
+                            {this.props.transaction.status === TransactionStatus.queued ? (
+                                <span>Queued</span>
+                            ) : (undefined)}
                         </div>
                     </div>
                     <div

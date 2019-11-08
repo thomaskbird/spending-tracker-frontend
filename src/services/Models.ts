@@ -8,7 +8,8 @@ export enum TransactionType {
 export enum TransactionStatus {
     new = "new",
     approved = "approved",
-    disapproved = "disapproved"
+    disapproved = "disapproved",
+    queued = "queued"
 }
 
 export enum RecurringType {

@@ -221,6 +221,15 @@ pre {
                 color: lighten($color-red, 10%);
             }
         }
+
+        &--queued {
+            span {
+                background: #f5f5f5;
+                border: 1px solid #ddd;
+                padding: .2rem .4rem;
+                font-size: .6rem;
+            }
+        }
     }
 
     &__drag-handle {

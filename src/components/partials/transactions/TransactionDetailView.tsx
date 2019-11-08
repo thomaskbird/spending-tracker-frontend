@@ -1,10 +1,7 @@
 import * as React from "react";
-import {
-    TaggableType,
-    TransactionType,
-    TransactionWithRecurring
-} from "../../../services/Models";
+import { TaggableType, TransactionStatus, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 import { TagTracker } from "../tags/TagTracker";
+import { Link } from "react-router-dom";
 
 interface TransactionDetailViewProps {
     transaction: TransactionWithRecurring;
@@ -65,6 +62,18 @@ export class TransactionDetailView extends React.Component<
                     </span>
                     <span className={`${COMPONENT_NAME}__detail--value`}>
                         {this.props.transaction && this.props.transaction.type}
+                    </span>
+                </div>
+
+                <div className={`${COMPONENT_NAME}__detail`}>
+                    <span className={`${COMPONENT_NAME}__detail--label`}>
+                        Status:
+                    </span>
+                    <span className={`${COMPONENT_NAME}__detail--value`}>
+                        {this.props.transaction && this.props.transaction.status}
+                        {this.props.transaction && this.props.transaction.status === TransactionStatus.queued ? (
+                            <button type={`button`}>Remove from queue</button>
+                        ) : (undefined)}
                     </span>
                 </div>
 
