@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./ShellView.scss";
-import { BrowserRouter, Switch, Route, RouteProps, Redirect } from "react-router-dom";
+import { Switch, Route, RouteProps } from "react-router-dom";
 import { TransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";

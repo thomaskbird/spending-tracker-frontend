@@ -2,11 +2,11 @@ import * as React from "react";
 import "./SidebarPartial.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, RouteProps } from "react-router-dom";
 import { User } from "../../services/Models";
 import { axiosInstance } from "../../index";
 
-interface SidebarPartialProps {
+interface SidebarPartialProps extends RouteProps {
     sidebarClass: boolean;
     onClose(): void;
 }
@@ -32,6 +32,8 @@ export class SidebarPartial extends React.Component<
             isLogout: false,
             user: undefined
         };
+
+        console.log(props.location);
     }
 
     public componentDidMount(): void {
@@ -99,7 +101,7 @@ export class SidebarPartial extends React.Component<
                         <ul>
                             {mainNavItems.map((mainNavItem, index) => {
                                 return (
-                                    <li key={index}>
+                                    <li key={index} onClick={() => this.handleNavigationClick(mainNavItem.to)}>
                                         <Link to={mainNavItem.to}>{mainNavItem.text}</Link>
                                     </li>
                                 );
@@ -109,7 +111,7 @@ export class SidebarPartial extends React.Component<
 
                     <ul>
                         <li>
-                            <Link to={"/admin/settings"}>Settings</Link>
+                            <Link onClick={() => this.handleNavigationClick("/admin/settings")} to={"/admin/settings"}>Settings</Link>
                         </li>
                         <li>
                             <a onClick={() => { this.setState({ isLogout: true }) }}>Logout</a>
@@ -118,6 +120,12 @@ export class SidebarPartial extends React.Component<
                 </div>
             </div>
         );
+    }
+
+    private handleNavigationClick(to: string): void {
+        if(to === window.location.pathname) {
+            this.props.onClose();
+        }
     }
 
     private handleUpload(event: any):void {
