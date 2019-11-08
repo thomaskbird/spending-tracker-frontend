@@ -69,16 +69,12 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                         </div>
                     </Link>
 
-                    {this.props.onToggleContextPanel ? (
-                        <span
-                            className={"HeaderPartial--top--icons"}
-                            onClick={() => this.props.onToggleContextPanel!(true, PanelActionTypes.add)}
-                        >
-                            <FontAwesomeIcon icon={"plus"} />
-                        </span>
-                    ) : (
-                        undefined
-                    )}
+                    <span
+                        className={`HeaderPartial--top--icons HeaderPartial--top--icons--add ${!this.props.onToggleContextPanel ? "hidden" : ""}`}
+                        onClick={() => this.props.onToggleContextPanel && this.props.onToggleContextPanel!(true, PanelActionTypes.add)}
+                    >
+                        <FontAwesomeIcon icon={"plus"} />
+                    </span>
                 </div>
                 {this.props.onDateRangeChange && this.props.range ? (
                     <>

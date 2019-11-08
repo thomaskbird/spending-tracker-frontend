@@ -7,6 +7,7 @@ import { RouteViewport } from "../partials/RouteViewport";
 import { Route } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
 import { ImportIntro } from "../partials/settings/ImportIntro";
+import { BudgetAlerts } from "../partials/settings/BudgetAlerts";
 
 interface SettingsViewProps {}
 
@@ -56,6 +57,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
                                                 <ul>
                                                     <li><Link to={`${baseUrl}/import`}>Import</Link></li>
+                                                    <li><Link to={`${baseUrl}/alerts`}>Budget alerts</Link></li>
                                                 </ul>
                                             </>
                                         );
@@ -64,6 +66,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                                 <Route
                                     path={`${baseUrl}/import`}
                                     component={ImportIntro}
+                                />
+                                <Route
+                                    path={`${baseUrl}/alerts`}
+                                    component={BudgetAlerts}
                                 />
                             </div>
                         </BrowserRouter>

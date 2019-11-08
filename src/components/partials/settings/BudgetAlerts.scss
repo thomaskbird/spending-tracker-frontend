@@ -1,0 +1,39 @@
+.BudgetAlerts {
+  &__item {
+    display: flex;
+    margin: 1rem 0;
+
+    &--icon,
+    &--text,
+    &--input,
+    &--toggle {
+       padding: .5rem;
+    }
+
+    &--icon {
+      svg {
+        font-size: 1.4rem;
+      }
+    }
+
+    &--text {
+      flex: 1;
+      // padding: 0 1rem;
+
+      h3 {
+        margin: 0;
+        line-height: 100%;
+      }
+    }
+
+    &--input {
+      input {
+        width: 3rem;
+      }
+    }
+
+    &--toggle {
+
+    }
+  }
+}

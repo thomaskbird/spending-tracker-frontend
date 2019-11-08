@@ -2,11 +2,11 @@ import * as React from "react";
 import "./SidebarPartial.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, Redirect, RouteProps } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { User } from "../../services/Models";
 import { axiosInstance } from "../../index";
 
-interface SidebarPartialProps extends RouteProps {
+interface SidebarPartialProps {
     sidebarClass: boolean;
     onClose(): void;
 }
@@ -32,8 +32,6 @@ export class SidebarPartial extends React.Component<
             isLogout: false,
             user: undefined
         };
-
-        console.log(props.location);
     }
 
     public componentDidMount(): void {

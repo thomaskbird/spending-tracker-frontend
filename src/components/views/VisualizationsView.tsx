@@ -57,7 +57,6 @@ export class VisualizationsView extends React.Component<Props, State> {
                                                     <li><Link to={`${baseUrl}/month`}>My Month</Link></li>
                                                     <li><Link to={`${baseUrl}/budgets`}>Budgets</Link></li>
                                                     <li>under budget</li>
-                                                    <li>Alerts for budgets</li>
                                                     <li>Current balancegit </li>
 
                                                 </ul>
