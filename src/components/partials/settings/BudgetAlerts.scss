@@ -53,14 +53,19 @@
       }
     }
 
-    &--input {
-      input {
-        width: 3rem;
-      }
-    }
-
     &--toggle {
+      display: flex;
+      flex-direction: column;
 
+      input {
+        width: 4rem;
+        margin-bottom: 1rem;
+      }
+
+      button {
+        width: fit-content;
+        align-self: flex-end;
+      }
     }
   }
 }

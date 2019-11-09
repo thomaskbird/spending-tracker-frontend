@@ -69,14 +69,12 @@ export class BudgetAlerts extends React.Component<
                             <h3>{budget.title}</h3>
                             <span>{budget.description}</span>
                         </div>
-                        <div className={`${COMPONENT_NAME}__item--input`}>
+                        <div className={`${COMPONENT_NAME}__item--toggle`}>
                             <input
                                 type={"text"}
                                 onChange={(e) => this.handleInputChange(e, budget)}
                                 value={budget.alert && budget.alert.threshold || ""}
                             />
-                        </div>
-                        <div className={`${COMPONENT_NAME}__item--toggle`}>
                             <Switch
                                 checked={!!budget.alert && !!budget.alert.id}
                                 onChange={(checked) => this.handleToggle(checked, budget)}
@@ -89,17 +87,25 @@ export class BudgetAlerts extends React.Component<
     }
 
     private handleToggle(checked: boolean, budget: Budget): void {
-        if(budget.alert && budget.alert.threshold) {
-            axiosInstance.post(`/alert`, {
-                budget_id: budget.id,
-                threshold: budget.alert && budget.alert.threshold
-            }).then((response: any) => {
+        if(checked) {
+            if(budget.alert && budget.alert.threshold) {
+                axiosInstance.post(`/alert`, {
+                    budget_id: budget.id,
+                    threshold: budget.alert && budget.alert.threshold
+                }).then((response: any) => {
+                    if(response.data.status) {
+                        this.refreshData();
+                    }
+                });
+            } else {
+                alert("You must enter a threshold value first");
+            }
+        } else {
+            axiosInstance.get(`/alert/remove/${budget.alert && budget.alert.id}`).then((response: any) => {
                 if(response.data.status) {
                     this.refreshData();
                 }
             });
-        } else {
-            alert("You must enter a threshold value first");
         }
     }
 
