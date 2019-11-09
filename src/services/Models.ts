@@ -345,6 +345,7 @@ export interface Tag extends Timestamps {
 
 export interface Budget extends Timestamps {
     id: number;
+    alert: Alert | Partial<Alert> | null;
     user_id: number;
     title: string;
     slug: string;
@@ -352,6 +353,13 @@ export interface Budget extends Timestamps {
     icon: string;
     amount: number;
     tags?: Tag[];
+}
+
+export interface Alert extends Timestamps {
+    id?: number;
+    user_id?: number;
+    budget_id?: number;
+    threshold: number;
 }
 
 export interface PaginatedListResults {

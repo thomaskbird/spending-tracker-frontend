@@ -1,4 +1,31 @@
 .BudgetAlerts {
+  &__info {
+    margin-bottom: .4rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+
+    &--header {
+      display: flex;
+
+      svg {
+        margin: .2rem;
+      }
+
+      h5 {
+        flex: 1;
+      }
+    }
+
+    &--explanation {
+      display: none;
+      margin: 0;
+
+      &.show {
+        display: block;
+      }
+    }
+  }
+
   &__item {
     display: flex;
     margin: 1rem 0;
