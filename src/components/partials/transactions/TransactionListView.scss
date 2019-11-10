@@ -3,6 +3,10 @@
   overflow-y: auto;
   overflow-x: hidden;
 
+  &__filter {
+    padding: 1rem 0;
+  }
+
   &__summary {
     padding: 1rem;
     display: flex;

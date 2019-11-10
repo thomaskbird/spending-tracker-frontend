@@ -6,6 +6,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { LineChartWrapper } from "../charts/LineChartWrapper";
 import { RouteViewport } from "../partials/RouteViewport";
 import { BudgetsVisualizations } from "../partials/visualizations/BudgetsVisualizations";
+import { BudgetVisualization } from "../partials/visualizations/BudgetVisualization";
 
 interface Props {
 
@@ -56,9 +57,8 @@ export class VisualizationsView extends React.Component<Props, State> {
                                                 <ul>
                                                     <li><Link to={`${baseUrl}/month`}>My Month</Link></li>
                                                     <li><Link to={`${baseUrl}/budgets`}>Budgets</Link></li>
-                                                    <li>under budget</li>
+                                                    <li><Link to={`${baseUrl}/budget`}>Budget Deep Dive</Link></li>
                                                     <li>Current balancegit </li>
-
                                                 </ul>
                                             </>
                                         );
@@ -82,6 +82,10 @@ export class VisualizationsView extends React.Component<Props, State> {
                                 <Route
                                     path={`${baseUrl}/budgets`}
                                     component={BudgetsVisualizations}
+                                />
+                                <Route
+                                    path={`${baseUrl}/budget`}
+                                    component={BudgetVisualization}
                                 />
                             </div>
                         </BrowserRouter>

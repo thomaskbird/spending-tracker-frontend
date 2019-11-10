@@ -47,6 +47,11 @@ export enum UserStatusEnum {
     deleted = "deleted"
 }
 
+export enum TransactionCategory {
+    transactions = "transactions",
+    queue = "queue"
+}
+
 export enum AvailableIcons {
     faAddressCard = "address-card",
     faAmbulance = "ambulance",
@@ -411,7 +416,15 @@ export interface TransactionSummaryDetails {
 }
 
 export interface BudgetVisualizationSummary {
+    id: number;
     name: string;
     limit: number;
     current: number;
+}
+
+export interface IndividualBudgetSummaryData {
+    id: number;
+    month: string;
+    income: number;
+    expense: number;
 }

@@ -72,6 +72,51 @@ input {
     @include formElement();
 }
 
+.button-group {
+    display: flex;
+    flex-direction: row;
+
+    &--button {
+        border-left: 0;
+        padding: .3rem 1rem;
+        background: transparent;
+        transition: all .25s ease-in;
+        color: $color-grey-dark-mid;
+        border-top: 1px solid $color-grey-dark-mid;
+        border-right: 1px solid $color-grey-dark-mid;
+        border-bottom: 1px solid $color-grey-dark-mid;
+
+        &:first-child {
+            border-left: 1px solid $color-grey-dark-mid;
+            border-top-left-radius: .3rem;
+            border-bottom-left-radius: .3rem;
+        }
+
+        &:last-child {
+            border-top-right-radius: .3rem;
+            border-bottom-right-radius: .3rem;
+        }
+
+        &:hover {
+            background: #eee;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &.active {
+            color: $color-white;
+            background: $color-grey-dark-mid;
+        }
+    }
+
+    &.centered {
+        margin: 0 auto;
+        width: fit-content;
+    }
+}
+
 /**
  * Main app styles
  */

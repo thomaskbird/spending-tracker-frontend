@@ -1,17 +1,18 @@
 import * as React from "react";
-import "./TransactionListView.scss";
-
 import _ from "lodash";
+import "./TransactionListView.scss";
 import {
-    LoadingProps, Transaction,
+    LoadingProps,
+    Transaction,
+    TransactionCategory, TransactionStatus,
     TransactionSummaryDetails,
     TransactionType,
     TransactionWithRecurring
 } from "../../../services/Models";
-import { TransactionListItem } from "./TransactionListItem";
-import { axiosInstance } from "../../../index";
-import { NoData } from "../../helpers/NoData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TransactionListItem } from "./TransactionListItem";
+import { NoData } from "../../helpers/NoData";
+import { axiosInstance } from "../../../index";
 
 interface TransactionListViewProps extends LoadingProps {
     start: string;
@@ -24,9 +25,11 @@ interface TransactionListViewProps extends LoadingProps {
 }
 
 interface State {
-    transactions: TransactionWithRecurring[] | undefined;
+    transactions: TransactionWithRecurring[];
+    queuedTransactions: TransactionWithRecurring[];
     transactionSummary: TransactionSummaryDetails | undefined;
     isSummaryVisible: boolean;
+    transactionCategory: TransactionCategory;
 }
 
 const COMPONENT_NAME = "ListView";
@@ -39,9 +42,11 @@ export class TransactionListView extends React.Component<
         super(props, context);
 
         this.state = {
-            transactions: undefined,
+            transactions: [],
+            queuedTransactions: [],
             transactionSummary: undefined,
-            isSummaryVisible: true
+            isSummaryVisible: true,
+            transactionCategory: TransactionCategory.transactions
         };
     }
 
@@ -90,40 +95,92 @@ export class TransactionListView extends React.Component<
                     </div>
                 ): (undefined)}
 
-                {this.state.transactions && this.state.transactions.map(
-                    (
-                        transaction: TransactionWithRecurring,
-                        idx: number
-                    ) => {
-                        return (
-                            <TransactionListItem
-                                key={idx}
-                                transaction={transaction}
-                                onAction={(actionType, transactionData) => {
-                                    if (actionType === "remove") {
-                                        this.transactionRemove(
-                                            transactionData
-                                        );
-                                    } else {
-                                        this.props.onTransactionAction(
-                                            actionType,
-                                            transactionData
-                                        );
-                                    }
-                                }}
-                            />
-                        );
-                    }
-                )}
+                <div className={`${COMPONENT_NAME}__filter`}>
+                    <div className={`button-group centered`}>
+                        <button
+                            className={`button-group--button ${this.state.transactionCategory === TransactionCategory.transactions ? "active" : ""}`}
+                            onClick={() => this.handleSetFilter()}
+                        >
+                            Transactions
+                        </button>
+                        <button
+                            className={`button-group--button ${this.state.transactionCategory === TransactionCategory.queue ? "active" : ""}`}
+                            onClick={() => this.handleSetFilter()}
+                        >
+                            Queue
+                        </button>
+                    </div>
+                </div>
 
-                {!this.state.transactions ||
-                this.state.transactions.length < 1 ? (
-                    <NoData type={"transactions"} />
-                ) : (
-                    undefined
-                )}
+                {this.renderList()}
             </div>
         );
+    }
+
+    private renderList(): JSX.Element {
+        if(this.state.transactionCategory === TransactionCategory.transactions) {
+            const transactions = this.formatTransactions(this.state.transactions && this.state.transactions);
+
+            return (
+                <>
+                    {transactions}
+
+                    {!this.state.transactions || this.state.transactions.length < 1 ? (
+                        <NoData type={"transactions"} />
+                    ) : (
+                        undefined
+                    )}
+                </>
+            );
+        } else {
+            const transactions = this.formatTransactions(this.state.queuedTransactions && this.state.queuedTransactions);
+
+            return (
+                <>
+                    {transactions}
+
+                    {!this.state.queuedTransactions || this.state.queuedTransactions.length < 1 ? (
+                        <NoData type={"queued transactions"} />
+                    ) : (
+                        undefined
+                    )}
+                </>
+            );
+        }
+    }
+
+    private formatTransactions(items: TransactionWithRecurring[]): JSX.Element[] {
+        const transactions = items.map(
+            (
+                transaction: TransactionWithRecurring,
+                idx: number
+            ) => {
+                return (
+                    <TransactionListItem
+                        key={idx}
+                        transaction={transaction}
+                        onAction={(actionType, transactionData) => {
+                            if (actionType === "remove") {
+                                this.transactionRemove(
+                                    transactionData
+                                );
+                            } else {
+                                this.props.onTransactionAction(
+                                    actionType,
+                                    transactionData
+                                );
+                            }
+                        }}
+                    />
+                );
+            }
+        );
+
+        return transactions;
+    }
+
+    private handleSetFilter(): void {
+        this.setState({ transactionCategory: this.state.transactionCategory === TransactionCategory.transactions ? TransactionCategory.queue : TransactionCategory.transactions });
     }
 
     private filterAndReduce(transactions: Transaction[], type: TransactionType): number {
@@ -146,7 +203,7 @@ export class TransactionListView extends React.Component<
     private refreshTransactions(): void {
         this.props.onToggleLoading(true);
         this.setState({
-            transactions: undefined
+            transactions: []
         });
 
         axiosInstance
@@ -163,7 +220,9 @@ export class TransactionListView extends React.Component<
                             remainingTotal: (incomeTotal - expenseTotal)
                         },
                         transactions:
-                            transactions.data.length !== 0 ? transactions.data : []
+                            transactions.data.length !== 0 ? _.filter(transactions.data, (item) => item.status !== TransactionStatus.queued) : [],
+                        queuedTransactions:
+                            transactions.data.length !== 0 ? _.filter(transactions.data, (item) => item.status === TransactionStatus.queued) : []
                     });
                 } else {
                     this.setState({
@@ -173,7 +232,9 @@ export class TransactionListView extends React.Component<
                             remainingTotal: 0
                         },
                         transactions:
-                            transactions.data.length !== 0 ? transactions.data : []
+                            transactions.data.length !== 0 ? _.filter(transactions.data, (item) => item.status !== TransactionStatus.queued) : [],
+                        queuedTransactions:
+                            transactions.data.length !== 0 ? _.filter(transactions.data, (item) => item.status === TransactionStatus.queued) : []
                     });
                 }
 

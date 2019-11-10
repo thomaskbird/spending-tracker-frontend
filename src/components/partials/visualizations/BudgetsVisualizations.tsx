@@ -16,16 +16,6 @@ interface State {
 
 const COMPONENT_NAME = "BudgetsVisualizations";
 
-const data = [
-    {name: "Auto", limit: 4000, current: 2400},
-    {name: "Grocery", limit: 3000, current: 1398},
-    {name: "Housing", limit: 2000, current: 9800},
-    {name: "Eating out", limit: 2780, current: 3908},
-    {name: "Subscriptions", limit: 1890, current: 4800},
-    {name: "Phones", limit: 2390, current: 3800},
-    {name: "Savings", limit: 3490, current: 4300},
-];
-
 export class BudgetsVisualizations extends React.Component<BudgetsVisualizationsProps, State> {
     public static readonly displayName = COMPONENT_NAME;
 
@@ -52,6 +42,7 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
                             height={300}
                             data={this.state.budgets}
                             margin={{top: 5, right: 0, left: 0, bottom: 5}}
+                            onClick={(e) => console.log("e", e)}
                         >
                             <CartesianGrid strokeDasharray="3 3"/>
                             <XAxis dataKey="name"/>
