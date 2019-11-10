@@ -7,8 +7,9 @@ import moment from "moment";
 
 const { RangePicker } = DatePicker;
 
-import { DateRange, PanelActionTypes } from "../../services/Models";
+import { DateRange, PanelActionTypes, TransactionCategory } from "../../services/Models";
 import { APP_DATE_FORMAT } from "../helpers/Utils";
+import { ButtonGroup } from "./library/ButtonGroup";
 
 interface HeaderPartialProps {
     range?: DateRange;
@@ -32,6 +33,10 @@ interface HeaderPartialProps {
      * @param {DateRange} range - An object containing the start/end values
      */
     onDateRangeChange?(direction: DateRange | string): void;
+
+    onToggleTransactionType(): void;
+
+    selectedTransactionType: any;
 }
 
 interface State {}
@@ -86,6 +91,10 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                             >
                                 <FontAwesomeIcon icon={"chevron-left"} />
                             </button>
+
+                            {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
+
+                            {/*
                             <RangePicker
                                 defaultValue={[this.props.range.start, this.props.range.end]}
                                 value={[this.props.range.start, this.props.range.end]}
@@ -99,6 +108,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                                     }
                                 }}
                             />
+                            */}
                             <button
                                 type={"button"}
                                 className={"pagination__button"}
@@ -108,7 +118,20 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                             </button>
                         </div>
                         <div className={"HeaderPartial--bottom"}>
-                            {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
+                            <ButtonGroup
+                                selected={this.props.selectedTransactionType}
+                                items={[
+                                    {
+                                        text: "Transactions",
+                                        type: TransactionCategory.transactions
+                                    },
+                                    {
+                                        text: "Queue",
+                                        type: TransactionCategory.queue
+                                    }
+                                ]}
+                                onSelection={() => this.props.onToggleTransactionType()}
+                            />
                         </div>
                     </>
                 ) : (

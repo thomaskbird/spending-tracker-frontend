@@ -5,11 +5,7 @@ import moment from "moment";
 import { TransactionListView } from "../partials/transactions/TransactionListView";
 import { TransactionForm } from "../partials/transactions/TransactionForm";
 
-import {
-    DateRange,
-    PanelActionTypes,
-    TransactionWithRecurring
-} from "../../services/Models";
+import { DateRange, PanelActionTypes, TransactionCategory, TransactionWithRecurring } from "../../services/Models";
 import { HeaderPartial } from "../partials/HeaderPartial";
 import { axiosInstance } from "../../index";
 import { SidebarPartial } from "../partials/SidebarPartial";
@@ -27,6 +23,7 @@ interface State {
     isPickerOpen: boolean;
     transactionToEdit: TransactionWithRecurring | undefined;
     transactionActionType: PanelActionTypes | undefined;
+    transactionCategory: TransactionCategory;
 }
 
 const COMPONENT_NAME = "TransactionView";
@@ -53,7 +50,8 @@ export class TransactionView extends React.Component<
             },
             transactionToEdit: undefined,
             transactionActionType: undefined,
-            isLoading: false
+            isLoading: false,
+            transactionCategory: TransactionCategory.transactions
         };
     }
 
@@ -69,6 +67,8 @@ export class TransactionView extends React.Component<
                         this.toggleTransactionPanel(isOpen, actionType);
                     }}
                     onDateRangeChange={(range) => this.handleDateRangeChange(range)}
+                    selectedTransactionType={this.state.transactionCategory}
+                    onToggleTransactionType={() => this.setState({ transactionCategory: this.state.transactionCategory === TransactionCategory.transactions ? TransactionCategory.queue : TransactionCategory.transactions})}
                 />
 
                 <div className={"BodyPartial"}>
@@ -78,6 +78,7 @@ export class TransactionView extends React.Component<
                         <TransactionListView
                             start={moment(this.state.range.start).format(APP_DATE_FORMAT)}
                             end={moment(this.state.range.end).format(APP_DATE_FORMAT)}
+                            transactionCategory={this.state.transactionCategory}
                             onTransactionAction={(
                                 action: PanelActionTypes,
                                 transaction

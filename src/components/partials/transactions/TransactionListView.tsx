@@ -4,7 +4,8 @@ import "./TransactionListView.scss";
 import {
     LoadingProps,
     Transaction,
-    TransactionCategory, TransactionStatus,
+    TransactionCategory,
+    TransactionStatus,
     TransactionSummaryDetails,
     TransactionType,
     TransactionWithRecurring
@@ -13,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TransactionListItem } from "./TransactionListItem";
 import { NoData } from "../../helpers/NoData";
 import { axiosInstance } from "../../../index";
+import { ButtonGroup } from "../library/ButtonGroup";
 
 interface TransactionListViewProps extends LoadingProps {
     start: string;
@@ -22,6 +24,7 @@ interface TransactionListViewProps extends LoadingProps {
         transaction: TransactionWithRecurring
     ): void;
     onReady(api: TransactionListView.Api): void;
+    transactionCategory: TransactionCategory;
 }
 
 interface State {
@@ -29,7 +32,6 @@ interface State {
     queuedTransactions: TransactionWithRecurring[];
     transactionSummary: TransactionSummaryDetails | undefined;
     isSummaryVisible: boolean;
-    transactionCategory: TransactionCategory;
 }
 
 const COMPONENT_NAME = "ListView";
@@ -46,7 +48,6 @@ export class TransactionListView extends React.Component<
             queuedTransactions: [],
             transactionSummary: undefined,
             isSummaryVisible: true,
-            transactionCategory: TransactionCategory.transactions
         };
     }
 
@@ -95,30 +96,13 @@ export class TransactionListView extends React.Component<
                     </div>
                 ): (undefined)}
 
-                <div className={`${COMPONENT_NAME}__filter`}>
-                    <div className={`button-group centered`}>
-                        <button
-                            className={`button-group--button ${this.state.transactionCategory === TransactionCategory.transactions ? "active" : ""}`}
-                            onClick={() => this.handleSetFilter()}
-                        >
-                            Transactions
-                        </button>
-                        <button
-                            className={`button-group--button ${this.state.transactionCategory === TransactionCategory.queue ? "active" : ""}`}
-                            onClick={() => this.handleSetFilter()}
-                        >
-                            Queue
-                        </button>
-                    </div>
-                </div>
-
                 {this.renderList()}
             </div>
         );
     }
 
     private renderList(): JSX.Element {
-        if(this.state.transactionCategory === TransactionCategory.transactions) {
+        if(this.props.transactionCategory === TransactionCategory.transactions) {
             const transactions = this.formatTransactions(this.state.transactions && this.state.transactions);
 
             return (
@@ -177,10 +161,6 @@ export class TransactionListView extends React.Component<
         );
 
         return transactions;
-    }
-
-    private handleSetFilter(): void {
-        this.setState({ transactionCategory: this.state.transactionCategory === TransactionCategory.transactions ? TransactionCategory.queue : TransactionCategory.transactions });
     }
 
     private filterAndReduce(transactions: Transaction[], type: TransactionType): number {
