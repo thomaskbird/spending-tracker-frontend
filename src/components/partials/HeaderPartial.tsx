@@ -34,9 +34,9 @@ interface HeaderPartialProps {
      */
     onDateRangeChange?(direction: DateRange | string): void;
 
-    onToggleTransactionType(): void;
+    onToggleTransactionType?(): void;
 
-    selectedTransactionType: any;
+    selectedTransactionType?: any;
 }
 
 interface State {}
@@ -132,7 +132,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                                         type: TransactionCategory.queue
                                     }
                                 ]}
-                                onSelection={() => this.props.onToggleTransactionType()}
+                                onSelection={() => this.props.onToggleTransactionType && this.props.onToggleTransactionType()}
                             />
                         </div>
                     </>
