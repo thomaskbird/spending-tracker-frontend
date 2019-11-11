@@ -115,6 +115,21 @@ input {
     }
 }
 
+.transaction {
+    &--header {
+        flex-direction: row !important;
+
+        h2 {
+            flex: 1;
+        }
+
+        button {
+            align-self: center;
+            height: fit-content;
+        }
+    }
+}
+
 .ListItem {
     position: relative;
 

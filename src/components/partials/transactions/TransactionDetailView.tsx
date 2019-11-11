@@ -2,10 +2,12 @@ import * as React from "react";
 import { TaggableType, TransactionStatus, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 import { TagTracker } from "../tags/TagTracker";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../../../index";
 
 interface TransactionDetailViewProps {
     transaction: TransactionWithRecurring;
     onTransactionTagToggle(): void;
+    onRefreshTransactions(): void;
 }
 
 interface State {}
@@ -25,13 +27,20 @@ export class TransactionDetailView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
-                <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width`}>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
-                        <h2>
-                            {this.props.transaction &&
-                                this.props.transaction.title}
-                        </h2>
-                    </span>
+                <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width transaction--header`}>
+                    <h2>
+                        {this.props.transaction &&
+                            this.props.transaction.title}
+                    </h2>
+                    {this.props.transaction && this.props.transaction.status === TransactionStatus.queued ? (
+                        <button
+                            className={`btn btn-default`}
+                            type={`button`}
+                            onClick={() => this.dequeueTransaction(this.props.transaction.id)}
+                        >
+                            Dequeue
+                        </button>
+                    ) : (undefined)}
                 </div>
 
                 <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width`}>
@@ -71,9 +80,6 @@ export class TransactionDetailView extends React.Component<
                     </span>
                     <span className={`${COMPONENT_NAME}__detail--value`}>
                         {this.props.transaction && this.props.transaction.status}
-                        {this.props.transaction && this.props.transaction.status === TransactionStatus.queued ? (
-                            <button type={`button`}>Remove from queue</button>
-                        ) : (undefined)}
                     </span>
                 </div>
 
@@ -150,5 +156,11 @@ export class TransactionDetailView extends React.Component<
                 />
             </div>
         );
+    }
+
+    private dequeueTransaction(id: number): void {
+        axiosInstance.get(`transaction/dequeue/${id}`).then((response) => {
+            this.props.onRefreshTransactions();
+        });
     }
 }

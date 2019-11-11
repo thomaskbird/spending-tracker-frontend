@@ -83,3 +83,11 @@ h6 {
         }
     }
 }
+
+.btn {
+    &-default {
+        color: #999;
+        border-color: #aaa;
+        background: transparent;
+    }
+}

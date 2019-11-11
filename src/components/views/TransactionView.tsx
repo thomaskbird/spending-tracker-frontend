@@ -105,6 +105,7 @@ export class TransactionView extends React.Component<
 
                     <TransactionPanelPartial
                         isAddTransactionOpen={this.state.isAddTransactionOpen}
+                        onRefreshTransactions={() => this.listApi!.refreshData()}
                         onClose={() => {
                             this.closeSlidePanels();
                         }}

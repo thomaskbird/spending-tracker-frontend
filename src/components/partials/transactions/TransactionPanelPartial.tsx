@@ -17,6 +17,7 @@ interface TransactionPanelPartialProps {
     onTransactionAdd(formData: any): void;
     onToggleTransactionPanel(): void;
     onTransactionTagToggle(): void;
+    onRefreshTransactions(): void;
 }
 
 interface State {}
@@ -72,6 +73,10 @@ export class TransactionPanelPartial extends React.Component<
                     />
                 ) : (
                     <TransactionDetailView
+                        onRefreshTransactions={() => {
+                            this.props.onRefreshTransactions();
+                            this.props.onClose();
+                        }}
                         transaction={this.props.transactionToEdit!}
                         onTransactionTagToggle={() => this.props.onToggleTransactionPanel()}
                     />

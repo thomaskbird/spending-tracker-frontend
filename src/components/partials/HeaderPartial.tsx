@@ -92,7 +92,9 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                                 <FontAwesomeIcon icon={"chevron-left"} />
                             </button>
 
-                            {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
+                            <span className={`HeaderPartial--month-indicator`}>
+                                {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
+                            </span>
 
                             {/*
                             <RangePicker
@@ -117,7 +119,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                                 <FontAwesomeIcon icon={"chevron-right"} />
                             </button>
                         </div>
-                        <div className={"HeaderPartial--bottom"}>
+                        <div className={"HeaderPartial--bottom sub"}>
                             <ButtonGroup
                                 selected={this.props.selectedTransactionType}
                                 items={[
