@@ -195,7 +195,7 @@ input {
         }
     }
 
-    &__text {
+    &__content {
         flex: 1;
         margin-right: 10px;
 
@@ -213,6 +213,24 @@ input {
 
         small {
             color: $color-grey-mid;
+        }
+
+        &--tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: .6rem;
+            flex-direction: row;
+
+            &-tag {
+                font-size: .6rem;
+                background: #eee;
+                padding: .1rem .4rem;
+                width: fit-content;
+                border: 1px solid #aaa;
+                border-radius: 3px;
+                color: #999;
+                margin: 0 .5rem .5rem 0;
+            }
         }
     }
 

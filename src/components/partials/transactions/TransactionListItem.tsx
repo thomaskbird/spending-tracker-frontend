@@ -48,13 +48,26 @@ export class TransactionListItem extends React.Component<
                         <input type={"checkbox"} id={"transaction-box"} />
                     </div>
                     <div
-                        className={`${COMPONENT_NAME}__text`}
+                        className={`${COMPONENT_NAME}__content`}
                         onClick={() => {
                             this.props.onAction("view", this.props.transaction);
                         }}
                     >
                         <h5>{this.props.transaction.title}</h5>
                         <small>{this.props.transaction.description}</small>
+
+                        {this.props.transaction.tags ? (
+                            <div className={`${COMPONENT_NAME}__content--tags`}>
+                                {this.props.transaction.tags.map((tag, i) => (
+                                    <div
+                                        key={i}
+                                        className={`${COMPONENT_NAME}__content--tags-tag`}
+                                    >
+                                        {tag.title}
+                                    </div>
+                                ))}
+                            </div>
+                        ): (undefined)}
                     </div>
                     <div className={`${COMPONENT_NAME}__info`}>
                         <div className={`${COMPONENT_NAME}__info--date`}>

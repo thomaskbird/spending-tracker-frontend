@@ -195,23 +195,26 @@ export class TagTracker extends React.Component<Props, State> {
      * Refreshes the views data based on the transaction id
      */
     private async refreshData(): Promise<any> {
-        this.setState({
-            isLoading: true,
-            tags: []
-        });
+        this.setState({ tags: [] });
 
-        axiosInstance
-            .post(`/tag/relation`, {
-                taggable_id: this.props.targetId,
-                taggable_type: this.props.type
-            })
-            .then((response) => {
-                console.log("refreshData()", response);
-
-                this.setState({
-                    isLoading: false,
-                    tags: response.data.data.tags
-                });
+        if(this.props.targetId && this.props.type) {
+            this.setState({
+                isLoading: true
             });
+
+            axiosInstance
+                .post(`/tag/relation`, {
+                    taggable_id: this.props.targetId,
+                    taggable_type: this.props.type
+                })
+                .then((response) => {
+                    console.log("refreshData()", response);
+
+                    this.setState({
+                        isLoading: false,
+                        tags: response.data.data.tags
+                    });
+                });
+        }
     }
 }

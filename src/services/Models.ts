@@ -314,6 +314,7 @@ export interface Transaction extends Timestamps {
     title: string;
     description: string | undefined;
     amount: number;
+    tags: Tag[];
     type: TransactionType;
     status: TransactionStatus;
     occurred_at: string;

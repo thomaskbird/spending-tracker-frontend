@@ -214,6 +214,7 @@ export class TransactionView extends React.Component<
      * Closes the slide panels
      */
     private closeSlidePanels(): void {
+        this.listApi!.refreshData();
         this.setState({
             isSidebarOpen: false,
             isAddTransactionOpen: false,
