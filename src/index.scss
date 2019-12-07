@@ -90,4 +90,9 @@ h6 {
         border-color: #aaa;
         background: transparent;
     }
+
+    &-danger {
+        border-color: darken(#CD5C5C, 20%);
+        background: #CD5C5C;
+    }
 }

@@ -4,6 +4,34 @@ pre {
     border: 1px solid $color-grey-light;
 }
 
+.ant {
+    &-switch {
+        width: fit-content;
+    }
+}
+
+.btn {
+    &__group {
+        display: flex;
+
+        button {
+            flex: 1;
+            border-radius: 0;
+
+            &:first-child {
+                border-right: 0;
+                border-top-left-radius: .25rem;
+                border-bottom-left-radius: .25rem;
+            }
+
+            &:last-child {
+                border-top-right-radius: .25rem;
+                border-bottom-right-radius: .25rem;
+            }
+        }
+    }
+}
+
 .FormGroup {
     display: flex;
     margin-bottom: 15px;
@@ -223,13 +251,22 @@ input {
 
             &-tag {
                 font-size: .6rem;
-                background: #eee;
                 padding: .1rem .4rem;
                 width: fit-content;
-                border: 1px solid #aaa;
                 border-radius: 3px;
-                color: #999;
                 margin: 0 .5rem .5rem 0;
+
+                &__default {
+                    color: #999;
+                    background: #eee;
+                    border: 1px solid #aaa;
+                }
+
+                &__bill {
+                    color: #fff;
+                    background: #CD5C5C;
+                    border: 1px solid darken(#CD5C5C, 20%);
+                }
             }
         }
     }
@@ -327,7 +364,7 @@ input {
         }
 
         &:first-child {
-            border-bottom: 1px solid $color-grey-mid;
+            margin-top: 1rem;
         }
 
         &--label {

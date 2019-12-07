@@ -58,10 +58,18 @@ export class TransactionListItem extends React.Component<
 
                         {this.props.transaction.tags ? (
                             <div className={`${COMPONENT_NAME}__content--tags`}>
+                                {this.props.transaction.is_bill ? (
+                                    <div
+                                        className={`${COMPONENT_NAME}__content--tags-tag ${COMPONENT_NAME}__content--tags-tag__bill`}
+                                    >
+                                        Bill
+                                    </div>
+                                ): (undefined)}
+
                                 {this.props.transaction.tags.map((tag, i) => (
                                     <div
                                         key={i}
-                                        className={`${COMPONENT_NAME}__content--tags-tag`}
+                                        className={`${COMPONENT_NAME}__content--tags-tag ${COMPONENT_NAME}__content--tags-tag__default`}
                                     >
                                         {tag.title}
                                     </div>

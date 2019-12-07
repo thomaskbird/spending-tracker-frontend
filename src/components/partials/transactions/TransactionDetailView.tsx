@@ -27,11 +27,8 @@ export class TransactionDetailView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
-                <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width transaction--header`}>
-                    <h2>
-                        {this.props.transaction &&
-                            this.props.transaction.title}
-                    </h2>
+                <div className={`${COMPONENT_NAME}__detail`}>
+                    <div className={`btn__group`}>
                     {this.props.transaction && this.props.transaction.status === TransactionStatus.queued ? (
                         <button
                             className={`btn btn-default`}
@@ -41,6 +38,21 @@ export class TransactionDetailView extends React.Component<
                             Dequeue
                         </button>
                     ) : (undefined)}
+
+                        <button
+                            className={`btn ${this.props.transaction && this.props.transaction.is_bill ? "btn-danger" : "btn-default"}`}
+                            type={`button`}
+                            onClick={() => this.toggleBill(this.props.transaction.id)}
+                        >
+                            Bill
+                        </button>
+                    </div>
+                </div>
+                <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width transaction--header`}>
+                    <h2>
+                        {this.props.transaction &&
+                            this.props.transaction.title}
+                    </h2>
                 </div>
 
                 <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width`}>
@@ -159,8 +171,20 @@ export class TransactionDetailView extends React.Component<
     }
 
     private dequeueTransaction(id: number): void {
-        axiosInstance.get(`transaction/dequeue/${id}`).then((response) => {
-            this.props.onRefreshTransactions();
-        });
+        axiosInstance.get(`transaction/dequeue/${id}`)
+            .then((response) => this.props.onRefreshTransactions())
+            .catch(error => console.log("Error: ", error));
+    }
+
+    private toggleBill(id: number): void {console.log({
+        id: id,
+        is_bill: !this.props.transaction.is_bill
+    });
+        axiosInstance.post(`transaction/markbill`, {
+            id: id,
+            is_bill: !this.props.transaction.is_bill
+        })
+            .then((response) => this.props.onRefreshTransactions())
+            .catch(error => console.log("Error: ", error));
     }
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, Redirect } from "react-router-dom";
 import Select from "react-select";
-import { Button } from "antd";
+import { Button, Switch } from "antd";
 import { axiosInstance } from "../../../index";
 
 interface ImportIntroProps {
@@ -12,6 +12,7 @@ interface State {
     sourceType: string | undefined;
     file: any;
     redirect: boolean;
+    headerIsFirstRow: boolean;
 }
 
 const COMPONENT_NAME = "SettingsView";
@@ -31,7 +32,8 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
         this.state = {
             sourceType: undefined,
             file: undefined,
-            redirect: false
+            redirect: false,
+            headerIsFirstRow: false,
         };
     }
 
@@ -75,6 +77,14 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
                                 const newVal = e.target.files![0];
                                 this.setState({ file: newVal });
                             }}
+                        />
+                    </div>
+
+                    <div className={"FormGroup"}>
+                        <label htmlFor={"headerIsFirstRow"}>Is the first row the header?</label>
+                        <Switch
+                            checked={this.state.headerIsFirstRow}
+                            onChange={(checked) => this.setState({ headerIsFirstRow: !this.state.headerIsFirstRow })}
                         />
                     </div>
 

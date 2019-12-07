@@ -316,6 +316,7 @@ export interface Transaction extends Timestamps {
     amount: number;
     tags: Tag[];
     type: TransactionType;
+    is_bill: boolean;
     status: TransactionStatus;
     occurred_at: string;
 }
