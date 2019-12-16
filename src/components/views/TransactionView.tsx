@@ -60,12 +60,8 @@ export class TransactionView extends React.Component<
             <div className={`${COMPONENT_NAME} PageView`}>
                 <HeaderPartial
                     range={this.state.range}
-                    onToggleSidebar={() => {
-                        this.toggleSidebarPanel(true);
-                    }}
-                    onToggleContextPanel={(isOpen, actionType) => {
-                        this.toggleTransactionPanel(isOpen, actionType);
-                    }}
+                    onToggleSidebar={() => this.toggleSidebarPanel(true)}
+                    onToggleContextPanel={(isOpen, actionType) => this.toggleTransactionPanel(isOpen, actionType)}
                     onDateRangeChange={(range) => this.handleDateRangeChange(range)}
                     selectedTransactionType={this.state.transactionCategory}
                     onToggleTransactionType={() => this.setState({ transactionCategory: this.state.transactionCategory === TransactionCategory.transactions ? TransactionCategory.queue : TransactionCategory.transactions})}
