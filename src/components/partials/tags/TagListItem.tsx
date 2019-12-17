@@ -48,7 +48,7 @@ export class TagListItem extends React.Component<
                         <input type={"checkbox"} id={"transaction-box"} />
                     </div>
                     <div
-                        className={`${COMPONENT_NAME}__text`}
+                        className={`${COMPONENT_NAME}__content`}
                         onClick={() => {
                             this.props.onAction("view", this.props.tag);
                         }}
