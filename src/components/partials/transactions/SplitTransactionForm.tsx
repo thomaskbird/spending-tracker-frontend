@@ -103,6 +103,7 @@ export class SplitTransactionForm extends React.Component<
                             const newTransaction = {
                                 ...this.apiExisting!.getVals() as any,
                                 ...this.apiNew!.getVals() as any,
+                                status: "queued",
                                 occurred_at: this.props.transaction && this.props.transaction.occurred_at
                             };
 
