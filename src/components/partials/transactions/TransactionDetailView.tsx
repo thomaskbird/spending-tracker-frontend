@@ -1,13 +1,13 @@
 import * as React from "react";
 import { TaggableType, TransactionStatus, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 import { TagTracker } from "../tags/TagTracker";
-import { Link } from "react-router-dom";
 import { axiosInstance } from "../../../index";
 
 interface TransactionDetailViewProps {
     transaction: TransactionWithRecurring;
     onTransactionTagToggle(): void;
     onRefreshTransactions(): void;
+    onSplitBill(transaction: TransactionWithRecurring): void;
 }
 
 interface State {}
@@ -38,6 +38,16 @@ export class TransactionDetailView extends React.Component<
                             Dequeue
                         </button>
                     ) : (undefined)}
+
+                    {this.props.transaction && this.props.transaction.type === TransactionType.expense ? (
+                        <button
+                            className={`btn btn-default`}
+                            type={`button`}
+                            onClick={() => this.props.onSplitBill(this.props.transaction)}
+                        >
+                            Split
+                        </button>
+                    ): (undefined)}
 
                         <button
                             className={`btn ${this.props.transaction && this.props.transaction.is_bill ? "btn-danger" : "btn-default"}`}
@@ -176,10 +186,7 @@ export class TransactionDetailView extends React.Component<
             .catch(error => console.log("Error: ", error));
     }
 
-    private toggleBill(id: number): void {console.log({
-        id: id,
-        is_bill: !this.props.transaction.is_bill
-    });
+    private toggleBill(id: number): void {
         axiosInstance.post(`transaction/markbill`, {
             id: id,
             is_bill: !this.props.transaction.is_bill

@@ -7,10 +7,11 @@ import { TransactionWithRecurring } from "../../../services/Models";
 import moment from "moment";
 
 interface TransactionFormProps {
-    transaction?: TransactionWithRecurring;
-    onSubmit(formData: any): void;
+    transaction?: Partial<TransactionWithRecurring>;
+    onSubmit?(formData: any): void;
     onReady(api: TransactionForm.Api): void;
     onCancel(): void;
+    isSplit?: boolean;
 }
 
 interface State {
@@ -57,6 +58,9 @@ export class TransactionForm extends React.Component<
         this.state = this.handleResetData();
 
         const api: TransactionForm.Api = {
+            getVals: () => {
+                return this.state;
+            },
             clearData: () => {
                 this.setState(this.handleResetData());
             }
@@ -95,13 +99,16 @@ export class TransactionForm extends React.Component<
                     "YYYY-MM-DD"
                 ) as any));
         const panelTitle = this.props.transaction
-            ? `Edit ${this.props.transaction.title} Transaction`
+            ? `${this.props.isSplit ? "Split" : "Edit"} ${this.props.transaction.title} Transaction`
             : "Add Transaction";
 
         return (
             <form
                 onSubmit={(event) => {
-                    this.handleFormSubmit(event);
+                    if(this.props.onSubmit) {
+                        this.props.onSubmit(this.state);
+                    }
+                    event.preventDefault();
                 }}
             >
                 <h2>{panelTitle}</h2>
@@ -157,6 +164,7 @@ export class TransactionForm extends React.Component<
                 <div className={"FormGroup"}>
                     <label htmlFor={"occurred_at"}>Occured on:</label>
                     <DatePicker
+                        disabled={!!this.props.isSplit}
                         value={occurredAt}
                         onChange={(date, dateString) => {
                             this.setState({
@@ -169,6 +177,7 @@ export class TransactionForm extends React.Component<
                 <div className={"FormGroup"}>
                     <label htmlFor={"type"}>Type:</label>
                     <Select
+                        disabled={!!this.props.isSplit}
                         value={this.state.type}
                         options={this.typeOptions}
                         onChange={(selectedOption: any) => {
@@ -179,94 +188,92 @@ export class TransactionForm extends React.Component<
                     />
                 </div>
 
-                <div className={"FormGroup FormGroup__inline"}>
-                    <label>Is this recurring?</label>
-                    <Switch
-                        defaultChecked={this.state.isRecurring}
-                        checked={this.state.isRecurring}
-                        onChange={(checked) => {
-                            this.setState({
-                                isRecurring: !this.state.isRecurring
-                            });
-                        }}
-                    />
-                </div>
+                {this.props.isSplit && this.props.isSplit ? (undefined) : (
+                    <>
+                        <div className={"FormGroup FormGroup__inline"}>
+                            <label>Is this recurring?</label>
+                            <Switch
+                                defaultChecked={this.state.isRecurring}
+                                checked={this.state.isRecurring}
+                                onChange={(checked) => {
+                                    this.setState({
+                                        isRecurring: !this.state.isRecurring
+                                    });
+                                }}
+                            />
+                        </div>
 
-                <div
-                    className={
-                        this.state.isRecurring
-                            ? "recurring-detail-panel open"
-                            : "recurring-detail-panel"
-                    }
-                >
-                    <div className={"FormGroup"}>
-                        <label htmlFor={"recurring_type"}>
-                            Recurring type:
-                        </label>
-                        <Select
-                            value={this.state.recurring_type}
-                            options={this.recurringTypeOptions}
-                            onChange={(selectedOption: any) => {
-                                this.setState({
-                                    recurring_type: selectedOption.value
-                                });
-                            }}
-                        />
-                    </div>
+                        <div
+                            className={
+                                this.state.isRecurring
+                                    ? "recurring-detail-panel open"
+                                    : "recurring-detail-panel"
+                            }
+                        >
+                            <div className={"FormGroup"}>
+                                <label htmlFor={"recurring_type"}>
+                                    Recurring type:
+                                </label>
+                                <Select
+                                    value={this.state.recurring_type}
+                                    options={this.recurringTypeOptions}
+                                    onChange={(selectedOption: any) => {
+                                        this.setState({
+                                            recurring_type: selectedOption.value
+                                        });
+                                    }}
+                                />
+                            </div>
 
-                    <div className={"FormGroup"}>
-                        <label htmlFor={"start_at"}>Starts on:</label>
-                        <DatePicker
-                            value={startAt}
-                            onChange={(date, dateString) => {
-                                this.setState({
-                                    start_at: dateString
-                                });
-                            }}
-                        />
-                    </div>
+                            <div className={"FormGroup"}>
+                                <label htmlFor={"start_at"}>Starts on:</label>
+                                <DatePicker
+                                    value={startAt}
+                                    onChange={(date, dateString) => {
+                                        this.setState({
+                                            start_at: dateString
+                                        });
+                                    }}
+                                />
+                            </div>
 
-                    <div className={"FormGroup"}>
-                        <label htmlFor={"end_at"}>Ends on:</label>
-                        <DatePicker
-                            value={endAt}
-                            onChange={(date, dateString) => {
-                                this.setState({
-                                    end_at: dateString
-                                });
-                            }}
-                        />
-                    </div>
-                </div>
+                            <div className={"FormGroup"}>
+                                <label htmlFor={"end_at"}>Ends on:</label>
+                                <DatePicker
+                                    value={endAt}
+                                    onChange={(date, dateString) => {
+                                        this.setState({
+                                            end_at: dateString
+                                        });
+                                    }}
+                                />
+                            </div>
+                        </div>
 
-                <div className={"FormGroup FormGroup__inline"}>
-                    <Button
-                        type="primary"
-                        htmlType={"submit"}
-                        className={"btn btn-primary"}>
-                        Submit
-                    </Button>
-                    <Button
-                        type="default"
-                        className={"btn btn-default"}
-                        onClick={() => {
-                            this.props.onCancel();
-                        }}
-                    >
-                        Cancel
-                    </Button>
-                </div>
+                        <div className={"FormGroup FormGroup__inline"}>
+                            <Button
+                                type="primary"
+                                htmlType={"submit"}
+                                className={"btn btn-primary"}>
+                                Submit
+                            </Button>
+                            <Button
+                                type="default"
+                                className={"btn btn-default"}
+                                onClick={() => {
+                                    this.props.onCancel();
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    </>
+                )}
             </form>
         );
     }
 
-    private handleFormSubmit(event: any): void {
-        this.props.onSubmit(this.state);
-
-        event.preventDefault();
-    }
-
-    private handleResetData(): State {
+    private handleResetData(): State {console.log("handleResetData()");
         let isRecurring = false;
         if (this.props.transaction && this.props.transaction.recurring && this.props.transaction !== undefined) {
             isRecurring = true;
@@ -301,5 +308,6 @@ export class TransactionForm extends React.Component<
 export namespace TransactionForm {
     export interface Api {
         clearData(): void;
+        getVals(): void;
     }
 }

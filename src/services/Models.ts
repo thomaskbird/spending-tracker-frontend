@@ -21,7 +21,8 @@ export enum RecurringType {
 export enum PanelActionTypes {
     view = "view",
     edit = "edit",
-    add = "add"
+    add = "add",
+    split = "split"
 }
 
 export enum IntroActionType {

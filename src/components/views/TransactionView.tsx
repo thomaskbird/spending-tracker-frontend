@@ -123,6 +123,11 @@ export class TransactionView extends React.Component<
                         onTransactionTagToggle={() => {
                             this.listApi!.refreshData();
                         }}
+                        onSplitBill={(transaction: TransactionWithRecurring) => this.toggleTransactionPanel(
+                            true,
+                            PanelActionTypes.split,
+                            transaction
+                        )}
                     />
                 </div>
             </div>

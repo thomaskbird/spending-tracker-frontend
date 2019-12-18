@@ -7,6 +7,8 @@ import {
     PanelActionTypes,
     TransactionWithRecurring
 } from "../../../services/Models";
+import { $enum } from "ts-enum-util";
+import { SplitTransactionForm } from "./SplitTransactionForm";
 
 interface TransactionPanelPartialProps {
     isAddTransactionOpen: boolean;
@@ -18,6 +20,7 @@ interface TransactionPanelPartialProps {
     onToggleTransactionPanel(): void;
     onTransactionTagToggle(): void;
     onRefreshTransactions(): void;
+    onSplitBill(transaction: TransactionWithRecurring): void;
 }
 
 interface State {}
@@ -58,30 +61,57 @@ export class TransactionPanelPartial extends React.Component<
                     <FontAwesomeIcon icon={"times"} />
                 </span>
 
-                {this.props.transactionActionType !== "view" ? (
-                    <TransactionForm
-                        transaction={this.props.transactionToEdit}
-                        onReady={(api) => {
-                            this.props.onReady(api);
-                        }}
-                        onSubmit={(formData) => {
-                            this.props.onTransactionAdd(formData);
-                        }}
-                        onCancel={() => {
-                            this.props.onToggleTransactionPanel();
-                        }}
-                    />
-                ) : (
-                    <TransactionDetailView
-                        onRefreshTransactions={() => {
-                            this.props.onRefreshTransactions();
-                            this.props.onClose();
-                        }}
-                        transaction={this.props.transactionToEdit!}
-                        onTransactionTagToggle={() => this.props.onToggleTransactionPanel()}
-                    />
-                )}
+                {$enum.visitValue(this.props.transactionActionType).with({
+                    [PanelActionTypes.view]: () => this.renderTransactionDetailView(),
+                    [PanelActionTypes.edit]: () => this.renderTransactionAddForm(),
+                    [PanelActionTypes.add]: () => this.renderTransactionAddForm(),
+                    [PanelActionTypes.split]: () => this.renderSplitTransactionForm(),
+                    [$enum.handleUndefined]: () => this.renderTransactionDetailView(),
+                })}
             </div>
+        );
+    }
+
+    private renderSplitTransactionForm(): JSX.Element {
+        return (
+            <SplitTransactionForm
+                transaction={this.props.transactionToEdit}
+                onReady={(api) => {
+                    this.props.onReady(api);
+                }}
+                onSplit={() => {
+                    this.props.onRefreshTransactions();
+                    this.props.onClose();
+                }}
+                onCancel={() => {
+                    this.props.onToggleTransactionPanel();
+                }}
+            />
+        );
+    }
+
+    private renderTransactionAddForm(): JSX.Element {
+        return (
+            <TransactionForm
+                transaction={this.props.transactionToEdit}
+                onReady={(api) => this.props.onReady(api)}
+                onSubmit={(formData) => this.props.onTransactionAdd(formData)}
+                onCancel={() => this.props.onToggleTransactionPanel()}
+            />
+        );
+    }
+
+    private renderTransactionDetailView(): JSX.Element {
+        return (
+            <TransactionDetailView
+                onRefreshTransactions={() => {
+                    this.props.onRefreshTransactions();
+                    this.props.onClose();
+                }}
+                onSplitBill={(transaction) => this.props.onSplitBill(transaction)}
+                transaction={this.props.transactionToEdit!}
+                onTransactionTagToggle={() => this.props.onToggleTransactionPanel()}
+            />
         );
     }
 }
