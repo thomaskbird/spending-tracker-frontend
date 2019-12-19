@@ -1,16 +1,20 @@
 import * as React from "react";
 import { NoData } from "../../helpers/NoData";
-import { LoadingProps, Tag } from "src/services/Models";
+import { DateRange, LoadingProps, Tag } from "src/services/Models";
 import { axiosInstance } from "src/index";
 import { TagListItem } from "src/components/partials/tags/TagListItem";
+import { APP_DATE_FORMAT } from "../../helpers/Utils";
+import moment from "moment";
 
 interface TagListViewProps extends LoadingProps {
     onReady(api: TagListView.Api): void;
     onTagAction(action: string, tag: Tag): void;
+    range: DateRange;
 }
 
 interface State {
     tags: Tag[] | undefined;
+    range: DateRange;
 }
 
 const COMPONENT_NAME = "TagListView";
@@ -25,7 +29,11 @@ export class TagListView extends React.Component<
         super(props, context);
 
         this.state = {
-            tags: []
+            tags: [],
+            range: {
+                start: moment().startOf("month"),
+                end: moment().endOf("month")
+            }
         };
     }
 
@@ -39,6 +47,12 @@ export class TagListView extends React.Component<
         };
 
         this.props.onReady(api);
+    }
+
+    public componentDidUpdate(prevProps: Readonly<TagListViewProps>): void {
+        if(prevProps.range !== this.props.range) {
+            this.refreshTags();
+        }
     }
 
     public render(): JSX.Element {
@@ -79,7 +93,7 @@ export class TagListView extends React.Component<
             tags: undefined
         });
 
-        axiosInstance.get(`/tags`).then((response) => {
+        axiosInstance.get(`/tags/${this.state.range.start.format(APP_DATE_FORMAT)}/${this.state.range.end.format(APP_DATE_FORMAT)}`).then((response) => {
             if(response.data.status) {
                 this.setState({
                     tags: response.data.data.tags.length !== 0 ? response.data.data.tags : []

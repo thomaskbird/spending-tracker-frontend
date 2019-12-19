@@ -30,9 +30,6 @@ export class TagPanelPartial extends React.Component<
         this.state = {};
     }
 
-    public componentDidUpdate(prevProps: TagPanelPartialProps): void {
-    }
-
     public render(): JSX.Element {
         return (
             <div
