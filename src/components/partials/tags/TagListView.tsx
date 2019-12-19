@@ -9,7 +9,7 @@ import moment from "moment";
 interface TagListViewProps extends LoadingProps {
     onReady(api: TagListView.Api): void;
     onTagAction(action: string, tag: Tag): void;
-    range: DateRange;
+    range?: DateRange;
 }
 
 interface State {
