@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Tag, TransactionType } from "../../../services/Models";
+import * as _ from "lodash";
+import { Tag, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 import moment from "moment";
 
 interface TagDetailViewProps {
@@ -22,6 +23,7 @@ export class TagDetailView extends React.Component<
     }
 
     public render(): JSX.Element {
+
         return (
             <div className={COMPONENT_NAME}>
                 <div className={`${COMPONENT_NAME}__detail`}>
@@ -47,7 +49,7 @@ export class TagDetailView extends React.Component<
                         <div className={`${COMPONENT_NAME}__detail--list__header`}>
                             Transactions
                         </div>
-                        <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`}></div>
+                        <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`}/>
                         <div className={`${COMPONENT_NAME}__detail--list__body`}>
                             {this.props.tag.transactions.map((transaction, index) => {
                                 return (
@@ -74,6 +76,23 @@ export class TagDetailView extends React.Component<
                                     </div>
                                 );
                             })}
+                        </div>
+
+                        <div
+                            className={`${COMPONENT_NAME}__detail--list__body-item`}
+                        >
+                                <span>
+                                    <b>Total</b>
+                                </span>
+                                <span>
+                                    ${this.props.tag.transactions.reduce((total: number, item: any) => {
+                                        if(item.type === TransactionType.income) {
+                                            return total + item.amount;
+                                        } else {
+                                            return total - item.amount;
+                                        }
+                                    }, 0)}
+                                </span>
                         </div>
                     </div>
                 ) : (undefined)}
