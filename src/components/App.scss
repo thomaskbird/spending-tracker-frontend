@@ -418,6 +418,14 @@ input {
                         }
                     }
 
+                    & span:last-child {
+                        text-align: right;
+                    }
+
+                    &--date {
+                        color: #aaa;
+                    }
+
                     &:nth-child(2n+1) {
                         background: lighten($color-grey-white, 2%);
                     }

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Tag, TransactionType } from "../../../services/Models";
+import moment from "moment";
 
 interface TagDetailViewProps {
     tag: Tag;
@@ -63,7 +64,12 @@ export class TagDetailView extends React.Component<
                                             TransactionType.income
                                                 ? "+"
                                                 : "-"}{" "}
-                                            {transaction.amount}
+                                            {transaction.amount}<br/>
+                                            <span className={`${COMPONENT_NAME}__detail--list__body-item--date`}>
+                                                {moment(transaction.occurred_at).format(
+                                                "YYYY-MM-DD"
+                                                )}
+                                            </span>
                                         </span>
                                     </div>
                                 );
