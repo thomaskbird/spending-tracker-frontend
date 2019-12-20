@@ -91,7 +91,7 @@ export class TagDetailView extends React.Component<
                                         } else {
                                             return total - item.amount;
                                         }
-                                    }, 0)}
+                                    }, 0).toFixed(2)}
                                 </span>
                         </div>
                     </div>
