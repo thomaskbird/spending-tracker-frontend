@@ -16,23 +16,10 @@ export class TagDetailView extends React.Component<
     TagDetailViewProps,
     State
 > {
-    private transactions: Transaction[] = [];
-
     constructor(props: TagDetailViewProps, context: any) {
         super(props, context);
 
         this.state = {};
-    }
-
-    public componentDidMount(): void {
-        this.transactions = this.props.tag.transactions || [];
-    }
-
-    public componentDidUpdate(prevProps: Readonly<TagDetailViewProps>, prevState: Readonly<State>, snapshot?: any): void {
-        console.log("transactions", prevProps.tag.transactions, this.props.tag.transactions);
-        if(_.isEqual(prevProps.tag.transactions, this.props.tag.transactions)) {
-            this.transactions = this.props.tag.transactions!;
-        }
     }
 
     public render(): JSX.Element {
@@ -56,14 +43,18 @@ export class TagDetailView extends React.Component<
                     </span>
                 </div>
 
-                {this.transactions ? (
+                {this.props.tag && this.props.tag.transactions ? (
                     <div className={`${COMPONENT_NAME}__detail--list`}>
                         <div className={`${COMPONENT_NAME}__detail--list__header`}>
                             Transactions
+
+                            <span style={{ float: "right" }}>
+                                {this.props.tag.transactions.length}
+                            </span>
                         </div>
                         <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`}/>
                         <div className={`${COMPONENT_NAME}__detail--list__body`}>
-                            {this.transactions.map((transaction, index) => {
+                            {this.props.tag.transactions.map((transaction, index) => {
                                 return (
                                     <div
                                         key={index}
@@ -95,7 +86,7 @@ export class TagDetailView extends React.Component<
                                     <b>Total</b>
                                 </span>
                                 <span>
-                                    ${this.props.tag && this.props.tag.transactions && this.props.tag.transactions.reduce((total: number, item: any) => {
+                                    ${this.props.tag.transactions.reduce((total: number, item: any) => {
                                         if(item.type === TransactionType.income) {
                                             return total + item.amount;
                                         } else {

@@ -220,7 +220,7 @@ export class TagView extends React.Component<Props, State> {
                 this.setState({
                     tagToEdit: freshTagData
                 });
-            }, 500);
+            }, 250);
         });
     }
 }
