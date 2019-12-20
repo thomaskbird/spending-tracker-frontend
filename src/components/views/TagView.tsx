@@ -1,13 +1,14 @@
 import * as React from "react";
 import "./TagView.scss";
 import { HeaderPartial } from "../partials/HeaderPartial";
-import { PanelActionTypes, Tag } from "../../services/Models";
+import { DateRange, PanelActionTypes, Tag } from "../../services/Models";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { TagListView } from "../partials/tags/TagListView";
 import { TagForm } from "../partials/tags/TagForm";
 import { TagPanelPartial } from "../partials/tags/TagPanelPartial";
 import { axiosInstance } from "../../index";
 import { RouteViewport } from "../partials/RouteViewport";
+import moment from "moment";
 
 interface Props {
 
@@ -19,6 +20,7 @@ interface State {
     tagActionType: PanelActionTypes | undefined;
     tagToEdit: Tag | undefined;
     isLoading: boolean;
+    range: DateRange;
 }
 
 const COMPONENT_NAME = "View";
@@ -36,7 +38,11 @@ export class TagView extends React.Component<Props, State> {
             isAddTagOpen: false,
             tagActionType: undefined,
             tagToEdit: undefined,
-            isLoading: false
+            isLoading: false,
+            range: {
+                start: moment().startOf("month"),
+                end: moment().endOf("month")
+            },
         };
     }
 
@@ -50,6 +56,8 @@ export class TagView extends React.Component<Props, State> {
                     onToggleContextPanel={(isOpen, actionType) => {
                         this.toggleTagPanel(isOpen, actionType);
                     }}
+                    range={this.state.range}
+                    onDateRangeChange={(dateRange) => this.handleDateRangeChange(dateRange)}
                 />
 
                 <div className={"BodyPartial"}>
@@ -57,13 +65,11 @@ export class TagView extends React.Component<Props, State> {
                         isLoading={this.state.isLoading}
                     >
                         <TagListView
+                            range={this.state.range}
                             onTagAction={(
                                 action: PanelActionTypes,
                                 tag
-                            ) => {
-                                console.log(action, tag);
-                                this.toggleTagPanel(true, action, tag);
-                            }}
+                            ) => this.toggleTagPanel(true, action, tag)}
                             onReady={(api: TagListView.Api) => {
                                 this.listApi = api;
                             }}
@@ -164,6 +170,10 @@ export class TagView extends React.Component<Props, State> {
         tag?: Tag | undefined
     ): void {
         this.setState({
+            range: {
+                start: moment().startOf("month"),
+                end: moment().endOf("month")
+            },
             isSidebarOpen: false,
             isAddTagOpen: isOpen,
             tagActionType: actionType,
@@ -177,7 +187,31 @@ export class TagView extends React.Component<Props, State> {
     private closeSlidePanels(): void {
         this.setState({
             isSidebarOpen: false,
-            isAddTagOpen: false
+            isAddTagOpen: false,
         });
+    }
+
+    private handleDateRangeChange(next: DateRange | string): void {
+        if(typeof next === "object") {console.log("object", next);
+            this.setState({
+                range: next
+            });
+        } else {
+            if(next === "previous") {
+                this.setState({
+                    range: {
+                        start: moment(this.state.range!.start).subtract(1, "month").startOf(),
+                        end: moment(this.state.range!.end).subtract(1, "month").endOf()
+                    }
+                });
+            } else {
+                this.setState({
+                    range: {
+                        start: moment(this.state.range!.start).add(1, "month").startOf(),
+                        end: moment(this.state.range!.end).add(1, "month").endOf()
+                    }
+                });
+            }
+        }
     }
 }

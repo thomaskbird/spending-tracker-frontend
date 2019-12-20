@@ -25,4 +25,4 @@ export function mapCollectionToArray(items: any[], headings: string[]): string[]
     });
 
     return formatted;
-}
+};

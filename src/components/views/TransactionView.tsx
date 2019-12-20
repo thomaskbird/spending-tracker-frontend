@@ -135,7 +135,7 @@ export class TransactionView extends React.Component<
     }
 
     private handleDateRangeChange(next: DateRange | string): void {
-        if(typeof next === "object") {console.log("object", next);
+        if(typeof next === "object") {
             this.setState({
                 range: next
             });

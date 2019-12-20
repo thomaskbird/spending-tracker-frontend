@@ -81,64 +81,66 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                         <FontAwesomeIcon icon={"plus"} />
                     </span>
                 </div>
+
                 {this.props.onDateRangeChange && this.props.range ? (
-                    <>
-                        <div className={"HeaderPartial--bottom"}>
-                            <button
-                                type={"button"}
-                                className={"pagination__button"}
-                                onClick={() => this.handlePaginationClick("previous")}
-                            >
-                                <FontAwesomeIcon icon={"chevron-left"} />
-                            </button>
+                    <div className={"HeaderPartial--bottom"}>
+                        <button
+                            type={"button"}
+                            className={"pagination__button"}
+                            onClick={() => this.handlePaginationClick("previous")}
+                        >
+                            <FontAwesomeIcon icon={"chevron-left"} />
+                        </button>
 
-                            <span className={`HeaderPartial--month-indicator`}>
-                                {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
-                            </span>
+                        <span className={`HeaderPartial--month-indicator`}>
+                            {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
+                        </span>
 
-                            {/*
-                            <RangePicker
-                                defaultValue={[this.props.range.start, this.props.range.end]}
-                                value={[this.props.range.start, this.props.range.end]}
-                                format={APP_DATE_FORMAT}
-                                onChange={(dates, dateStrings) => {
-                                    if(this.props.onDateRangeChange) {
-                                        this.props.onDateRangeChange({
-                                            start: dates[0],
-                                            end: dates[1]
-                                        });
-                                    }
-                                }}
-                            />
-                            */}
-                            <button
-                                type={"button"}
-                                className={"pagination__button"}
-                                onClick={() => this.handlePaginationClick("next")}
-                            >
-                                <FontAwesomeIcon icon={"chevron-right"} />
-                            </button>
-                        </div>
-                        <div className={"HeaderPartial--bottom sub"}>
-                            <ButtonGroup
-                                selected={this.props.selectedTransactionType}
-                                items={[
-                                    {
-                                        text: "Transactions",
-                                        type: TransactionCategory.transactions
-                                    },
-                                    {
-                                        text: "Queue",
-                                        type: TransactionCategory.queue
-                                    }
-                                ]}
-                                onSelection={() => this.props.onToggleTransactionType && this.props.onToggleTransactionType()}
-                            />
-                        </div>
-                    </>
+                        {/*
+                        <RangePicker
+                            defaultValue={[this.props.range.start, this.props.range.end]}
+                            value={[this.props.range.start, this.props.range.end]}
+                            format={APP_DATE_FORMAT}
+                            onChange={(dates, dateStrings) => {
+                                if(this.props.onDateRangeChange) {
+                                    this.props.onDateRangeChange({
+                                        start: dates[0],
+                                        end: dates[1]
+                                    });
+                                }
+                            }}
+                        />
+                        */}
+                        <button
+                            type={"button"}
+                            className={"pagination__button"}
+                            onClick={() => this.handlePaginationClick("next")}
+                        >
+                            <FontAwesomeIcon icon={"chevron-right"} />
+                        </button>
+                    </div>
                 ) : (
                     undefined
                 )}
+
+                {this.props.onToggleTransactionType ? (
+                    <div className={"HeaderPartial--bottom sub"}>
+                        <ButtonGroup
+                            selected={this.props.selectedTransactionType}
+                            items={[
+                                {
+                                    text: "Transactions",
+                                    type: TransactionCategory.transactions
+                                },
+                                {
+                                    text: "Queue",
+                                    type: TransactionCategory.queue
+                                }
+                            ]}
+                            onSelection={() => this.props.onToggleTransactionType && this.props.onToggleTransactionType()}
+                        />
+                    </div>
+                ): (undefined)}
             </div>
         );
     }
