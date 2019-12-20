@@ -25,6 +25,10 @@ interface State {
 
 const COMPONENT_NAME = "View";
 
+/**
+ * todo: when the header pagination is clicked we are never updating the tag that was originally clicked.
+ * todo: We need to do this so that all of the child components props update with the latest information
+ */
 export class TagView extends React.Component<Props, State> {
 
     private listApi?: TagListView.Api;
@@ -73,7 +77,9 @@ export class TagView extends React.Component<Props, State> {
                             onReady={(api: TagListView.Api) => {
                                 this.listApi = api;
                             }}
-                            onToggleLoading={(action) => this.setState({ isLoading: action })}
+                            onToggleLoading={(action) => {
+                                this.setState({ isLoading: action });
+                            }}
                         />
                     </RouteViewport>
 
@@ -170,10 +176,6 @@ export class TagView extends React.Component<Props, State> {
         tag?: Tag | undefined
     ): void {
         this.setState({
-            range: {
-                start: moment().startOf("month"),
-                end: moment().endOf("month")
-            },
             isSidebarOpen: false,
             isAddTagOpen: isOpen,
             tagActionType: actionType,
@@ -192,26 +194,33 @@ export class TagView extends React.Component<Props, State> {
     }
 
     private handleDateRangeChange(next: DateRange | string): void {
-        if(typeof next === "object") {console.log("object", next);
-            this.setState({
-                range: next
-            });
+        let nextRange: DateRange;
+
+        if(typeof next === "object") {
+            nextRange = next;
         } else {
             if(next === "previous") {
-                this.setState({
-                    range: {
-                        start: moment(this.state.range!.start).subtract(1, "month").startOf(),
-                        end: moment(this.state.range!.end).subtract(1, "month").endOf()
-                    }
-                });
+                nextRange = {
+                    start: moment(this.state.range!.start).subtract(1, "month").startOf(),
+                    end: moment(this.state.range!.end).subtract(1, "month").endOf()
+                };
             } else {
-                this.setState({
-                    range: {
-                        start: moment(this.state.range!.start).add(1, "month").startOf(),
-                        end: moment(this.state.range!.end).add(1, "month").endOf()
-                    }
-                });
+                nextRange = {
+                    start: moment(this.state.range!.start).add(1, "month").startOf(),
+                    end: moment(this.state.range!.end).add(1, "month").endOf()
+                };
             }
         }
+
+        this.setState({
+            range: nextRange
+        }, () => {
+            setTimeout(() => {
+                const freshTagData = this.listApi!.refreshSelected(this.state.tagToEdit!.id);
+                this.setState({
+                    tagToEdit: freshTagData
+                });
+            }, 500);
+        });
     }
 }

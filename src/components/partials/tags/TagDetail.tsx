@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as _ from "lodash";
-import { Tag, TransactionType, TransactionWithRecurring } from "../../../services/Models";
+import { Tag, Transaction, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 import moment from "moment";
 
 interface TagDetailViewProps {
@@ -15,15 +15,27 @@ const COMPONENT_NAME = "DetailView";
 export class TagDetailView extends React.Component<
     TagDetailViewProps,
     State
-    > {
+> {
+    private transactions: Transaction[] = [];
+
     constructor(props: TagDetailViewProps, context: any) {
         super(props, context);
 
         this.state = {};
     }
 
-    public render(): JSX.Element {
+    public componentDidMount(): void {
+        this.transactions = this.props.tag.transactions || [];
+    }
 
+    public componentDidUpdate(prevProps: Readonly<TagDetailViewProps>, prevState: Readonly<State>, snapshot?: any): void {
+        console.log("transactions", prevProps.tag.transactions, this.props.tag.transactions);
+        if(_.isEqual(prevProps.tag.transactions, this.props.tag.transactions)) {
+            this.transactions = this.props.tag.transactions!;
+        }
+    }
+
+    public render(): JSX.Element {
         return (
             <div className={COMPONENT_NAME}>
                 <div className={`${COMPONENT_NAME}__detail`}>
@@ -44,14 +56,14 @@ export class TagDetailView extends React.Component<
                     </span>
                 </div>
 
-                {this.props.tag && this.props.tag.transactions ? (
+                {this.transactions ? (
                     <div className={`${COMPONENT_NAME}__detail--list`}>
                         <div className={`${COMPONENT_NAME}__detail--list__header`}>
                             Transactions
                         </div>
                         <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`}/>
                         <div className={`${COMPONENT_NAME}__detail--list__body`}>
-                            {this.props.tag.transactions.map((transaction, index) => {
+                            {this.transactions.map((transaction, index) => {
                                 return (
                                     <div
                                         key={index}
@@ -78,9 +90,7 @@ export class TagDetailView extends React.Component<
                             })}
                         </div>
 
-                        <div
-                            className={`${COMPONENT_NAME}__detail--list__body-item`}
-                        >
+                        <div className={`${COMPONENT_NAME}__detail--list__body-item`}>
                                 <span>
                                     <b>Total</b>
                                 </span>

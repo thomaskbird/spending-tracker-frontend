@@ -5,6 +5,7 @@ import { axiosInstance } from "src/index";
 import { TagListItem } from "src/components/partials/tags/TagListItem";
 import { APP_DATE_FORMAT } from "../../helpers/Utils";
 import moment from "moment";
+import * as _ from "lodash";
 
 interface TagListViewProps extends LoadingProps {
     onReady(api: TagListView.Api): void;
@@ -21,7 +22,7 @@ const COMPONENT_NAME = "TagListView";
 export class TagListView extends React.Component<
     TagListViewProps,
     State
-    > {
+> {
     public static readonly displayName = COMPONENT_NAME;
 
     constructor(props: TagListViewProps, context: any) {
@@ -38,6 +39,9 @@ export class TagListView extends React.Component<
         const api: TagListView.Api = {
             refreshData: () => {
                 this.refreshTags();
+            },
+            refreshSelected: (id) => {
+                return _.find(this.state.tags, (tag) => tag.id === id)!;
             }
         };
 
@@ -112,5 +116,6 @@ export class TagListView extends React.Component<
 export namespace TagListView {
     export interface Api {
         refreshData(): void;
+        refreshSelected(id: number): Tag;
     }
 }

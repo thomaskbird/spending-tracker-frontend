@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TagForm } from "./TagForm";
 import { Tag, PanelActionTypes } from "../../../services/Models";
@@ -21,7 +22,7 @@ const COMPONENT_NAME = "PanelPartial";
 export class TagPanelPartial extends React.Component<
     TagPanelPartialProps,
     State
-    > {
+> {
     public static readonly displayName = "Tag Panel Partial";
 
     constructor(props: TagPanelPartialProps, context: any) {
