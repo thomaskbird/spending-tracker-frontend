@@ -95,7 +95,7 @@ export class TagDetailView extends React.Component<
                                     <b>Total</b>
                                 </span>
                                 <span>
-                                    ${this.props.tag.transactions.reduce((total: number, item: any) => {
+                                    ${this.props.tag && this.props.tag.transactions && this.props.tag.transactions.reduce((total: number, item: any) => {
                                         if(item.type === TransactionType.income) {
                                             return total + item.amount;
                                         } else {
