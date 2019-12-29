@@ -48,11 +48,11 @@ export class TagDetailView extends React.Component<
                         <div className={`${COMPONENT_NAME}__detail--list__header`}>
                             Transactions
 
-                            <span style={{ float: "right" }}>
+                            <span className={"badge"}>
                                 {this.props.tag.transactions.length}
                             </span>
                         </div>
-                        <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`}/>
+                        <div className={`${COMPONENT_NAME}__detail--list__header--border-bottom`} />
                         <div className={`${COMPONENT_NAME}__detail--list__body`}>
                             {this.props.tag.transactions.map((transaction, index) => {
                                 return (

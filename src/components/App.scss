@@ -32,6 +32,23 @@ pre {
     }
 }
 
+.badge {
+    float: right;
+    padding: .45rem .5rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 25rem;
+    text-align: center;
+    color: #fff;
+    font-size: .6rem;
+    font-weight: 600;
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid #ff310f;
+    letter-spacing: 0;
+    @include backgroundGradientGenerator(#FF0C00, #FF8E38);
+}
+
 .FormGroup {
     display: flex;
     margin-bottom: 15px;
