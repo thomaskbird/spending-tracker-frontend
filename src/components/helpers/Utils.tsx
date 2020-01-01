@@ -1,3 +1,6 @@
+import { DateRange } from "../../services/Models";
+import moment from "moment";
+
 export class Utils {
     private isPropertySet(obj: any, key: string): any {
         return obj && obj[key];
@@ -26,3 +29,27 @@ export function mapCollectionToArray(items: any[], headings: string[]): string[]
 
     return formatted;
 };
+
+export function handleDateRangeChange(next: DateRange | string, range?: DateRange): DateRange | undefined {
+    let newRange;
+
+    if(typeof next === "object") {
+        newRange = next;
+    } else {
+        if(next && range) {
+            if(next === "previous") {
+                newRange = {
+                    start: moment(range.start).subtract(1, "month").startOf(),
+                    end: moment(range.end).subtract(1, "month").endOf()
+                };
+            } else {
+                newRange = {
+                    start: moment(range.start).add(1, "month").startOf(),
+                    end: moment(range.end).add(1, "month").endOf()
+                };
+            }
+        }
+    }
+
+    return newRange;
+}

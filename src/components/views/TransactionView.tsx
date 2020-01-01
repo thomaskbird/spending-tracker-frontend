@@ -10,7 +10,7 @@ import { HeaderPartial } from "../partials/HeaderPartial";
 import { axiosInstance } from "../../index";
 import { SidebarPartial } from "../partials/SidebarPartial";
 import { TransactionPanelPartial } from "../partials/transactions/TransactionPanelPartial";
-import { APP_DATE_FORMAT } from "../helpers/Utils";
+import { APP_DATE_FORMAT, handleDateRangeChange } from "../helpers/Utils";
 import { RouteViewport } from "../partials/RouteViewport";
 
 interface TransactionViewProps {}
@@ -62,7 +62,9 @@ export class TransactionView extends React.Component<
                     range={this.state.range}
                     onToggleSidebar={() => this.toggleSidebarPanel(true)}
                     onToggleContextPanel={(isOpen, actionType) => this.toggleTransactionPanel(isOpen, actionType)}
-                    onDateRangeChange={(range) => this.handleDateRangeChange(range)}
+                    onDateRangeChange={(range) => this.setState({
+                        range: handleDateRangeChange(range, this.state.range)!
+                    })}
                     selectedTransactionType={this.state.transactionCategory}
                     onToggleTransactionType={() => this.setState({ transactionCategory: this.state.transactionCategory === TransactionCategory.transactions ? TransactionCategory.queue : TransactionCategory.transactions})}
                 />
@@ -132,30 +134,6 @@ export class TransactionView extends React.Component<
                 </div>
             </div>
         );
-    }
-
-    private handleDateRangeChange(next: DateRange | string): void {
-        if(typeof next === "object") {
-            this.setState({
-                range: next
-            });
-        } else {
-            if(next === "previous") {
-                this.setState({
-                    range: {
-                        start: moment(this.state.range.start).subtract(1, "month").startOf(),
-                        end: moment(this.state.range.end).subtract(1, "month").endOf()
-                    }
-                });
-            } else {
-                this.setState({
-                    range: {
-                        start: moment(this.state.range.start).add(1, "month").startOf(),
-                        end: moment(this.state.range.end).add(1, "month").endOf()
-                    }
-                });
-            }
-        }
     }
 
     /**

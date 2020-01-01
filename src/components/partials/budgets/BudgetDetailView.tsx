@@ -1,12 +1,13 @@
 import * as React from "react";
 import _ from "lodash";
 
-import { Budget, TaggableType, Transaction } from "../../../services/Models";
+import { Budget, DateRange, TaggableType, Transaction } from "../../../services/Models";
 import { BudgetDial } from "src/components/partials/budgets/BudgetDial";
 import { TagTracker } from "../tags/TagTracker";
 import { CompactTable } from "../CompactTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CompactList } from "../CompactList";
+import { PaginationDisplay } from "../PaginationDisplay";
 
 interface BudgetDetailViewProps {
     budget: Budget;
@@ -14,6 +15,7 @@ interface BudgetDetailViewProps {
     transactions: Transaction[];
     onBudgetTagToggle(): void;
     onPaginationClick?(direction: string): void;
+    range: DateRange;
 }
 
 interface State {
@@ -61,25 +63,10 @@ export class BudgetDetailView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={COMPONENT_CLASS_NAME}>
-                <div className={`${COMPONENT_CLASS_NAME}__pagination pagination`}>
-                    <button
-                        type={"button"}
-                        className={"pagination__button"}
-                        onClick={() => this.props.onPaginationClick && this.props.onPaginationClick("previous")}
-                    >
-                        <FontAwesomeIcon icon={"chevron-left"} />
-                    </button>
-                    <h2 className={`${COMPONENT_CLASS_NAME}__pagination--current`}>
-                        {this.props.monthDisplay.format("MMMM, YYYY")}
-                    </h2>
-                    <button
-                        type={"button"}
-                        className={"pagination__button"}
-                        onClick={() => this.props.onPaginationClick && this.props.onPaginationClick("next")}
-                    >
-                        <FontAwesomeIcon icon={"chevron-right"} />
-                    </button>
-                </div>
+                <PaginationDisplay
+                    range={this.props.range}
+                    onPaginationClick={(direction => this.props.onPaginationClick && this.props.onPaginationClick(direction))}
+                />
 
                 <BudgetDial
                     title={this.props.budget.title}

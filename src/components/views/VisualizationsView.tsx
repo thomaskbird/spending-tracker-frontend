@@ -7,6 +7,9 @@ import { LineChartWrapper } from "../charts/LineChartWrapper";
 import { RouteViewport } from "../partials/RouteViewport";
 import { BudgetsVisualizations } from "../partials/visualizations/BudgetsVisualizations";
 import { BudgetVisualization } from "../partials/visualizations/BudgetVisualization";
+import moment from "moment";
+import { DateRange } from "../../services/Models";
+import { handleDateRangeChange } from "../helpers/Utils";
 
 interface Props {
 
@@ -15,6 +18,7 @@ interface Props {
 interface State {
     isSidebarOpen: boolean;
     isLoading: boolean;
+    range: DateRange;
 }
 
 const COMPONENT_NAME = "VisualizationsView";
@@ -26,8 +30,16 @@ export class VisualizationsView extends React.Component<Props, State> {
 
         this.state = {
             isSidebarOpen: false,
-            isLoading: false
+            isLoading: false,
+            range: {
+                start: moment().startOf("month"),
+                end: moment().endOf("month")
+            }
         };
+    }
+
+    public componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
+
     }
 
     public render(): JSX.Element {
@@ -37,6 +49,10 @@ export class VisualizationsView extends React.Component<Props, State> {
                     onToggleSidebar={() => {
                         this.toggleSidebarPanel(true);
                     }}
+                    range={this.state.range}
+                    onDateRangeChange={(range) => this.setState({
+                        range: handleDateRangeChange(range, this.state.range)!
+                    })}
                 />
 
                 <div className={"BodyPartial"}>

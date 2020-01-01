@@ -18,6 +18,11 @@ export enum RecurringType {
     yearly = "yearly"
 }
 
+export enum PaginationDirection {
+    next = "next",
+    previous = "previous"
+}
+
 export enum PanelActionTypes {
     view = "view",
     edit = "edit",

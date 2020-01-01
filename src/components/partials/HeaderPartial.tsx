@@ -1,15 +1,11 @@
 import * as React from "react";
 import "./HeaderPartial.scss";
 import { Link } from "react-router-dom";
-import { DatePicker } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import moment from "moment";
-
-const { RangePicker } = DatePicker;
 
 import { DateRange, PanelActionTypes, TransactionCategory } from "../../services/Models";
-import { APP_DATE_FORMAT } from "../helpers/Utils";
 import { ButtonGroup } from "./library/ButtonGroup";
+import { PaginationDisplay } from "./PaginationDisplay";
 
 interface HeaderPartialProps {
     range?: DateRange;
@@ -84,40 +80,10 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
 
                 {this.props.onDateRangeChange && this.props.range ? (
                     <div className={"HeaderPartial--bottom"}>
-                        <button
-                            type={"button"}
-                            className={"pagination__button"}
-                            onClick={() => this.handlePaginationClick("previous")}
-                        >
-                            <FontAwesomeIcon icon={"chevron-left"} />
-                        </button>
-
-                        <span className={`HeaderPartial--month-indicator`}>
-                            {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
-                        </span>
-
-                        {/*
-                        <RangePicker
-                            defaultValue={[this.props.range.start, this.props.range.end]}
-                            value={[this.props.range.start, this.props.range.end]}
-                            format={APP_DATE_FORMAT}
-                            onChange={(dates, dateStrings) => {
-                                if(this.props.onDateRangeChange) {
-                                    this.props.onDateRangeChange({
-                                        start: dates[0],
-                                        end: dates[1]
-                                    });
-                                }
-                            }}
+                        <PaginationDisplay
+                            range={this.props.range}
+                            onPaginationClick={(direction) => this.handlePaginationClick(direction)}
                         />
-                        */}
-                        <button
-                            type={"button"}
-                            className={"pagination__button"}
-                            onClick={() => this.handlePaginationClick("next")}
-                        >
-                            <FontAwesomeIcon icon={"chevron-right"} />
-                        </button>
                     </div>
                 ) : (
                     undefined

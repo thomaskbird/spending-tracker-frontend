@@ -106,6 +106,7 @@ export class BudgetPanelPartial extends React.Component<
             if(this.state.budget) {
                 returnMarkup = (
                     <BudgetDetailView
+                        range={this.state.range}
                         budget={this.state.budget}
                         transactions={this.state.budgetTransactions}
                         monthDisplay={this.state.monthDisplay}

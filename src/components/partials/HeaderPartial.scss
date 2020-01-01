@@ -56,10 +56,8 @@
     }
 
     &--bottom {
-        display: flex;
-        padding: 10px 20px;
+        padding: 10px 0px;
         background: $color-grey-white;
-        justify-content: space-between;
 
         .DatePicker {
             &--wrap {
@@ -100,21 +98,6 @@
                     &.open {
                         display: block;
                     }
-                }
-            }
-        }
-
-        .pagination {
-            &__button {
-                padding: 0;
-                cursor: pointer;
-
-                &:first-child {
-                    margin-right: 1rem;
-                }
-
-                &:last-child {
-                    margin-left: 1rem;
                 }
             }
         }
