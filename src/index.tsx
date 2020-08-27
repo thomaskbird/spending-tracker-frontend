@@ -16,7 +16,7 @@ const host = location.hostname;
 const env = host === "localhost" ? `dev` : `api`;
 
 export const axiosInstance = axios.create({
-    baseURL: `http://budget-${env}.thomaskbird.com/api`
+    baseURL: `https://budget-${env}.thomaskbird.com/api`
 });
 
 if (localStorage.getItem("token")) {
