@@ -23,7 +23,10 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
 
     private sourceTypeOptions = [
         { value: "discover", label: "Discover" },
-        { value: "chase", label: "Chase" }
+        { value: "chase", label: "Chase" },
+        { value: "fifth-third-checking", label: "Fifth Third Checking" },
+        { value: "fifth-third-credit", label: "Fifth Third Credit" },
+        { value: "capital-one", label: "Capital One" }
     ];
 
     constructor(props: ImportIntroProps, context: any) {
