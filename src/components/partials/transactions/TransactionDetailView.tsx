@@ -84,7 +84,7 @@ export class TransactionDetailView extends React.Component<
                                     ? "+"
                                     : "-"}{" "}
                                 $
-                                {this.props.transaction && this.props.transaction.amount}
+                                {this.props.transaction && this.props.transaction.amount.toFixed(2)}
                             </span>
                         </div>
                     </div>

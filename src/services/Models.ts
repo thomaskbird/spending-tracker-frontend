@@ -313,6 +313,11 @@ export interface RecurringUndefined {
     deleted_at: string | null | undefined;
 }
 
+export enum SelectedImportView {
+    list = "list",
+    add = "add",
+}
+
 export interface Import extends Timestamps {
     id: number;
     user_id: number;

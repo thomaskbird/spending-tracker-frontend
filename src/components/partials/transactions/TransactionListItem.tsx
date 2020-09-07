@@ -96,7 +96,7 @@ export class TransactionListItem extends React.Component<
                             TransactionType.income
                                 ? "+"
                                 : "-"}{" "}
-                            ${this.props.transaction.amount}
+                            ${this.props.transaction.amount.toFixed(2)}
                         </div>
                         <div
                             className={`${COMPONENT_NAME}__info--queued`}

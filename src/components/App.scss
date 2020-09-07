@@ -243,17 +243,21 @@ input {
     &__content {
         flex: 1;
         margin-right: 10px;
+        overflow: hidden;
 
         h5,
         small {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             transition: 0.25s color ease-in;
         }
 
         h5 {
-            color: $color-grey-dark-mid;
             margin-top: 5px;
-            line-height: 100%;
             margin-bottom: 0;
+            line-height: 100%;
+            color: $color-grey-dark-mid;
         }
 
         small {

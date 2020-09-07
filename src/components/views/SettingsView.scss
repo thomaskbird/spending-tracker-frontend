@@ -1,5 +1,9 @@
 .SettingsView {
-  &__viewport {
-    padding: 30px;
+  .ImportIntro {
+    .row {
+      .column {
+        padding: 20px;
+      }
+    }
   }
 }

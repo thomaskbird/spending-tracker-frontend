@@ -1,18 +1,24 @@
 import * as React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { $enum } from "ts-enum-util";
+import { Redirect } from "react-router-dom";
 import Select from "react-select";
 import { Button, Switch } from "antd";
 import { axiosInstance } from "../../../index";
+import { Import, SelectedImportView } from "../../../services/Models";
+import { ButtonGroup } from "../library/ButtonGroup";
+import { ImportListItem } from "../imports/ImportListItem";
 
 interface ImportIntroProps {
 
 }
 
 interface State {
-    sourceType: string | undefined;
     file: any;
     redirect: boolean;
+    imports: Import[];
     headerIsFirstRow: boolean;
+    selectedView: SelectedImportView;
+    sourceType: string | undefined;
 }
 
 const COMPONENT_NAME = "SettingsView";
@@ -33,11 +39,17 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
         super(props, context);
 
         this.state = {
-            sourceType: undefined,
             file: undefined,
             redirect: false,
+            imports: [],
+            selectedView: SelectedImportView.list,
+            sourceType: undefined,
             headerIsFirstRow: false,
         };
+    }
+
+    public componentDidMount(): void {
+        this.retrieveImports();
     }
 
     public render(): JSX.Element {
@@ -46,68 +58,111 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
                 <Redirect to={"/admin/settings"} />
             );
         } else {
+            const subView = $enum.visitValue(this.state.selectedView).with({
+                [SelectedImportView.list]: () => (
+                    <>
+                        {this.state.imports && this.state.imports.map(importItem => (
+                            <ImportListItem
+                                key={importItem.id}
+                                import={importItem}
+                                onAction={(actionType, actionImportItem) => {
+                                    console.log("actionType, importItem", actionType, actionImportItem);
+                                }}
+                            />
+                        ))}
+                    </>
+                ),
+                [SelectedImportView.add]: () => (
+                    <>
+                        <p>To import transactions simply select the source type and select the file then click import!</p>
+
+                        <form
+                            method={"post"}
+                            onSubmit={(event) => this.handleFormSubmit(event)}
+                        >
+                            <div className={"FormGroup"}>
+                                <label htmlFor={"sourceType"}>Type:</label>
+                                <Select
+                                    value={this.state.sourceType}
+                                    options={this.sourceTypeOptions}
+                                    onChange={(selectedOption: any) => {
+                                        this.setState({
+                                            sourceType: selectedOption.value
+                                        });
+                                    }}
+                                />
+                            </div>
+
+                            <div className={"FormGroup"}>
+                                <label htmlFor={"file"}>File:</label>
+                                <input
+                                    type="file"
+                                    name="file"
+                                    id={"file"}
+                                    placeholder={"Select file..."}
+                                    onChange={(e) => {
+                                        const newVal = e.target.files![0];
+                                        this.setState({ file: newVal });
+                                    }}
+                                />
+                            </div>
+
+                            <div className={"FormGroup"}>
+                                <label htmlFor={"headerIsFirstRow"}>Is the first row the header?</label>
+                                <Switch
+                                    checked={this.state.headerIsFirstRow}
+                                    onChange={(checked) => this.setState({ headerIsFirstRow: !this.state.headerIsFirstRow })}
+                                />
+                            </div>
+
+                            <div className={"FormGroup FormGroup__inline"}>
+                                <Button
+                                    type="primary"
+                                    htmlType={"submit"}
+                                    className={"btn btn-primary"}
+                                >
+                                    Import
+                                </Button>
+                                <Button
+                                    type="default"
+                                    className={"btn btn-default"}
+                                    onClick={() => this.setState({ redirect: true})}
+                                >
+                                    Cancel
+                                </Button>
+                            </div>
+                        </form>
+                    </>
+                )
+            });
+
             return (
-                <form
-                    method={"post"}
-                    onSubmit={(event) => this.handleFormSubmit(event)}
-                >
-                    <h1>Import</h1>
-                    <Link to={baseUrl}>Back</Link>
-
-                    <p>To import transactions simply select the source type and select the file then click import!</p>
-
-                    <div className={"FormGroup"}>
-                        <label htmlFor={"sourceType"}>Type:</label>
-                        <Select
-                            value={this.state.sourceType}
-                            options={this.sourceTypeOptions}
-                            onChange={(selectedOption: any) => {
-                                this.setState({
-                                    sourceType: selectedOption.value
-                                });
-                            }}
-                        />
+                <div className={"ImportIntro"}>
+                    <div className={"row"}>
+                        <div className={"column"}>
+                            <h1>Imports</h1>
+                        </div>
+                        <div className={"column"}>
+                            <ButtonGroup
+                                position={"right"}
+                                selected={this.state.selectedView}
+                                items={[
+                                    {
+                                        text: "View",
+                                        type: SelectedImportView.list
+                                    },
+                                    {
+                                        text: "Add",
+                                        type: SelectedImportView.add
+                                    }
+                                ]}
+                                onSelection={(item) => this.setState({ selectedView: item.type })}
+                            />
+                        </div>
                     </div>
 
-                    <div className={"FormGroup"}>
-                        <label htmlFor={"file"}>File:</label>
-                        <input
-                            type="file"
-                            name="file"
-                            id={"file"}
-                            placeholder={"Select file..."}
-                            onChange={(e) => {
-                                const newVal = e.target.files![0];
-                                this.setState({ file: newVal });
-                            }}
-                        />
-                    </div>
-
-                    <div className={"FormGroup"}>
-                        <label htmlFor={"headerIsFirstRow"}>Is the first row the header?</label>
-                        <Switch
-                            checked={this.state.headerIsFirstRow}
-                            onChange={(checked) => this.setState({ headerIsFirstRow: !this.state.headerIsFirstRow })}
-                        />
-                    </div>
-
-                    <div className={"FormGroup FormGroup__inline"}>
-                        <Button
-                            type="primary"
-                            htmlType={"submit"}
-                            className={"btn btn-primary"}
-                        >
-                            Import
-                        </Button>
-                        <Button
-                            type="default"
-                            className={"btn btn-default"}
-                            onClick={() => this.setState({ redirect: true})}
-                        >
-                            Cancel
-                        </Button>
-                    </div>
-                </form>
+                    {subView}
+                </div>
             );
         }
     }
@@ -127,5 +182,15 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
                 }
             })
             .catch(error => console.log("error", error));
+    }
+
+    private retrieveImports(): void {
+        axiosInstance
+            .get("/imports")
+            .then((response) => {
+                if(response.status) {
+                    this.setState({ imports: response.data.data.imports});
+                }
+            })
     }
 }

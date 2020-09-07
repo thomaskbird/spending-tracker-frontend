@@ -56,7 +56,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                                                 <h1>Settings</h1>
 
                                                 <ul>
-                                                    <li><Link to={`${baseUrl}/import`}>Import</Link></li>
+                                                    <li><Link to={`${baseUrl}/import`}>Imports</Link></li>
                                                     <li><Link to={`${baseUrl}/alerts`}>Budget alerts</Link></li>
                                                 </ul>
                                             </>

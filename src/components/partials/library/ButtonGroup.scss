@@ -38,8 +38,18 @@
     }
   }
 
-  &.centered {
+  &.left {
+    width: auto;
+    justify-content: flex-end;
+  }
+
+  &.center {
     margin: 0 auto;
     width: fit-content;
+  }
+
+  &.right {
+    width: auto;
+    justify-content: flex-end;
   }
 }

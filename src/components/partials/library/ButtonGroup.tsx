@@ -7,8 +7,9 @@ interface ButtonGroupItemProps {
 }
 
 interface ButtonGroupProps {
-    items: ButtonGroupItemProps[];
     selected: any;
+    position?: "left" | "center" | "right";
+    items: ButtonGroupItemProps[];
     onSelection(item: any): void;
 }
 
@@ -22,6 +23,10 @@ export class ButtonGroup extends React.Component<ButtonGroupProps, State> {
 
     public static readonly displayName = COMPONENT_NAME;
 
+    private static defaultProps = {
+        position: "center",
+    };
+
     constructor(props: ButtonGroupProps, context: any) {
         super(props, context);
 
@@ -31,7 +36,7 @@ export class ButtonGroup extends React.Component<ButtonGroupProps, State> {
 
     public render(): JSX.Element {
         return (
-            <div className={`${COMPONENT_NAME} centered`}>
+            <div className={`${COMPONENT_NAME} ${this.props.position}`}>
                 {this.props.items && this.props.items.map((item, index) => (
                     <button
                         key={index}
