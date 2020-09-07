@@ -313,8 +313,20 @@ export interface RecurringUndefined {
     deleted_at: string | null | undefined;
 }
 
+export interface Import extends Timestamps {
+    id: number;
+    user_id: number;
+    filename: string;
+    type: string;
+    records: number;
+    record_ids: string;
+}
+
 export interface Transaction extends Timestamps {
     id: number;
+    user_id: number;
+    import_id: number;
+    import: Import | null;
     recurring_id: number;
     submitted_by: number;
     title: string;

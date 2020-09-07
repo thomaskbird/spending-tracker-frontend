@@ -107,6 +107,15 @@ export class TransactionDetailView extends React.Component<
 
                 <div className={`${COMPONENT_NAME}__detail`}>
                     <span className={`${COMPONENT_NAME}__detail--label`}>
+                        Source:
+                    </span>
+                    <span className={`${COMPONENT_NAME}__detail--value`}>
+                        {this.props.transaction && this.props.transaction.import !== null ? this.props.transaction.import.filename : "Manual"}
+                    </span>
+                </div>
+
+                <div className={`${COMPONENT_NAME}__detail`}>
+                    <span className={`${COMPONENT_NAME}__detail--label`}>
                         Occured:
                     </span>
                     <span className={`${COMPONENT_NAME}__detail--value`}>
