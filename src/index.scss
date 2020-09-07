@@ -84,6 +84,20 @@ h6 {
     }
 }
 
+.row {
+    padding: 0 15px;
+    display: flex;
+}
+
+.column {
+    flex: 1;
+
+    .DetailView__detail {
+        margin-top: 0 !important;
+        margin-bottom: 10px !important;
+    }
+}
+
 .btn {
     &-default {
         color: #999;

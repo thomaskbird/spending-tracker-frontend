@@ -72,46 +72,56 @@ export class TransactionDetailView extends React.Component<
                     </span>
                 </div>
 
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Amount:
-                    </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
-                        {this.props.transaction &&
-                        this.props.transaction.type === TransactionType.income
-                            ? "+"
-                            : "-"}{" "}
-                        $
-                        {this.props.transaction &&
-                            this.props.transaction.amount}
-                    </span>
+                <div className={"row"}>
+                    <div className={"column"}>
+                        <div className={`${COMPONENT_NAME}__detail`}>
+                            <span className={`${COMPONENT_NAME}__detail--label`}>
+                                Amount:
+                            </span>
+                            <span className={`${COMPONENT_NAME}__detail--value`}>
+                                {this.props.transaction &&
+                                    this.props.transaction.type === TransactionType.income
+                                    ? "+"
+                                    : "-"}{" "}
+                                $
+                                {this.props.transaction && this.props.transaction.amount}
+                            </span>
+                        </div>
+                    </div>
+                    <div className={"column"}>
+                        <div className={`${COMPONENT_NAME}__detail`}>
+                            <span className={`${COMPONENT_NAME}__detail--label`}>
+                                Type:
+                            </span>
+                            <span className={`${COMPONENT_NAME}__detail--value`}>
+                                {this.props.transaction && this.props.transaction.type}
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Type:
-                    </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
-                        {this.props.transaction && this.props.transaction.type}
-                    </span>
-                </div>
+                <div className={"row"}>
+                    <div className={"column"}>
+                        <div className={`${COMPONENT_NAME}__detail`}>
+                            <span className={`${COMPONENT_NAME}__detail--label`}>
+                                Status:
+                            </span>
+                            <span className={`${COMPONENT_NAME}__detail--value`}>
+                                {this.props.transaction && this.props.transaction.status}
+                            </span>
+                        </div>
 
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Status:
-                    </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
-                        {this.props.transaction && this.props.transaction.status}
-                    </span>
-                </div>
-
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Source:
-                    </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
-                        {this.props.transaction && this.props.transaction.import !== null ? this.props.transaction.import.filename : "Manual"}
-                    </span>
+                    </div>
+                    <div className={"column"}>
+                        <div className={`${COMPONENT_NAME}__detail`}>
+                            <span className={`${COMPONENT_NAME}__detail--label`}>
+                                Source:
+                            </span>
+                            <span className={`${COMPONENT_NAME}__detail--value`}>
+                                {this.props.transaction && this.props.transaction.import !== null ? this.props.transaction.import.filename : "Manual"}
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className={`${COMPONENT_NAME}__detail`}>
