@@ -1,7 +1,8 @@
 import * as React from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TransactionStatus, TransactionType, Import } from "../../../services/Models";
+import { Import } from "../../../services/Models";
+import { Link } from "react-router-dom";
 
 interface ImportListItemProps {
     /**
@@ -53,7 +54,9 @@ export class ImportListItem extends React.Component<
                             this.props.onAction("view", this.props.import);
                         }}
                     >
-                        <h5>{this.props.import.filename}</h5>
+                        <Link to={`/admin/settings/imports/${this.props.import.id}`}>
+                            <h5>{this.props.import.filename}</h5>
+                        </Link>
                         <small>{this.props.import.record_ids.substring(0, 80)}</small>
                     </div>
                     <div className={`${COMPONENT_NAME}__info`}>

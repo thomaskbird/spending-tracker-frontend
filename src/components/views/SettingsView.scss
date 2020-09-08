@@ -1,9 +1,19 @@
 .SettingsView {
-  .ImportIntro {
-    .row {
-      .column {
-        padding: 20px;
+  &__intro {
+    padding: 20px;
+  }
+
+  .Import {
+    &IntroView {
+      .row {
+        .column {
+          padding: 20px;
+        }
       }
+    }
+
+    &SingleView {
+      padding: 20px;
     }
   }
 }

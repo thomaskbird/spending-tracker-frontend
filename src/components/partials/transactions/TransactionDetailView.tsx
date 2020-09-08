@@ -2,6 +2,7 @@ import * as React from "react";
 import { TaggableType, TransactionStatus, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 import { TagTracker } from "../tags/TagTracker";
 import { axiosInstance } from "../../../index";
+import { Link } from "react-router-dom";
 
 interface TransactionDetailViewProps {
     transaction: TransactionWithRecurring;
@@ -118,7 +119,12 @@ export class TransactionDetailView extends React.Component<
                                 Source:
                             </span>
                             <span className={`${COMPONENT_NAME}__detail--value`}>
-                                {this.props.transaction && this.props.transaction.import !== null ? this.props.transaction.import.filename : "Manual"}
+                                {this.props.transaction && this.props.transaction.import !== null ?
+                                    (
+                                        <Link to={`/admin/settings/imports/${this.props.transaction.import.id}`}>
+                                            {this.props.transaction.import.filename}
+                                        </Link>
+                                    ) : "Manual"}
                             </span>
                         </div>
                     </div>

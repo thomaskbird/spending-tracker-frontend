@@ -21,7 +21,7 @@ interface State {
     sourceType: string | undefined;
 }
 
-const COMPONENT_NAME = "SettingsView";
+const COMPONENT_NAME = "ImportIntroView";
 const baseUrl = "/admin/settings";
 
 export class ImportIntro extends React.Component<ImportIntroProps, State> {
@@ -137,7 +137,7 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
             });
 
             return (
-                <div className={"ImportIntro"}>
+                <div className={`${COMPONENT_NAME} PageView`}>
                     <div className={"row"}>
                         <div className={"column"}>
                             <h1>Imports</h1>
@@ -192,5 +192,6 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
                     this.setState({ imports: response.data.data.imports});
                 }
             })
+            .catch(e => console.log("Error: ", e));
     }
 }

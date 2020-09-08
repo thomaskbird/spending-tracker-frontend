@@ -92,15 +92,19 @@ export class TagListView extends React.Component<
             tags: undefined
         });
 
-        axiosInstance.get(`/tags/${this.props.range.start.format(APP_DATE_FORMAT)}/${this.props.range.end.format(APP_DATE_FORMAT)}`).then((response) => {
-            if(response.data.status) {
-                this.setState({
-                    tags: response.data.data.tags.length !== 0 ? response.data.data.tags : []
-                });
-            }
+        axiosInstance
+            .get(`/tags/${this.props.range.start.format(APP_DATE_FORMAT)}/${this.props.range.end.format(APP_DATE_FORMAT)}`)
+                .then((response) => {
+                    if(response.data.status) {
+                        this.setState({
+                            tags: response.data.data.tags.length !== 0 ? response.data.data.tags : []
+                        });
+                    }
 
-            this.props.onToggleLoading(false);
-        });
+                    this.props.onToggleLoading(false);
+                })
+                .catch(e => console.log("Error: ", e))
+                .then(() => this.props.onToggleLoading(false));
     }
 
     private tagRemove(tag: Tag): void {

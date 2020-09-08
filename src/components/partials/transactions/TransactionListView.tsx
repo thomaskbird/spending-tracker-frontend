@@ -219,7 +219,8 @@ export class TransactionListView extends React.Component<
                 }
 
                 this.props.onToggleLoading(false);
-            });
+            }).catch(e => console.log("Error: ", e))
+            .then(() => this.props.onToggleLoading(false));
     }
 
     private transactionRemove(transaction: TransactionWithRecurring): void {

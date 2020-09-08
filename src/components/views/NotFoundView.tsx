@@ -26,7 +26,7 @@ export class NotFoundView extends React.Component<Props, State> {
 
     public render(): JSX.Element {
         return (
-            <div className={COMPONENT_NAME}>
+            <div className={`${COMPONENT_NAME} PageView`}>
                 <HeaderPartial
                     onToggleSidebar={() => {
                         this.toggleSidebarPanel(true);

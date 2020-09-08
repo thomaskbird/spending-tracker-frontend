@@ -8,6 +8,7 @@ import { Route } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
 import { ImportIntro } from "../partials/settings/ImportIntro";
 import { BudgetAlerts } from "../partials/settings/BudgetAlerts";
+import { ImportSingleView } from "./ImportSingleView";
 
 interface SettingsViewProps {}
 
@@ -52,14 +53,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                                     path={baseUrl}
                                     render={() => {
                                         return (
-                                            <>
+                                            <div className={`${COMPONENT_NAME}__intro`}>
                                                 <h1>Settings</h1>
 
                                                 <ul>
                                                     <li><Link to={`${baseUrl}/import`}>Imports</Link></li>
                                                     <li><Link to={`${baseUrl}/alerts`}>Budget alerts</Link></li>
                                                 </ul>
-                                            </>
+                                            </div>
                                         );
                                     }}
                                 />
@@ -70,6 +71,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                                 <Route
                                     path={`${baseUrl}/alerts`}
                                     component={BudgetAlerts}
+                                />
+                                <Route
+                                    path={`${baseUrl}/imports/:id`}
+                                    component={ImportSingleView}
                                 />
                             </div>
                         </BrowserRouter>
