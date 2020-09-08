@@ -48,16 +48,31 @@ export class BudgetDetailView extends React.Component<
     }
 
     private calculateUsedBudget(): void {
+        let usedBudget = 0;
         if(this.props.transactions.length) {
-            const transactionSum = this.props.transactions && this.props.transactions.map(transaction => transaction.amount).reduce((accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue));
-            this.setState({
-                usedBudget: transactionSum,
+            usedBudget = this.props.transactions &&
+                this.props.transactions.map(transaction =>
+                    transaction.amount
+                ).reduce(
+                    (accumulator: any, currentValue: any) => parseFloat(accumulator) + parseFloat(currentValue)
+                );
+
+            let ttlUsed = 0;
+            let ttlIncome = 0;
+            this.props.transactions.forEach(transaction => {
+                if(transaction.type === "income") {
+                    ttlIncome += transaction.amount;
+                } else {
+                    ttlUsed += transaction.amount;
+                }
             });
-        } else {
-            this.setState({
-                usedBudget: 0,
-            });
+
+            usedBudget = ttlUsed - ttlIncome;
         }
+
+        this.setState({
+            usedBudget: usedBudget,
+        });
     }
 
     public render(): JSX.Element {
