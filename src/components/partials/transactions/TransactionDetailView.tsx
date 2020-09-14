@@ -11,7 +11,9 @@ interface TransactionDetailViewProps {
     onSplitBill(transaction: TransactionWithRecurring): void;
 }
 
-interface State {}
+interface State {
+    showDetails: boolean;
+}
 
 const COMPONENT_NAME = "DetailView";
 
@@ -22,7 +24,9 @@ export class TransactionDetailView extends React.Component<
     constructor(props: TransactionDetailViewProps, context: any) {
         super(props, context);
 
-        this.state = {};
+        this.state = {
+            showDetails: false,
+        };
     }
 
     public render(): JSX.Element {
@@ -64,133 +68,140 @@ export class TransactionDetailView extends React.Component<
                         {this.props.transaction &&
                             this.props.transaction.title}
                     </h2>
-                </div>
 
-                <div className={`${COMPONENT_NAME}__detail ${COMPONENT_NAME}__detail--full-width`}>
                     <span className={`${COMPONENT_NAME}__detail--value`}>
                         {this.props.transaction &&
-                            this.props.transaction.description}
+                        this.props.transaction.description}
+                    </span>
+
+                    <span
+                        className={"transaction--header__btn"}
+                        onClick={() => this.setState({ showDetails: !this.state.showDetails })}
+                    >
+                        Details
                     </span>
                 </div>
 
                 <div className={"row"}>
                     <div className={"column"}>
                         <div className={`${COMPONENT_NAME}__detail`}>
-                            <span className={`${COMPONENT_NAME}__detail--label`}>
-                                Amount:
-                            </span>
+                                <span className={`${COMPONENT_NAME}__detail--label`}>
+                                    Amount:
+                                </span>
                             <span className={`${COMPONENT_NAME}__detail--value`}>
-                                {this.props.transaction &&
+                                    {this.props.transaction &&
                                     this.props.transaction.type === TransactionType.income
-                                    ? "+"
-                                    : "-"}{" "}
+                                        ? "+"
+                                        : "-"}{" "}
                                 $
                                 {this.props.transaction && this.props.transaction.amount.toFixed(2)}
-                            </span>
+                                </span>
                         </div>
                     </div>
                     <div className={"column"}>
                         <div className={`${COMPONENT_NAME}__detail`}>
-                            <span className={`${COMPONENT_NAME}__detail--label`}>
-                                Type:
-                            </span>
+                                <span className={`${COMPONENT_NAME}__detail--label`}>
+                                    Type:
+                                </span>
                             <span className={`${COMPONENT_NAME}__detail--value`}>
-                                {this.props.transaction && this.props.transaction.type}
-                            </span>
+                                    {this.props.transaction && this.props.transaction.type}
+                                </span>
                         </div>
                     </div>
                 </div>
 
-                <div className={"row"}>
-                    <div className={"column"}>
-                        <div className={`${COMPONENT_NAME}__detail`}>
-                            <span className={`${COMPONENT_NAME}__detail--label`}>
-                                Status:
-                            </span>
-                            <span className={`${COMPONENT_NAME}__detail--value`}>
-                                {this.props.transaction && this.props.transaction.status}
-                            </span>
-                        </div>
+                <div className={`${COMPONENT_NAME}__info--wrapper ${this.state.showDetails ? "show-details" : ""}`}>
+                    <div className={"row"}>
+                        <div className={"column"}>
+                            <div className={`${COMPONENT_NAME}__detail`}>
+                                <span className={`${COMPONENT_NAME}__detail--label`}>
+                                    Status:
+                                </span>
+                                <span className={`${COMPONENT_NAME}__detail--value`}>
+                                    {this.props.transaction && this.props.transaction.status}
+                                </span>
+                            </div>
 
+                        </div>
+                        <div className={"column"}>
+                            <div className={`${COMPONENT_NAME}__detail`}>
+                                <span className={`${COMPONENT_NAME}__detail--label`}>
+                                    Source:
+                                </span>
+                                <span className={`${COMPONENT_NAME}__detail--value`}>
+                                    {this.props.transaction && this.props.transaction.import !== null ?
+                                        (
+                                            <Link to={`/admin/settings/imports/${this.props.transaction.import.id}`}>
+                                                {this.props.transaction.import.filename}
+                                            </Link>
+                                        ) : "Manual"}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div className={"column"}>
-                        <div className={`${COMPONENT_NAME}__detail`}>
-                            <span className={`${COMPONENT_NAME}__detail--label`}>
-                                Source:
-                            </span>
-                            <span className={`${COMPONENT_NAME}__detail--value`}>
-                                {this.props.transaction && this.props.transaction.import !== null ?
-                                    (
-                                        <Link to={`/admin/settings/imports/${this.props.transaction.import.id}`}>
-                                            {this.props.transaction.import.filename}
-                                        </Link>
-                                    ) : "Manual"}
-                            </span>
-                        </div>
+
+                    <div className={`${COMPONENT_NAME}__detail`}>
+                        <span className={`${COMPONENT_NAME}__detail--label`}>
+                            Occured:
+                        </span>
+                        <span className={`${COMPONENT_NAME}__detail--value`}>
+                            {this.props.transaction &&
+                                this.props.transaction.occurred_at}
+                        </span>
                     </div>
+
+                    {this.props.transaction && this.props.transaction.recurring ? (
+                        <>
+                            <div className={`${COMPONENT_NAME}__detail`}>
+                                <span
+                                    className={`${COMPONENT_NAME}__detail--label`}
+                                >
+                                    Recurring type:
+                                </span>
+                                <span
+                                    className={`${COMPONENT_NAME}__detail--value`}
+                                >
+                                    {this.props.transaction &&
+                                        this.props.transaction.recurring &&
+                                        this.props.transaction.recurring
+                                            .recurring_type}
+                                </span>
+                            </div>
+
+                            <div className={`${COMPONENT_NAME}__detail`}>
+                                <span
+                                    className={`${COMPONENT_NAME}__detail--label`}
+                                >
+                                    Start on:
+                                </span>
+                                <span
+                                    className={`${COMPONENT_NAME}__detail--value`}
+                                >
+                                    {this.props.transaction &&
+                                        this.props.transaction.recurring &&
+                                        this.props.transaction.recurring.start_at}
+                                </span>
+                            </div>
+
+                            <div className={`${COMPONENT_NAME}__detail`}>
+                                <span
+                                    className={`${COMPONENT_NAME}__detail--label`}
+                                >
+                                    Ends on:
+                                </span>
+                                <span
+                                    className={`${COMPONENT_NAME}__detail--value`}
+                                >
+                                    {this.props.transaction &&
+                                        this.props.transaction.recurring &&
+                                        this.props.transaction.recurring.end_at}
+                                </span>
+                            </div>
+                        </>
+                    ) : (
+                        <p>Not a recurring transaction</p>
+                    )}
                 </div>
-
-                <div className={`${COMPONENT_NAME}__detail`}>
-                    <span className={`${COMPONENT_NAME}__detail--label`}>
-                        Occured:
-                    </span>
-                    <span className={`${COMPONENT_NAME}__detail--value`}>
-                        {this.props.transaction &&
-                            this.props.transaction.occurred_at}
-                    </span>
-                </div>
-
-                {this.props.transaction && this.props.transaction.recurring ? (
-                    <>
-                        <div className={`${COMPONENT_NAME}__detail`}>
-                            <span
-                                className={`${COMPONENT_NAME}__detail--label`}
-                            >
-                                Recurring type:
-                            </span>
-                            <span
-                                className={`${COMPONENT_NAME}__detail--value`}
-                            >
-                                {this.props.transaction &&
-                                    this.props.transaction.recurring &&
-                                    this.props.transaction.recurring
-                                        .recurring_type}
-                            </span>
-                        </div>
-
-                        <div className={`${COMPONENT_NAME}__detail`}>
-                            <span
-                                className={`${COMPONENT_NAME}__detail--label`}
-                            >
-                                Start on:
-                            </span>
-                            <span
-                                className={`${COMPONENT_NAME}__detail--value`}
-                            >
-                                {this.props.transaction &&
-                                    this.props.transaction.recurring &&
-                                    this.props.transaction.recurring.start_at}
-                            </span>
-                        </div>
-
-                        <div className={`${COMPONENT_NAME}__detail`}>
-                            <span
-                                className={`${COMPONENT_NAME}__detail--label`}
-                            >
-                                Ends on:
-                            </span>
-                            <span
-                                className={`${COMPONENT_NAME}__detail--value`}
-                            >
-                                {this.props.transaction &&
-                                    this.props.transaction.recurring &&
-                                    this.props.transaction.recurring.end_at}
-                            </span>
-                        </div>
-                    </>
-                ) : (
-                    <p>Not a recurring transaction</p>
-                )}
 
                 <TagTracker
                     type={TaggableType.transaction}

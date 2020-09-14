@@ -162,15 +162,22 @@ input {
 
 .transaction {
     &--header {
-        flex-direction: row !important;
+        position: relative;
 
         h2 {
             flex: 1;
+            margin-bottom: 0;
         }
 
-        button {
-            align-self: center;
-            height: fit-content;
+        span {
+            color: #aaa;
+        }
+
+        &__btn {
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            position: absolute;
         }
     }
 }
@@ -369,14 +376,36 @@ input {
     }
 }
 
+.column {
+    .DetailView__detail:first-child {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
 .DetailView {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
 
+    &__info {
+        &--wrapper {
+            display: none;
+
+            &.show-details {
+                display: block;
+            }
+        }
+    }
+
+    .row {
+        margin-bottom: 0;
+    }
+
     &__detail {
         display: flex;
         flex: 1 1 50%;
+        margin-top: 0;
         margin-bottom: 20px;
         flex-direction: column;
 

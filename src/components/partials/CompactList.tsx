@@ -57,7 +57,7 @@ export class CompactList extends React.Component<CompactListProps, State> {
                     ))}
                 </div>
                 <div className={`${COMPONENT_NAME}__detail--list__body`}>
-                    {this.state.items.map((item, itemIndex) => {console.log("item", item);
+                    {this.state.items.map((item, itemIndex) => {
                         return (
                             <div
                                 key={itemIndex}
