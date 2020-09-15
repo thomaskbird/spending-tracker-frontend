@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TransactionListItem } from "./TransactionListItem";
 import { NoData } from "../../helpers/NoData";
 import { axiosInstance } from "../../../index";
-import { ButtonGroup } from "../library/ButtonGroup";
+import { triggerPrompt } from "../../helpers/Utils";
 
 interface TransactionListViewProps extends LoadingProps {
     start: string;
@@ -28,10 +28,12 @@ interface TransactionListViewProps extends LoadingProps {
 }
 
 interface State {
+    isAllChecked: boolean;
     transactions: TransactionWithRecurring[];
     queuedTransactions: TransactionWithRecurring[];
     transactionSummary: TransactionSummaryDetails | undefined;
     isSummaryVisible: boolean;
+    bulkTransactionIds: number[];
 }
 
 const COMPONENT_NAME = "ListView";
@@ -44,10 +46,12 @@ export class TransactionListView extends React.Component<
         super(props, context);
 
         this.state = {
+            isAllChecked: false,
             transactions: [],
             queuedTransactions: [],
             transactionSummary: undefined,
             isSummaryVisible: true,
+            bulkTransactionIds: [],
         };
     }
 
@@ -96,6 +100,36 @@ export class TransactionListView extends React.Component<
                     </div>
                 ): (undefined)}
 
+                <div className={"row"}>
+                    <div className={"column"}>
+                        <input
+                            checked={this.state.isAllChecked}
+                            type={"checkbox"}
+                            id={"check-all"}
+                            onChange={() => {
+                                this.setState({
+                                    isAllChecked: !this.state.isAllChecked,
+                                    bulkTransactionIds:
+                                        !this.state.isAllChecked
+                                            ? this.props.transactionCategory === TransactionCategory.transactions
+                                                ? this.state.transactions.map(transaction => transaction.id)
+                                                : this.state.queuedTransactions.map(transaction => transaction.id)
+                                            : []
+                                });
+                            }}
+                        />
+                    </div>
+                    <div className={"column"}>
+                        <select
+                            onChange={e => this.triggerBulkAction(e.target.value as "none" | "remove" | "tag")}
+                        >
+                            <option value={"none"}>Select bulk action...</option>
+                            <option value={"remove"}>Remove</option>
+                            <option value={"tag"}>Tag</option>
+                        </select>
+                    </div>
+                </div>
+
                 {this.renderList()}
             </div>
         );
@@ -133,6 +167,23 @@ export class TransactionListView extends React.Component<
         }
     }
 
+    private triggerBulkAction(val: "none" | "remove" | "tag"): void {
+        if(this.state.bulkTransactionIds.length === 0 && val !== "none") {
+            alert("You haven\'t selected any transactions!");
+        } else {
+            if (val === "remove") {
+                const confirm = triggerPrompt("Are you sure you want to delete these transactions?");
+                if(confirm) {
+                    this.bulkRemove();
+                } else {
+                    console.log("cancelled removal");
+                }
+            } else if(val === "tag") {
+                this.refreshTransactions();
+            }
+        }
+    }
+
     private formatTransactions(items: TransactionWithRecurring[]): JSX.Element[] {
         const transactions = items.map(
             (
@@ -141,6 +192,7 @@ export class TransactionListView extends React.Component<
             ) => {
                 return (
                     <TransactionListItem
+                        isChecked={this.state.isAllChecked || this.state.bulkTransactionIds.includes(transaction.id)}
                         key={idx}
                         transaction={transaction}
                         onAction={(actionType, transactionData) => {
@@ -154,6 +206,20 @@ export class TransactionListView extends React.Component<
                                     transactionData
                                 );
                             }
+                        }}
+                        onChecked={(transactionId, addOrRemove) => {
+                            let nextTransactionIds = [];
+                            if (addOrRemove === "add") {
+                                nextTransactionIds = [...this.state.bulkTransactionIds, transactionId];
+                            } else {
+                                nextTransactionIds = this.state.bulkTransactionIds.filter(stateTransactionId => stateTransactionId !== transactionId);
+                            }
+
+                            this.setState({
+                                bulkTransactionIds: nextTransactionIds,
+                            }, () => {
+                                console.log("this.state.bulkTransactionIds", this.state.bulkTransactionIds);
+                            });
                         }}
                     />
                 );
@@ -219,8 +285,29 @@ export class TransactionListView extends React.Component<
                 }
 
                 this.props.onToggleLoading(false);
-            }).catch(e => console.log("Error: ", e))
-            .then(() => this.props.onToggleLoading(false));
+            })
+                .catch(e => console.log("Error: ", e))
+                .then(() => this.props.onToggleLoading(false));
+    }
+
+    private bulkRemove(): void {
+        this.props.onToggleLoading(true);
+
+        axiosInstance
+            .post(`/bulk/transactions/remove`, {
+                transactionIds: this.state.bulkTransactionIds,
+            })
+            .then((response) => {
+                console.log("response", response);
+                this.setState({
+                    bulkTransactionIds: [],
+                    isAllChecked: false,
+                }, () => {
+                    this.refreshTransactions();
+                });
+            })
+                .catch((error) => console.log("Error", error))
+                .then(() => this.props.onToggleLoading(false));
     }
 
     private transactionRemove(transaction: TransactionWithRecurring): void {
@@ -231,8 +318,8 @@ export class TransactionListView extends React.Component<
                 console.log("response", response);
                 this.refreshTransactions();
             })
-            .catch((error) => console.log("Error", error))
-            .then(() => this.props.onToggleLoading(false));
+                .catch((error) => console.log("Error", error))
+                .then(() => this.props.onToggleLoading(false));
     }
 }
 

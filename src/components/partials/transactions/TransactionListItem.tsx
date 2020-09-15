@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TransactionStatus, TransactionType, TransactionWithRecurring } from "../../../services/Models";
 
 interface TransactionListItemProps {
+    isChecked: boolean;
     /**
      * The transactions data
      */
@@ -16,6 +17,7 @@ interface TransactionListItemProps {
      * @param {TransactionWithRecurring} transaction - The transaction data
      */
     onAction(actionType: string, transaction: TransactionWithRecurring): void;
+    onChecked(transactionListItemId: number, val: "add" | "remove"): void;
 }
 
 interface State {
@@ -45,7 +47,12 @@ export class TransactionListItem extends React.Component<
                     }`}
                 >
                     <div className={`${COMPONENT_NAME}__selects`}>
-                        <input type={"checkbox"} id={"transaction-box"} />
+                        <input
+                            checked={this.props.isChecked}
+                            type={"checkbox"}
+                            id={"transaction-box"}
+                            onChange={e => this.props.onChecked(this.props.transaction.id, e.target.checked ? "add" : "remove")}
+                        />
                     </div>
                     <div
                         className={`${COMPONENT_NAME}__content`}

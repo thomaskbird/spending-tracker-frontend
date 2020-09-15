@@ -28,7 +28,7 @@ export function mapCollectionToArray(items: any[], headings: string[]): string[]
     });
 
     return formatted;
-};
+}
 
 export function handleDateRangeChange(next: DateRange | string, range?: DateRange): DateRange | undefined {
     let newRange;
@@ -52,4 +52,8 @@ export function handleDateRangeChange(next: DateRange | string, range?: DateRang
     }
 
     return newRange;
+}
+
+export function triggerPrompt(msg: string) {
+    return window.confirm(msg ? msg : "Are you sure you want to complete this action?");
 }

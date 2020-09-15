@@ -3,6 +3,7 @@ import { TaggableType, TransactionStatus, TransactionType, TransactionWithRecurr
 import { TagTracker } from "../tags/TagTracker";
 import { axiosInstance } from "../../../index";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface TransactionDetailViewProps {
     transaction: TransactionWithRecurring;
@@ -78,7 +79,7 @@ export class TransactionDetailView extends React.Component<
                         className={"transaction--header__btn"}
                         onClick={() => this.setState({ showDetails: !this.state.showDetails })}
                     >
-                        Details
+                        Transaction details <FontAwesomeIcon icon={this.state.showDetails ? "chevron-up" : "chevron-down"} />
                     </span>
                 </div>
 
