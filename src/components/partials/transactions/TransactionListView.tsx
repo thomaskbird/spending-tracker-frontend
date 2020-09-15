@@ -192,7 +192,7 @@ export class TransactionListView extends React.Component<
             ) => {
                 return (
                     <TransactionListItem
-                        isChecked={this.state.isAllChecked || this.state.bulkTransactionIds.includes(transaction.id)}
+                        isChecked={this.state.isAllChecked || this.state.bulkTransactionIds.indexOf(transaction.id) !== -1}
                         key={idx}
                         transaction={transaction}
                         onAction={(actionType, transactionData) => {
