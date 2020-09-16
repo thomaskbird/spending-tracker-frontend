@@ -5,10 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, Redirect } from "react-router-dom";
 import { User } from "../../services/Models";
 import { axiosInstance } from "../../index";
+import { connect } from "react-redux";
+import { toggleSidebar } from "../../redux/redux-actions";
 
 interface SidebarPartialProps {
-    sidebarClass: boolean;
-    onClose(): void;
+    isOpen: boolean;
+    toggleSidebar(): void;
 }
 
 interface State {
@@ -57,7 +59,7 @@ export class SidebarPartial extends React.Component<
         return (
             <div
                 className={
-                    this.props.sidebarClass
+                    this.props.isOpen
                         ? `${COMPONENT_NAME} open`
                         : COMPONENT_NAME
                 }
@@ -65,7 +67,7 @@ export class SidebarPartial extends React.Component<
                 <span
                     className={`${COMPONENT_NAME}--close-btn ${COMPONENT_NAME}--close-btn__sidebar`}
                     onClick={() => {
-                        this.props.onClose();
+                        this.props.toggleSidebar();
                     }}
                 >
                     <FontAwesomeIcon icon={"times"} />
@@ -112,7 +114,10 @@ export class SidebarPartial extends React.Component<
                             <Link onClick={() => this.handleNavigationClick("/admin/settings")} to={"/admin/settings"}>Settings</Link>
                         </li>
                         <li>
-                            <a onClick={() => { this.setState({ isLogout: true }) }}>Logout</a>
+                            <a onClick={() => {
+                                localStorage.removeItem("token");
+                                this.setState({ isLogout: true });
+                            }}>Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -122,7 +127,7 @@ export class SidebarPartial extends React.Component<
 
     private handleNavigationClick(to: string): void {
         if(to === window.location.pathname) {
-            this.props.onClose();
+            this.props.toggleSidebar();
         }
     }
 
@@ -170,3 +175,17 @@ const mainNavItems: NavItem[] = [
         text: "Tags"
     }
 ];
+
+const mapStateToProps = (state: any) => {
+    return {
+        isOpen: state.ui.sidebarOpen,
+    }
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        toggleSidebar: () => dispatch(toggleSidebar()),
+    }
+};
+
+export const SidebarPartialConnected = connect(mapStateToProps, mapDispatchToProps)(SidebarPartial);

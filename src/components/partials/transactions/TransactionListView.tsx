@@ -15,6 +15,9 @@ import { TransactionListItem } from "./TransactionListItem";
 import { NoData } from "../../helpers/NoData";
 import { axiosInstance } from "../../../index";
 import { triggerPrompt } from "../../helpers/Utils";
+import { setDateRange } from "../../../redux/dateRange-actions";
+import { connect } from "react-redux";
+import { PaginationDisplay } from "../PaginationDisplay";
 
 interface TransactionListViewProps extends LoadingProps {
     start: string;
@@ -253,7 +256,7 @@ export class TransactionListView extends React.Component<
         });
 
         axiosInstance
-            .get(`/transactions/${this.props.start}/${this.props.end}`)
+            .get(`/transactions/${this.props.start.format("YYYY-MM-DD 00:00:00")}/${this.props.end.format("YYYY-MM-DD 00:00:00")}`)
             .then((transactions) => {
                 if(transactions.data.length) {
                     const expenseTotal = this.filterAndReduce(transactions.data, TransactionType.expense);
@@ -328,3 +331,10 @@ export namespace TransactionListView {
         refreshData(): void;
     }
 }
+
+const mapStateToProps = (state: any) => ({
+    start: state.dateRange.range.start,
+    end: state.dateRange.range.end,
+});
+
+export const ConnectedTransactionListView = connect(mapStateToProps)(TransactionListView);

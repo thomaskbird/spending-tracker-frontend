@@ -4,6 +4,9 @@ import {
     TOGGLE_DETAIL,
 } from "./redux-actions";
 
+import { TransactionReducers } from "./transaction-reducers";
+import { DateRangeReducers } from "./dateRange-reducers";
+
 export interface HeaderUI {
     sidebarOpen: boolean;
     detailOpen: boolean;
@@ -24,7 +27,8 @@ function toggle(state: HeaderUI = initialState, data: any): any {
         case TOGGLE_DETAIL:
             return {
                 sidebarOpen: false,
-                detailOpen: state.sidebarOpen ? false : true,
+                detailOpen: state.detailOpen ? false : true,
+                transactionActionType: data.actionType,
             };
         default:
             return state
@@ -32,5 +36,7 @@ function toggle(state: HeaderUI = initialState, data: any): any {
 }
 
 export const BudgetAppReducers = combineReducers({
-    ui: toggle
+    ui: toggle,
+    transactions: TransactionReducers,
+    dateRange: DateRangeReducers,
 });

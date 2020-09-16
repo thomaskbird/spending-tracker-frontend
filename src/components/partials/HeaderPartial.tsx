@@ -1,20 +1,18 @@
 import * as React from "react";
+
+import { connect } from "react-redux";
+import { toggleSidebar, toggleDetailPanel } from "../../redux/redux-actions";
+
 import "./HeaderPartial.scss";
+
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { DateRange, PanelActionTypes, TransactionCategory } from "../../services/Models";
 import { ButtonGroup } from "./library/ButtonGroup";
-import { PaginationDisplay } from "./PaginationDisplay";
+import { ConnectedPaginationDisplay } from "./PaginationDisplay";
 
 interface HeaderPartialProps {
     range?: DateRange;
-    /**
-     * Toggles the sidebar
-     *
-     * @param {boolean} isOpen - Indicates whether the panel should be open/closed
-     */
-    onToggleSidebar?(isOpen: boolean): void;
     /**
      * Toggles the transaction panel
      *
@@ -23,16 +21,15 @@ interface HeaderPartialProps {
      * @param {undefined} transaction - The transaction data
      */
     onToggleContextPanel?(isOpen: boolean, actionType: PanelActionTypes): void;
-    /**
-     * Triggers when the data range has been changed
-     *
-     * @param {DateRange} range - An object containing the start/end values
-     */
-    onDateRangeChange?(direction: DateRange | string): void;
 
     onToggleTransactionType?(): void;
 
     selectedTransactionType?: any;
+
+    // redux mapped actions
+    openDetails(panelActionType: PanelActionTypes): void;
+
+    openSidebar(): void;
 }
 
 interface State {}
@@ -52,16 +49,12 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
         return (
             <div className={"HeaderPartial"}>
                 <div className={"HeaderPartial--top"}>
-                    {this.props.onToggleSidebar ? (
-                        <span
-                            className={"HeaderPartial--top--icons"}
-                            onClick={() => this.props.onToggleSidebar!(true)}
-                        >
-                            <FontAwesomeIcon icon={"bars"} />
-                        </span>
-                    ) : (
-                        undefined
-                    )}
+                    <span
+                        className={"HeaderPartial--top--icons"}
+                        onClick={() => this.props.openSidebar()}
+                    >
+                        <FontAwesomeIcon icon={"bars"} />
+                    </span>
 
                     <Link to={"/admin"}>
                         <div className={"branding"}>
@@ -72,22 +65,15 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
 
                     <span
                         className={`HeaderPartial--top--icons HeaderPartial--top--icons--add ${!this.props.onToggleContextPanel ? "hidden" : ""}`}
-                        onClick={() => this.props.onToggleContextPanel && this.props.onToggleContextPanel!(true, PanelActionTypes.add)}
+                        onClick={() => this.props.openDetails(PanelActionTypes.add)}
                     >
                         <FontAwesomeIcon icon={"plus"} />
                     </span>
                 </div>
 
-                {this.props.onDateRangeChange && this.props.range ? (
-                    <div className={"HeaderPartial--bottom"}>
-                        <PaginationDisplay
-                            range={this.props.range}
-                            onPaginationClick={(direction) => this.handlePaginationClick(direction)}
-                        />
-                    </div>
-                ) : (
-                    undefined
-                )}
+                <div className={"HeaderPartial--bottom"}>
+                    <ConnectedPaginationDisplay />
+                </div>
 
                 {this.props.onToggleTransactionType ? (
                     <div className={"HeaderPartial--bottom sub"}>
@@ -110,10 +96,13 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
             </div>
         );
     }
-
-    private handlePaginationClick(direction: string): void {
-        if(this.props.onDateRangeChange) {
-            this.props.onDateRangeChange(direction);
-        }
-    }
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        openSidebar: () => dispatch(toggleSidebar()),
+        openDetails: (actionType: PanelActionTypes) => dispatch(toggleDetailPanel(actionType))
+    }
+};
+
+export const HeaderPartialConnected = connect(null, mapDispatchToProps)(HeaderPartial);

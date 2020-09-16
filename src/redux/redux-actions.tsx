@@ -1,27 +1,19 @@
+import { PanelActionTypes } from "../services/Models";
+
 /**
  * Interfaces
  */
 
-/**
- * Action types
- */
+// Action types
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const TOGGLE_DETAIL = "TOGGLE_DETAIL";
 
-/**
- * Action creators
- */
+// Actions creators
+export const toggleSidebar = (): any => ({
+    type: TOGGLE_SIDEBAR,
+});
 
-export function toggleSidebar(isOpen: boolean): any {
-    return {
-        type: TOGGLE_SIDEBAR,
-        isOpen: isOpen
-    };
-}
-
-export function toggleDetailPanel(isOpen: boolean): any {
-    return {
-        type: TOGGLE_DETAIL,
-        isOpen: isOpen
-    };
-}
+export const toggleDetailPanel = (actionType?: PanelActionTypes): any => ({
+    type: TOGGLE_DETAIL,
+    actionType: actionType,
+});

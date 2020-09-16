@@ -2,16 +2,26 @@ import * as React from "react";
 import "./PaginationDisplay.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
-import { DateRange, PaginationDirection } from "../../services/Models";
+import { PaginationDirection } from "../../services/Models";
+import { connect } from "react-redux";
+import { setDateRange } from "../../redux/dateRange-actions";
+
+interface DateRange {
+    start: string;
+    end: string;
+}
+
+interface DateRangeData {
+    range: DateRange | "next" | "previous";
+    current: DateRange;
+}
 
 interface PaginationDisplayProps {
-    range?: DateRange;
-    onPaginationClick(direction: PaginationDirection): void;
+    range: DateRange;
+    setRange(data: DateRangeData): void;
 }
 
-interface State {
-
-}
+interface State {}
 
 const COMPONENT_NAME = "PaginationDisplay";
 
@@ -30,35 +40,19 @@ export class PaginationDisplay extends React.Component<PaginationDisplayProps, S
                 <button
                     type={"button"}
                     className={"pagination__button"}
-                    onClick={() => this.props.onPaginationClick(PaginationDirection.previous)}
+                    onClick={() => this.props.setRange({ range: PaginationDirection.previous, current: this.props.range })}
                 >
                     <FontAwesomeIcon icon={"chevron-left"} />
                 </button>
 
                 <span className={`HeaderPartial--month-indicator`}>
-                    {moment(this.props.range && this.props.range.start).format("MMMM, YYYY")}
+                    {moment(this.props.range.start).format("MMMM, YYYY")}
                 </span>
-
-                {/*
-                <RangePicker
-                    defaultValue={[this.props.range.start, this.props.range.end]}
-                    value={[this.props.range.start, this.props.range.end]}
-                    format={APP_DATE_FORMAT}
-                    onChange={(dates, dateStrings) => {
-                        if(this.props.onDateRangeChange) {
-                            this.props.onDateRangeChange({
-                                start: dates[0],
-                                end: dates[1]
-                            });
-                        }
-                    }}
-                />
-                */}
 
                 <button
                     type={"button"}
                     className={"pagination__button"}
-                    onClick={() => this.props.onPaginationClick(PaginationDirection.next)}
+                    onClick={() => this.props.setRange({ range: PaginationDirection.next, current: this.props.range })}
                 >
                     <FontAwesomeIcon icon={"chevron-right"} />
                 </button>
@@ -66,3 +60,13 @@ export class PaginationDisplay extends React.Component<PaginationDisplayProps, S
         )
     }
 }
+
+const mapStateToProps = (state: any) => ({
+    range: state.dateRange.range
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    setRange: (data: any) => dispatch(setDateRange(data)),
+});
+
+export const ConnectedPaginationDisplay = connect(mapStateToProps, mapDispatchToProps)(PaginationDisplay);

@@ -9,18 +9,21 @@ import {
 } from "../../../services/Models";
 import { $enum } from "ts-enum-util";
 import { SplitTransactionForm } from "./SplitTransactionForm";
+import { connect } from "react-redux";
+import { toggleDetailPanel } from "../../../redux/redux-actions";
 
 interface TransactionPanelPartialProps {
-    isAddTransactionOpen: boolean;
-    onClose(): void;
-    transactionActionType: PanelActionTypes | undefined;
     transactionToEdit: TransactionWithRecurring | undefined;
     onReady(api: TransactionForm.Api): void;
     onTransactionAdd(formData: any): void;
-    onToggleTransactionPanel(): void;
     onTransactionTagToggle(): void;
     onRefreshTransactions(): void;
     onSplitBill(transaction: TransactionWithRecurring): void;
+
+    // redux
+    isReduxDetailOpen: boolean;
+    transactionActionType: PanelActionTypes;
+    toggleDetails(): void;
 }
 
 interface State {}
@@ -39,15 +42,11 @@ export class TransactionPanelPartial extends React.Component<
         this.state = {};
     }
 
-    public componentDidUpdate(prevProps: TransactionPanelPartialProps): void {
-        // test
-    }
-
     public render(): JSX.Element {
         return (
             <div
                 className={
-                    this.props.isAddTransactionOpen
+                    this.props.isReduxDetailOpen
                         ? `${COMPONENT_NAME} open`
                         : COMPONENT_NAME
                 }
@@ -55,7 +54,7 @@ export class TransactionPanelPartial extends React.Component<
                 <span
                     className={`${COMPONENT_NAME}--close-btn ${COMPONENT_NAME}--close-btn__add`}
                     onClick={() => {
-                        this.props.onClose();
+                        this.props.toggleDetails();
                     }}
                 >
                     <FontAwesomeIcon icon={"times"} />
@@ -66,7 +65,7 @@ export class TransactionPanelPartial extends React.Component<
                     [PanelActionTypes.edit]: () => this.renderTransactionAddForm(),
                     [PanelActionTypes.add]: () => this.renderTransactionAddForm(),
                     [PanelActionTypes.split]: () => this.renderSplitTransactionForm(),
-                    [$enum.handleUndefined]: () => this.renderTransactionDetailView(),
+                    [$enum.handleUnexpected]: () => this.renderTransactionDetailView(),
                 })}
             </div>
         );
@@ -81,10 +80,10 @@ export class TransactionPanelPartial extends React.Component<
                 }}
                 onSplit={() => {
                     this.props.onRefreshTransactions();
-                    this.props.onClose();
+                    this.props.toggleDetails();
                 }}
                 onCancel={() => {
-                    this.props.onToggleTransactionPanel();
+                    this.props.toggleDetails();
                 }}
             />
         );
@@ -96,7 +95,7 @@ export class TransactionPanelPartial extends React.Component<
                 transaction={this.props.transactionToEdit}
                 onReady={(api) => this.props.onReady(api)}
                 onSubmit={(formData) => this.props.onTransactionAdd(formData)}
-                onCancel={() => this.props.onToggleTransactionPanel()}
+                onCancel={() => this.props.toggleDetails()}
             />
         );
     }
@@ -106,12 +105,27 @@ export class TransactionPanelPartial extends React.Component<
             <TransactionDetailView
                 onRefreshTransactions={() => {
                     this.props.onRefreshTransactions();
-                    this.props.onClose();
+                    this.props.toggleDetails();
                 }}
                 onSplitBill={(transaction) => this.props.onSplitBill(transaction)}
                 transaction={this.props.transactionToEdit!}
-                onTransactionTagToggle={() => this.props.onToggleTransactionPanel()}
+                onTransactionTagToggle={() => this.props.toggleDetails()}
             />
         );
     }
 }
+
+const mapStateToProps = (state: any) => {
+    return {
+        isReduxDetailOpen: state.ui.detailOpen,
+        transactionActionType: state.ui.transactionActionType,
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        toggleDetails: () => dispatch(toggleDetailPanel())
+    }
+};
+
+export const ConnectedTransactionPanelPartial = connect(mapStateToProps, mapDispatchToProps)(TransactionPanelPartial);

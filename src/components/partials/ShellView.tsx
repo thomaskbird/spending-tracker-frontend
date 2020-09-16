@@ -1,7 +1,10 @@
 import * as React from "react";
 import "./ShellView.scss";
 import { Switch, Route, RouteProps } from "react-router-dom";
-import { TransactionView } from "../views/TransactionView";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+
+import { ConnectedTransactionView, TransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";
 import { BudgetView } from "../views/BudgetView";
@@ -11,6 +14,9 @@ import { ForgotPasswordView } from "../views/ForgotPasswordView";
 import { ResetPasswordView } from "../views/ResetPasswordView";
 import { NotFoundView } from "../views/NotFoundView";
 import { SettingsView } from "../views/SettingsView";
+import { AuthWrapper } from "./AuthWrapper";
+
+import { BudgetAppReducers } from "../../redux/redux-reducers";
 
 interface ShellViewProps extends RouteProps {}
 
@@ -20,7 +26,7 @@ interface State {
     isLoginChecked: boolean;
 }
 
-const COMPONENT_NAME = "ShellView";
+const budgetStore = createStore(BudgetAppReducers);
 
 export class ShellView extends React.Component<ShellViewProps, State> {
     public static readonly displayName = "Shell View";
@@ -40,19 +46,12 @@ export class ShellView extends React.Component<ShellViewProps, State> {
             this.setState({
                 currentPath: this.props.location && this.props.location.pathname
             });
-
-            this.checkAuth();
         }
-    }
-
-    public componentDidMount(): void {
-        this.checkAuth();
     }
 
     public render(): JSX.Element {
         return (
             <Switch>
-
                 <Route
                     exact={true}
                     path={"/"}
@@ -66,26 +65,30 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                     path={"/reset-password/:token"}
                     component={ResetPasswordView}
                 />
-                <Route
-                    path={"/admin/budgets"}
-                    component={BudgetView}
-                />
-                <Route
-                    path={"/admin/tags"}
-                    component={TagView}
-                />
-                <Route
-                    path={"/admin/visualizations"}
-                    component={VisualizationsView}
-                />
-                <Route
-                    path={"/admin/settings"}
-                    component={SettingsView}
-                />
-                <Route
-                    path={"/admin"}
-                    component={TransactionView}
-                />
+                <Provider store={budgetStore}>
+                    <AuthWrapper>
+                        <Route
+                            path={"/admin/budgets"}
+                            component={BudgetView}
+                        />
+                        <Route
+                            path={"/admin/tags"}
+                            component={TagView}
+                        />
+                        <Route
+                            path={"/admin/visualizations"}
+                            component={VisualizationsView}
+                        />
+                        <Route
+                            path={"/admin/settings"}
+                            component={SettingsView}
+                        />
+                        <Route
+                            path={"/admin"}
+                            component={ConnectedTransactionView}
+                        />
+                    </AuthWrapper>
+                </Provider>
                 <Route
                     path={"/activate/:token"}
                     component={ActivationView}
@@ -96,15 +99,5 @@ export class ShellView extends React.Component<ShellViewProps, State> {
 
             </Switch>
         );
-    }
-
-    private async checkAuth(): Promise<boolean> {
-        if(await localStorage.getItem("token")) {
-            this.setState({ isLoginChecked: true, isLoggedIn: true });
-            return Promise.resolve(true);
-        }
-
-        this.setState({ isLoginChecked: true, isLoggedIn: false });
-        return Promise.resolve(false);
     }
 }

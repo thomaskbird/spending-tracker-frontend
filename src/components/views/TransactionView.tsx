@@ -2,21 +2,21 @@ import * as React from "react";
 import "./TransactionView.scss";
 import moment from "moment";
 
-import { TransactionListView } from "../partials/transactions/TransactionListView";
+import { ConnectedTransactionListView } from "../partials/transactions/TransactionListView";
 import { TransactionForm } from "../partials/transactions/TransactionForm";
 
 import { DateRange, PanelActionTypes, TransactionCategory, TransactionWithRecurring } from "../../services/Models";
-import { HeaderPartial } from "../partials/HeaderPartial";
+import { HeaderPartialConnected } from "../partials/HeaderPartial";
 import { axiosInstance } from "../../index";
-import { SidebarPartial } from "../partials/SidebarPartial";
-import { TransactionPanelPartial } from "../partials/transactions/TransactionPanelPartial";
+import { SidebarPartialConnected } from "../partials/SidebarPartial";
+import { ConnectedTransactionPanelPartial } from "../partials/transactions/TransactionPanelPartial";
 import { APP_DATE_FORMAT, handleDateRangeChange } from "../helpers/Utils";
 import { RouteViewport } from "../partials/RouteViewport";
+import { connect } from "react-redux";
 
 interface TransactionViewProps {}
 
 interface State {
-    isSidebarOpen: boolean;
     isAddTransactionOpen: boolean;
     range: DateRange;
     isLoading: boolean;
@@ -42,7 +42,6 @@ export class TransactionView extends React.Component<
 
         this.state = {
             isPickerOpen: false,
-            isSidebarOpen: false,
             isAddTransactionOpen: false,
             range: {
                 start: moment().startOf("month"),
@@ -58,13 +57,8 @@ export class TransactionView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={`${COMPONENT_NAME} PageView`}>
-                <HeaderPartial
+                <HeaderPartialConnected
                     range={this.state.range}
-                    onToggleSidebar={() => this.toggleSidebarPanel(true)}
-                    onToggleContextPanel={(isOpen, actionType) => this.toggleTransactionPanel(isOpen, actionType)}
-                    onDateRangeChange={(range) => this.setState({
-                        range: handleDateRangeChange(range, this.state.range)!
-                    })}
                     selectedTransactionType={this.state.transactionCategory}
                     onToggleTransactionType={() => this.setState({ transactionCategory: this.state.transactionCategory === TransactionCategory.transactions ? TransactionCategory.queue : TransactionCategory.transactions})}
                 />
@@ -73,9 +67,7 @@ export class TransactionView extends React.Component<
                     <RouteViewport
                         isLoading={this.state.isLoading}
                     >
-                        <TransactionListView
-                            start={moment(this.state.range.start).format(APP_DATE_FORMAT)}
-                            end={moment(this.state.range.end).format(APP_DATE_FORMAT)}
+                        <ConnectedTransactionListView
                             transactionCategory={this.state.transactionCategory}
                             onTransactionAction={(
                                 action: PanelActionTypes,
@@ -94,33 +86,13 @@ export class TransactionView extends React.Component<
                         />
                     </RouteViewport>
 
-                    <SidebarPartial
-                        sidebarClass={this.state.isSidebarOpen}
-                        onClose={() => {
-                            this.closeSlidePanels();
-                        }}
-                    />
+                    <SidebarPartialConnected />
 
-                    <TransactionPanelPartial
-                        isAddTransactionOpen={this.state.isAddTransactionOpen}
+                    <ConnectedTransactionPanelPartial
                         onRefreshTransactions={() => this.listApi!.refreshData()}
-                        onClose={() => {
-                            this.closeSlidePanels();
-                        }}
-                        transactionActionType={this.state.transactionActionType}
                         transactionToEdit={this.state.transactionToEdit}
                         onReady={(api) => {
                             this.formTransactionAddApi = api;
-                        }}
-                        onTransactionAdd={(formData) => {
-                            this.transactionAdd(formData);
-                        }}
-                        onToggleTransactionPanel={() => {
-                            this.toggleTransactionPanel(
-                                false,
-                                undefined,
-                                undefined
-                            );
                         }}
                         onTransactionTagToggle={() => {
                             this.listApi!.refreshData();
@@ -232,3 +204,14 @@ export class TransactionView extends React.Component<
         });
     }
 }
+
+const mapStateToProps = (state: any) => {
+    return {
+        isReduxSidebarOpen: state.ui.sidebarOpen,
+        isReduxDetailOpen: state.ui.detailOpen,
+        transactionActionType: state.ui.transactionActionType,
+        reduxTransactions: state.transactions,
+    };
+};
+
+export const ConnectedTransactionView = connect(mapStateToProps)(TransactionView);
