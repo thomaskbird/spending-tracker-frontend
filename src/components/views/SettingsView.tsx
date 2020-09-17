@@ -34,6 +34,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             isLoading: false,
         };
 
+    }
+    public componentDidMount(): void {
         this.props.togglePaginationBar();
     }
 

@@ -10,7 +10,7 @@ import {
 import { $enum } from "ts-enum-util";
 import { SplitTransactionForm } from "./SplitTransactionForm";
 import { connect } from "react-redux";
-import { toggleDetailPanel } from "../../../redux/redux-actions";
+import { toggleDetailPanel } from "../../../redux/ui-actions";
 
 interface TransactionPanelPartialProps {
     transactionToEdit: TransactionWithRecurring | undefined;

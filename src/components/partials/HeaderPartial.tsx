@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { connect } from "react-redux";
-import { toggleSidebar, toggleDetailPanel } from "../../redux/redux-actions";
 
 import "./HeaderPartial.scss";
 
@@ -10,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DateRange, PanelActionTypes, TransactionCategory } from "../../services/Models";
 import { ButtonGroup } from "./library/ButtonGroup";
 import { ConnectedPaginationDisplay } from "./PaginationDisplay";
+import { toggleDetailPanel, toggleSidebar } from "../../redux/ui-actions";
 
 interface HeaderPartialProps {
     range?: DateRange;

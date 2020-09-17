@@ -6,7 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import { User } from "../../services/Models";
 import { axiosInstance } from "../../index";
 import { connect } from "react-redux";
-import { toggleSidebar } from "../../redux/redux-actions";
+import { toggleSidebar } from "../../redux/ui-actions";
 
 interface SidebarPartialProps {
     isOpen: boolean;

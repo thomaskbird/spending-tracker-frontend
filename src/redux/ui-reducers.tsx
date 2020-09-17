@@ -9,7 +9,7 @@ export interface HeaderUI {
 const initialState = {
     sidebarOpen: false,
     detailOpen: false,
-    showPaginationBar: false,
+    showPaginationBar: true,
 };
 
 function ui(state: HeaderUI = initialState, data: any): any {
