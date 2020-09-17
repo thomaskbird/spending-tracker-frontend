@@ -4,7 +4,7 @@ import { Switch, Route, RouteProps } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 
-import { ConnectedTransactionView, TransactionView } from "../views/TransactionView";
+import { ConnectedTransactionView } from "../views/TransactionView";
 import { IntroView } from "../views/IntroView";
 import { ActivationView } from "../views/ActivationView";
 import { BudgetView } from "../views/BudgetView";
@@ -13,7 +13,7 @@ import { VisualizationsView } from "../views/VisualizationsView";
 import { ForgotPasswordView } from "../views/ForgotPasswordView";
 import { ResetPasswordView } from "../views/ResetPasswordView";
 import { NotFoundView } from "../views/NotFoundView";
-import { SettingsView } from "../views/SettingsView";
+import { ConnectedSettingsView } from "../views/SettingsView";
 import { AuthWrapper } from "./AuthWrapper";
 
 import { BudgetAppReducers } from "../../redux/redux-reducers";
@@ -51,21 +51,21 @@ export class ShellView extends React.Component<ShellViewProps, State> {
 
     public render(): JSX.Element {
         return (
-            <Switch>
-                <Route
-                    exact={true}
-                    path={"/"}
-                    component={IntroView}
-                />
-                <Route
-                    path={"/forgot-password"}
-                    component={ForgotPasswordView}
-                />
-                <Route
-                    path={"/reset-password/:token"}
-                    component={ResetPasswordView}
-                />
-                <Provider store={budgetStore}>
+            <Provider store={budgetStore}>
+                <Switch>
+                    <Route
+                        exact={true}
+                        path={"/"}
+                        component={IntroView}
+                    />
+                    <Route
+                        path={"/forgot-password"}
+                        component={ForgotPasswordView}
+                    />
+                    <Route
+                        path={"/reset-password/:token"}
+                        component={ResetPasswordView}
+                    />
                     <AuthWrapper>
                         <Route
                             path={"/admin/budgets"}
@@ -81,23 +81,22 @@ export class ShellView extends React.Component<ShellViewProps, State> {
                         />
                         <Route
                             path={"/admin/settings"}
-                            component={SettingsView}
+                            component={ConnectedSettingsView}
                         />
                         <Route
                             path={"/admin"}
                             component={ConnectedTransactionView}
                         />
                     </AuthWrapper>
-                </Provider>
-                <Route
-                    path={"/activate/:token"}
-                    component={ActivationView}
-                />
-                <Route
-                    component={NotFoundView}
-                />
-
-            </Switch>
+                    <Route
+                        path={"/activate/:token"}
+                        component={ActivationView}
+                    />
+                    <Route
+                        component={NotFoundView}
+                    />
+                </Switch>
+            </Provider>
         );
     }
 }

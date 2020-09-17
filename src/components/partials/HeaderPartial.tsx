@@ -27,8 +27,8 @@ interface HeaderPartialProps {
     selectedTransactionType?: any;
 
     // redux mapped actions
+    showPaginationBar: boolean;
     openDetails(panelActionType: PanelActionTypes): void;
-
     openSidebar(): void;
 }
 
@@ -41,16 +41,15 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
 
     constructor(props: HeaderPartialProps, context: any) {
         super(props, context);
-
         this.state = {};
     }
 
     public render(): JSX.Element {
         return (
-            <div className={"HeaderPartial"}>
-                <div className={"HeaderPartial--top"}>
+            <div className={`${COMPONENT_NAME}`}>
+                <div className={`${COMPONENT_NAME}--top`}>
                     <span
-                        className={"HeaderPartial--top--icons"}
+                        className={`${COMPONENT_NAME}--top--icons`}
                         onClick={() => this.props.openSidebar()}
                     >
                         <FontAwesomeIcon icon={"bars"} />
@@ -64,19 +63,21 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                     </Link>
 
                     <span
-                        className={`HeaderPartial--top--icons HeaderPartial--top--icons--add ${!this.props.onToggleContextPanel ? "hidden" : ""}`}
+                        className={`${COMPONENT_NAME}--top--icons HeaderPartial--top--icons--add ${!this.props.onToggleContextPanel ? "hidden" : ""}`}
                         onClick={() => this.props.openDetails(PanelActionTypes.add)}
                     >
                         <FontAwesomeIcon icon={"plus"} />
                     </span>
                 </div>
 
-                <div className={"HeaderPartial--bottom"}>
-                    <ConnectedPaginationDisplay />
-                </div>
+                {this.props.showPaginationBar ? (
+                    <div className={`${COMPONENT_NAME}--bottom`}>
+                        <ConnectedPaginationDisplay />
+                    </div>
+                ) : undefined}
 
                 {this.props.onToggleTransactionType ? (
-                    <div className={"HeaderPartial--bottom sub"}>
+                    <div className={`${COMPONENT_NAME}--bottom sub`}>
                         <ButtonGroup
                             selected={this.props.selectedTransactionType}
                             items={[
@@ -98,6 +99,12 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
     }
 }
 
+const mapStateToProps = (state: any) => {
+    return {
+        showPaginationBar: state.ui.showPaginationBar,
+    };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
     return {
         openSidebar: () => dispatch(toggleSidebar()),
@@ -105,4 +112,4 @@ const mapDispatchToProps = (dispatch: any) => {
     }
 };
 
-export const HeaderPartialConnected = connect(null, mapDispatchToProps)(HeaderPartial);
+export const ConnectedHeaderPartial = connect(mapStateToProps, mapDispatchToProps)(HeaderPartial);

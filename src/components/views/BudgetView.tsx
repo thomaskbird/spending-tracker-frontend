@@ -1,8 +1,8 @@
 import * as React from "react";
 import "./BudgetView.scss";
-import { HeaderPartial } from "../partials/HeaderPartial";
+import { ConnectedHeaderPartial } from "../partials/HeaderPartial";
 import { RouteComponentProps } from "react-router";
-import { SidebarPartial } from "../partials/SidebarPartial";
+import { ConnectedSidebarPartial } from "../partials/SidebarPartial";
 import { BudgetListView } from "src/components/partials/budgets/BudgetListView";
 import { Budget, DateRange, PanelActionTypes } from "src/services/Models";
 import { BudgetPanelPartial } from "src/components/partials/budgets/BudgetPanelPartial";
@@ -10,8 +10,13 @@ import { BudgetForm } from "src/components/partials/budgets/BudgetForm";
 import { axiosInstance } from "src/index";
 import moment from "moment";
 import { RouteViewport } from "../partials/RouteViewport";
+import { connect } from "react-redux";
+import { TransactionView } from "./TransactionView";
 
-interface BudgetViewProps extends RouteComponentProps<any> {}
+interface BudgetViewProps extends RouteComponentProps<any> {
+    isReduxSidebarOpen: boolean;
+    isReduxDetailOpen: boolean;
+}
 
 interface State {
     isSidebarOpen: boolean;
@@ -49,12 +54,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
     public render(): JSX.Element {
         return (
             <div className={`${COMPONENT_NAME} PageView`}>
-                <HeaderPartial
-                    onToggleSidebar={() => {
-                        this.toggleSidebarPanel(true);
-                    }}
-                    onToggleContextPanel={(isOpen, actionType) => this.toggleBudgetPanel(isOpen, actionType, undefined)}
-                />
+                <ConnectedHeaderPartial />
 
                 <div className={"BodyPartial"}>
                     <RouteViewport
@@ -72,12 +72,7 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
                         />
                     </RouteViewport>
 
-                    <SidebarPartial
-                        sidebarClass={this.state.isSidebarOpen}
-                        onClose={() => {
-                            this.closeSlidePanels();
-                        }}
-                    />
+                    <ConnectedSidebarPartial />
 
                     <BudgetPanelPartial
                         isAddBudgetOpen={this.state.isAddBudgetOpen}
@@ -195,3 +190,12 @@ export class BudgetView extends React.Component<BudgetViewProps, State> {
         });
     }
 }
+
+const mapStateToProps = (state: any) => {
+    return {
+        isReduxSidebarOpen: state.ui.sidebarOpen,
+        isReduxDetailOpen: state.ui.detailOpen,
+    };
+};
+
+export const ConnectedBudgetView = connect(mapStateToProps)(BudgetView);

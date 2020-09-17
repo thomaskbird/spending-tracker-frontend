@@ -188,4 +188,4 @@ const mapDispatchToProps = (dispatch: any) => {
     }
 };
 
-export const SidebarPartialConnected = connect(mapStateToProps, mapDispatchToProps)(SidebarPartial);
+export const ConnectedSidebarPartial = connect(mapStateToProps, mapDispatchToProps)(SidebarPartial);

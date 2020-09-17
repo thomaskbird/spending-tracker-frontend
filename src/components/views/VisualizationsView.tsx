@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./VisualizationsView.scss";
-import { HeaderPartial } from "../partials/HeaderPartial";
-import { SidebarPartial } from "../partials/SidebarPartial";
+import { ConnectedHeaderPartial } from "../partials/HeaderPartial";
+import { ConnectedSidebarPartial } from "../partials/SidebarPartial";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { LineChartWrapper } from "../charts/LineChartWrapper";
 import { RouteViewport } from "../partials/RouteViewport";
@@ -37,23 +37,10 @@ export class VisualizationsView extends React.Component<Props, State> {
             }
         };
     }
-
-    public componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
-
-    }
-
     public render(): JSX.Element {
         return (
             <div className={`${COMPONENT_NAME} PageView`}>
-                <HeaderPartial
-                    onToggleSidebar={() => {
-                        this.toggleSidebarPanel(true);
-                    }}
-                    range={this.state.range}
-                    onDateRangeChange={(range) => this.setState({
-                        range: handleDateRangeChange(range, this.state.range)!
-                    })}
-                />
+                <ConnectedHeaderPartial />
 
                 <div className={"BodyPartial"}>
                     <RouteViewport
@@ -108,33 +95,9 @@ export class VisualizationsView extends React.Component<Props, State> {
 
                     </RouteViewport>
 
-                    <SidebarPartial
-                        sidebarClass={this.state.isSidebarOpen}
-                        onClose={() => {
-                            this.closeSlidePanels();
-                        }}
-                    />
+                    <ConnectedSidebarPartial />
                 </div>
             </div>
         );
-    }
-
-    /**
-     * Toggles the sidebar panel
-     * @param {boolean} isOpen - Indicates whether the panel should be open
-     */
-    private toggleSidebarPanel(isOpen: boolean): void {
-        this.setState({
-            isSidebarOpen: isOpen
-        });
-    }
-
-    /**
-     * Closes the slide panels
-     */
-    private closeSlidePanels(): void {
-        this.setState({
-            isSidebarOpen: false
-        });
     }
 }

@@ -2,15 +2,14 @@ import * as React from "react";
 import "./TransactionView.scss";
 import moment from "moment";
 
-import { ConnectedTransactionListView } from "../partials/transactions/TransactionListView";
+import { ConnectedTransactionListView, TransactionListView } from "../partials/transactions/TransactionListView";
 import { TransactionForm } from "../partials/transactions/TransactionForm";
 
 import { DateRange, PanelActionTypes, TransactionCategory, TransactionWithRecurring } from "../../services/Models";
-import { HeaderPartialConnected } from "../partials/HeaderPartial";
+import { ConnectedHeaderPartial } from "../partials/HeaderPartial";
 import { axiosInstance } from "../../index";
-import { SidebarPartialConnected } from "../partials/SidebarPartial";
+import { ConnectedSidebarPartial } from "../partials/SidebarPartial";
 import { ConnectedTransactionPanelPartial } from "../partials/transactions/TransactionPanelPartial";
-import { APP_DATE_FORMAT, handleDateRangeChange } from "../helpers/Utils";
 import { RouteViewport } from "../partials/RouteViewport";
 import { connect } from "react-redux";
 
@@ -57,8 +56,7 @@ export class TransactionView extends React.Component<
     public render(): JSX.Element {
         return (
             <div className={`${COMPONENT_NAME} PageView`}>
-                <HeaderPartialConnected
-                    range={this.state.range}
+                <ConnectedHeaderPartial
                     selectedTransactionType={this.state.transactionCategory}
                     onToggleTransactionType={() => this.setState({ transactionCategory: this.state.transactionCategory === TransactionCategory.transactions ? TransactionCategory.queue : TransactionCategory.transactions})}
                 />
@@ -86,7 +84,7 @@ export class TransactionView extends React.Component<
                         />
                     </RouteViewport>
 
-                    <SidebarPartialConnected />
+                    <ConnectedSidebarPartial />
 
                     <ConnectedTransactionPanelPartial
                         onRefreshTransactions={() => this.listApi!.refreshData()}
@@ -167,20 +165,8 @@ export class TransactionView extends React.Component<
     private closeSlidePanels(): void {
         this.listApi!.refreshData();
         this.setState({
-            isSidebarOpen: false,
             isAddTransactionOpen: false,
             transactionToEdit: undefined
-        });
-    }
-
-    /**
-     * Toggles the sidebar panel
-     * @param {boolean} isOpen - Indicates whether the panel should be open
-     */
-    private toggleSidebarPanel(isOpen: boolean): void {
-        this.setState({
-            isSidebarOpen: isOpen,
-            isAddTransactionOpen: false
         });
     }
 
@@ -197,7 +183,6 @@ export class TransactionView extends React.Component<
         transaction?: TransactionWithRecurring | undefined
     ): void {
         this.setState({
-            isSidebarOpen: false,
             isAddTransactionOpen: isOpen,
             transactionActionType: actionType,
             transactionToEdit: transaction
