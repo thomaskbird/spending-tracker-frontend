@@ -1,13 +1,12 @@
 import * as React from "react";
 import { BarChart, ResponsiveContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../../index";
-import { BudgetVisualizationSummary } from "../../../services/Models";
+import { BudgetVisualizationSummary, DateRange } from "../../../services/Models";
 import { APP_DATE_FORMAT } from "../../helpers/Utils";
 
 interface BudgetsVisualizationsProps {
-
+    range: DateRange;
 }
 
 interface State {
@@ -60,7 +59,7 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
 
     private refreshData(): void {
         axiosInstance
-            .get(`/visualizations/budgets/${moment().startOf("month").format(APP_DATE_FORMAT)}/${moment().endOf("month").format(APP_DATE_FORMAT)}`)
+            .get(`/visualizations/budgets/${this.props.range.start.format(APP_DATE_FORMAT)}/${this.props.range.end.format(APP_DATE_FORMAT)}`)
             .then((budgets) => this.setState({ budgets: budgets.data.data.budgets }));
     }
 }

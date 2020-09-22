@@ -54,6 +54,6 @@ export function handleDateRangeChange(next: DateRange | string, range?: DateRang
     return newRange;
 }
 
-export function triggerPrompt(msg: string) {
+export function triggerPrompt(msg: string): any {
     return window.confirm(msg ? msg : "Are you sure you want to complete this action?");
 }

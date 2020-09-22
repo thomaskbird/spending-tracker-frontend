@@ -82,7 +82,7 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                     <div className={"HeaderPartial--bottom"}>
                         <PaginationDisplay
                             range={this.props.range}
-                            onPaginationClick={(direction) => this.handlePaginationClick(direction)}
+                            onPaginationClick={(direction: string) => this.handlePaginationClick(direction)}
                         />
                     </div>
                 ) : (

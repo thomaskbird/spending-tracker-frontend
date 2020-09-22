@@ -56,10 +56,7 @@ export class VisualizationsView extends React.Component<Props, State> {
                 />
 
                 <div className={"BodyPartial"}>
-                    <RouteViewport
-                        isLoading={this.state.isLoading}
-                    >
-
+                    <RouteViewport isLoading={this.state.isLoading}>
                         <BrowserRouter>
                             <div className={`${COMPONENT_NAME}__viewport`}>
                                 <Route
@@ -97,7 +94,9 @@ export class VisualizationsView extends React.Component<Props, State> {
                                 />
                                 <Route
                                     path={`${baseUrl}/budgets`}
-                                    component={BudgetsVisualizations}
+                                    component={() => (
+                                        <BudgetsVisualizations range={this.state.range} />
+                                    )}
                                 />
                                 <Route
                                     path={`${baseUrl}/budget`}
