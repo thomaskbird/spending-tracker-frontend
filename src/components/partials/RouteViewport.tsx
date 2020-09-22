@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./RouteViewport.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { connect } from "react-redux";
 
 interface RouteViewportProps {
     isLoading: boolean;
@@ -37,3 +38,9 @@ export class RouteViewport extends React.Component<RouteViewportProps, State> {
         );
     }
 }
+
+const mapStateToProps = (state: any) => ({
+    isLoading: state.ui.isLoading
+});
+
+export const ConnectedRouteViewport = connect(mapStateToProps)(RouteViewport);

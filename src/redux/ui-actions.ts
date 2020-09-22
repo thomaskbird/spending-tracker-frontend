@@ -3,7 +3,7 @@ import { PanelActionTypes } from "../services/Models";
 // Action types
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const TOGGLE_DETAIL = "TOGGLE_DETAIL";
-export const TOGGLE_PAGINATION = "TOGGLE_PAGINATION";
+export const TOGGLE_LOADING = "TOGGLE_LOADING";
 
 // Actions creators
 export const toggleSidebar = (): any => ({
@@ -15,6 +15,6 @@ export const toggleDetailPanel = (actionType?: PanelActionTypes): any => ({
     actionType: actionType,
 });
 
-export const togglePaginationBar = (): any => ({
-    type: TOGGLE_PAGINATION,
+export const toggleLoading = (): any => ({
+    type: TOGGLE_LOADING,
 });

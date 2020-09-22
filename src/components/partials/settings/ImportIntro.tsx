@@ -7,9 +7,11 @@ import { axiosInstance } from "../../../index";
 import { Import, SelectedImportView } from "../../../services/Models";
 import { ButtonGroup } from "../library/ButtonGroup";
 import { ImportListItem } from "../imports/ImportListItem";
+import { connect } from "react-redux";
+import { toggleLoading } from "../../../redux/ui-actions";
 
 interface ImportIntroProps {
-
+    toggleLoading(): void;
 }
 
 interface State {
@@ -185,6 +187,7 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
     }
 
     private retrieveImports(): void {
+        this.props.toggleLoading();
         axiosInstance
             .get("/imports")
             .then((response) => {
@@ -192,6 +195,15 @@ export class ImportIntro extends React.Component<ImportIntroProps, State> {
                     this.setState({ imports: response.data.data.imports});
                 }
             })
-            .catch(e => console.log("Error: ", e));
+            .catch(e => console.log("Error: ", e))
+            .then(() => this.props.toggleLoading());
     }
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        toggleLoading: () => dispatch(toggleLoading())
+    }
+};
+
+export const ConnectedImportIntro = connect(null, mapDispatchToProps)(ImportIntro);

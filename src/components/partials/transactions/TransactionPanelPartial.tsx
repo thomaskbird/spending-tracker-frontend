@@ -15,7 +15,7 @@ import { toggleDetailPanel } from "../../../redux/ui-actions";
 interface TransactionPanelPartialProps {
     transactionToEdit: TransactionWithRecurring | undefined;
     onReady(api: TransactionForm.Api): void;
-    onTransactionAdd(formData: any): void;
+    onTransactionAdd?(formData: any): void;
     onTransactionTagToggle(): void;
     onRefreshTransactions(): void;
     onSplitBill(transaction: TransactionWithRecurring): void;
@@ -94,7 +94,7 @@ export class TransactionPanelPartial extends React.Component<
             <TransactionForm
                 transaction={this.props.transactionToEdit}
                 onReady={(api) => this.props.onReady(api)}
-                onSubmit={(formData) => this.props.onTransactionAdd(formData)}
+                onSubmit={(formData) => this.props.onTransactionAdd && this.props.onTransactionAdd(formData)}
                 onCancel={() => this.props.toggleDetails()}
             />
         );

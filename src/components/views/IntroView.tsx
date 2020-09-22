@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./IntroView.scss";
-import { HeaderPartial } from "../partials/HeaderPartial";
+import { ConnectedHeaderPartial } from "../partials/HeaderPartial";
 import { AlertType, ErrorDisplay, IntroActionType } from "../../services/Models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "antd";
@@ -69,7 +69,11 @@ export class IntroView extends React.Component<IntroViewProps, State> {
 
         return (
             <div className={COMPONENT_NAME}>
-                <HeaderPartial />
+                <ConnectedHeaderPartial
+                    showPagination={false}
+                    showAddIcon={false}
+                    showMenuIcon={false}
+                />
 
                 {this.state.errors.error ? (
                     <Alert

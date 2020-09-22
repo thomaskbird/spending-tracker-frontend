@@ -2,16 +2,15 @@ import * as React from "react";
 import "./VisualizationsView.scss";
 import { ConnectedHeaderPartial } from "../partials/HeaderPartial";
 import { ConnectedSidebarPartial } from "../partials/SidebarPartial";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, Route, RouteComponentProps } from "react-router-dom";
 import { LineChartWrapper } from "../charts/LineChartWrapper";
 import { RouteViewport } from "../partials/RouteViewport";
 import { BudgetsVisualizations } from "../partials/visualizations/BudgetsVisualizations";
 import { BudgetVisualization } from "../partials/visualizations/BudgetVisualization";
 import moment from "moment";
 import { DateRange } from "../../services/Models";
-import { handleDateRangeChange } from "../helpers/Utils";
 
-interface Props {
+interface Props extends RouteComponentProps {
 
 }
 
@@ -19,6 +18,7 @@ interface State {
     isSidebarOpen: boolean;
     isLoading: boolean;
     range: DateRange;
+    showPagination: boolean;
 }
 
 const COMPONENT_NAME = "VisualizationsView";
@@ -31,16 +31,21 @@ export class VisualizationsView extends React.Component<Props, State> {
         this.state = {
             isSidebarOpen: false,
             isLoading: false,
+            showPagination: true,
             range: {
                 start: moment().startOf("month"),
-                end: moment().endOf("month")
+                end: moment().endOf("month"),
             }
         };
     }
+
     public render(): JSX.Element {
         return (
             <div className={`${COMPONENT_NAME} PageView`}>
-                <ConnectedHeaderPartial />
+                <ConnectedHeaderPartial
+                    showPagination={this.state.showPagination}
+                    showAddIcon={false}
+                />
 
                 <div className={"BodyPartial"}>
                     <RouteViewport

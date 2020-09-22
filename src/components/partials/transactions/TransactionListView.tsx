@@ -18,16 +18,20 @@ import { triggerPrompt } from "../../helpers/Utils";
 import { setDateRange } from "../../../redux/dateRange-actions";
 import { connect } from "react-redux";
 import { PaginationDisplay } from "../PaginationDisplay";
+import { toggleLoading } from "../../../redux/ui-actions";
 
 interface TransactionListViewProps extends LoadingProps {
-    start: string;
-    end: string;
     onTransactionAction(
         action: string,
         transaction: TransactionWithRecurring
     ): void;
     onReady(api: TransactionListView.Api): void;
     transactionCategory: TransactionCategory;
+
+    // redux
+    start: any;
+    end: any;
+    toggleLoading(): void;
 }
 
 interface State {
@@ -220,8 +224,6 @@ export class TransactionListView extends React.Component<
 
                             this.setState({
                                 bulkTransactionIds: nextTransactionIds,
-                            }, () => {
-                                console.log("this.state.bulkTransactionIds", this.state.bulkTransactionIds);
                             });
                         }}
                     />
@@ -250,7 +252,7 @@ export class TransactionListView extends React.Component<
     }
 
     private refreshTransactions(): void {
-        this.props.onToggleLoading(true);
+        this.props.toggleLoading();
         this.setState({
             transactions: []
         });
@@ -286,15 +288,13 @@ export class TransactionListView extends React.Component<
                             transactions.data.length !== 0 ? _.filter(transactions.data, (item) => item.status === TransactionStatus.queued) : []
                     });
                 }
-
-                this.props.onToggleLoading(false);
             })
                 .catch(e => console.log("Error: ", e))
-                .then(() => this.props.onToggleLoading(false));
+                .then(() => this.props.toggleLoading());
     }
 
     private bulkRemove(): void {
-        this.props.onToggleLoading(true);
+        this.props.toggleLoading();
 
         axiosInstance
             .post(`/bulk/transactions/remove`, {
@@ -310,11 +310,11 @@ export class TransactionListView extends React.Component<
                 });
             })
                 .catch((error) => console.log("Error", error))
-                .then(() => this.props.onToggleLoading(false));
+                .then(() => this.props.toggleLoading());
     }
 
     private transactionRemove(transaction: TransactionWithRecurring): void {
-        this.props.onToggleLoading(true);
+        this.props.toggleLoading();
         axiosInstance
             .get(`/transactions/remove/${transaction.id}`)
             .then((response) => {
@@ -322,7 +322,7 @@ export class TransactionListView extends React.Component<
                 this.refreshTransactions();
             })
                 .catch((error) => console.log("Error", error))
-                .then(() => this.props.onToggleLoading(false));
+                .then(() => this.props.toggleLoading());
     }
 }
 
@@ -337,4 +337,10 @@ const mapStateToProps = (state: any) => ({
     end: state.dateRange.range.end,
 });
 
-export const ConnectedTransactionListView = connect(mapStateToProps)(TransactionListView);
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        toggleLoading: () => dispatch(toggleLoading())
+    }
+};
+
+export const ConnectedTransactionListView = connect(mapStateToProps, mapDispatchToProps)(TransactionListView);

@@ -3,11 +3,14 @@ import { BarChart, ResponsiveContainer, Bar, XAxis, YAxis, CartesianGrid, Toolti
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../../index";
-import { BudgetVisualizationSummary } from "../../../services/Models";
+import { Budget, BudgetVisualizationSummary } from "../../../services/Models";
 import { APP_DATE_FORMAT } from "../../helpers/Utils";
+import { connect } from "react-redux";
+import { TransactionListView } from "../transactions/TransactionListView";
 
 interface BudgetsVisualizationsProps {
-
+    start: any;
+    end: any;
 }
 
 interface State {
@@ -23,7 +26,7 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
         super(props, context);
 
         this.state = {
-            budgets: undefined
+            budgets: undefined,
         };
     }
 
@@ -60,7 +63,14 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
 
     private refreshData(): void {
         axiosInstance
-            .get(`/visualizations/budgets/${moment().startOf("month").format(APP_DATE_FORMAT)}/${moment().endOf("month").format(APP_DATE_FORMAT)}`)
+            .get(`/visualizations/budgets/${this.props.start}/${this.props.end}`)
             .then((budgets) => this.setState({ budgets: budgets.data.data.budgets }));
     }
 }
+
+const mapStateToProps = (state: any) => ({
+    start: state.dateRange.range.start,
+    end: state.dateRange.range.end,
+});
+
+export const ConnectedBudgetsVisualizations = connect(mapStateToProps)(BudgetsVisualizations);

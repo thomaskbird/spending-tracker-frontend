@@ -1,15 +1,15 @@
-import { TOGGLE_DETAIL, TOGGLE_PAGINATION, TOGGLE_SIDEBAR } from "./ui-actions";
+import { TOGGLE_DETAIL, TOGGLE_LOADING, TOGGLE_SIDEBAR } from "./ui-actions";
 
 export interface HeaderUI {
     sidebarOpen: boolean;
     detailOpen: boolean;
-    showPaginationBar: boolean;
+    isLoading: boolean;
 }
 
 const initialState = {
     sidebarOpen: false,
     detailOpen: false,
-    showPaginationBar: true,
+    isLoading: false,
 };
 
 function ui(state: HeaderUI = initialState, data: any): any {
@@ -25,9 +25,9 @@ function ui(state: HeaderUI = initialState, data: any): any {
                 detailOpen: !state.detailOpen,
                 transactionActionType: data.actionType,
             };
-        case TOGGLE_PAGINATION:
+        case TOGGLE_LOADING:
             return {
-                showPaginationBar: !state.showPaginationBar
+                isLoading: !state.isLoading
             };
         default:
             return state

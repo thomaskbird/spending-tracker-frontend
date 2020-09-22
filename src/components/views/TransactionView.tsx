@@ -10,15 +10,22 @@ import { ConnectedHeaderPartial } from "../partials/HeaderPartial";
 import { axiosInstance } from "../../index";
 import { ConnectedSidebarPartial } from "../partials/SidebarPartial";
 import { ConnectedTransactionPanelPartial } from "../partials/transactions/TransactionPanelPartial";
-import { RouteViewport } from "../partials/RouteViewport";
+import { ConnectedRouteViewport } from "../partials/RouteViewport";
 import { connect } from "react-redux";
+import { toggleLoading } from "../../redux/ui-actions";
+import { ImportIntro } from "../partials/settings/ImportIntro";
 
-interface TransactionViewProps {}
+interface TransactionViewProps {
+    // redux
+    isReduxSidebarOpen: boolean;
+    isReduxDetailOpen: boolean;
+    transactionActionType: PanelActionTypes;
+    toggleLoading(): void;
+}
 
 interface State {
     isAddTransactionOpen: boolean;
     range: DateRange;
-    isLoading: boolean;
     isPickerOpen: boolean;
     transactionToEdit: TransactionWithRecurring | undefined;
     transactionActionType: PanelActionTypes | undefined;
@@ -48,7 +55,6 @@ export class TransactionView extends React.Component<
             },
             transactionToEdit: undefined,
             transactionActionType: undefined,
-            isLoading: false,
             transactionCategory: TransactionCategory.transactions
         };
     }
@@ -62,14 +68,12 @@ export class TransactionView extends React.Component<
                 />
 
                 <div className={"BodyPartial"}>
-                    <RouteViewport
-                        isLoading={this.state.isLoading}
-                    >
+                    <ConnectedRouteViewport>
                         <ConnectedTransactionListView
                             transactionCategory={this.state.transactionCategory}
                             onTransactionAction={(
                                 action: PanelActionTypes,
-                                transaction
+                                transaction: any
                             ) => {
                                 this.toggleTransactionPanel(
                                     true,
@@ -77,12 +81,11 @@ export class TransactionView extends React.Component<
                                     transaction
                                 );
                             }}
-                            onReady={(api) => {
+                            onReady={(api: any) => {
                                 this.listApi = api;
                             }}
-                            onToggleLoading={(action) => this.setState({ isLoading: action })}
                         />
-                    </RouteViewport>
+                    </ConnectedRouteViewport>
 
                     <ConnectedSidebarPartial />
 
@@ -111,7 +114,7 @@ export class TransactionView extends React.Component<
      * @param formData - The form transaction data
      */
     private transactionAdd(formData: any): void {
-        this.setState({ isLoading: true });
+        this.props.toggleLoading();
         let apiUrl = "/transactions/create";
         let formattedData: any = {
             title: formData.title,
@@ -154,9 +157,8 @@ export class TransactionView extends React.Component<
             })
             .catch((error) => {
                 console.log("error", error);
-            }).then(() => {
-                this.setState({ isLoading: false });
-            });
+            })
+            .then(() => this.props.toggleLoading());
     }
 
     /**
@@ -195,8 +197,13 @@ const mapStateToProps = (state: any) => {
         isReduxSidebarOpen: state.ui.sidebarOpen,
         isReduxDetailOpen: state.ui.detailOpen,
         transactionActionType: state.ui.transactionActionType,
-        reduxTransactions: state.transactions,
     };
 };
 
-export const ConnectedTransactionView = connect(mapStateToProps)(TransactionView);
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        toggleLoading: () => dispatch(toggleLoading())
+    }
+};
+
+export const ConnectedTransactionView = connect(mapStateToProps, mapDispatchToProps)(TransactionView);

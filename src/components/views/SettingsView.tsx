@@ -3,23 +3,19 @@ import "./SettingsView.scss";
 
 import { ConnectedHeaderPartial } from "../partials/HeaderPartial";
 import { ConnectedSidebarPartial } from "../partials/SidebarPartial";
-import { RouteViewport } from "../partials/RouteViewport";
+import { ConnectedRouteViewport } from "../partials/RouteViewport";
 import { Route } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
-import { ImportIntro } from "../partials/settings/ImportIntro";
+import { ConnectedImportIntro } from "../partials/settings/ImportIntro";
 import { BudgetAlerts } from "../partials/settings/BudgetAlerts";
 import { ImportSingleView } from "./ImportSingleView";
 import { Profile } from "../partials/settings/Profile";
-import { connect } from "react-redux";
-import { togglePaginationBar } from "../../redux/ui-actions";
 
 interface SettingsViewProps {
     togglePaginationBar(): void;
 }
 
-interface State {
-    isLoading: boolean;
-}
+interface State {}
 
 const COMPONENT_NAME = "SettingsView";
 const baseUrl = "/admin/settings";
@@ -30,13 +26,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     constructor(props: SettingsViewProps, context: any) {
         super(props, context);
 
-        this.state = {
-            isLoading: false,
-        };
+        this.state = {};
 
-    }
-    public componentDidMount(): void {
-        this.props.togglePaginationBar();
     }
 
     public render(): JSX.Element {
@@ -45,9 +36,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                 <ConnectedHeaderPartial />
 
                 <div className={"BodyPartial"}>
-                    <RouteViewport
-                        isLoading={this.state.isLoading}
-                    >
+                    <ConnectedRouteViewport>
                         <BrowserRouter>
                             <div className={`${COMPONENT_NAME}__viewport`}>
                                 <Route
@@ -69,7 +58,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                                 />
                                 <Route
                                     path={`${baseUrl}/import`}
-                                    component={ImportIntro}
+                                    component={ConnectedImportIntro}
                                 />
                                 <Route
                                     path={`${baseUrl}/alerts`}
@@ -85,7 +74,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                                 />
                             </div>
                         </BrowserRouter>
-                    </RouteViewport>
+                    </ConnectedRouteViewport>
 
                     <ConnectedSidebarPartial />
                 </div>
@@ -94,10 +83,4 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        togglePaginationBar: () => dispatch(togglePaginationBar()),
-    }
-};
-
-export const ConnectedSettingsView = connect(null, mapDispatchToProps)(SettingsView);
+export const ConnectedSettingsView = SettingsView;

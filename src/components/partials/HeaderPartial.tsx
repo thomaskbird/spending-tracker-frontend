@@ -21,13 +21,13 @@ interface HeaderPartialProps {
      * @param {undefined} transaction - The transaction data
      */
     onToggleContextPanel?(isOpen: boolean, actionType: PanelActionTypes): void;
-
     onToggleTransactionType?(): void;
-
     selectedTransactionType?: any;
+    showPagination?: boolean;
+    showMenuIcon?: boolean;
+    showAddIcon?: boolean;
 
     // redux mapped actions
-    showPaginationBar: boolean;
     openDetails(panelActionType: PanelActionTypes): void;
     openSidebar(): void;
 }
@@ -39,8 +39,15 @@ const COMPONENT_NAME = "HeaderPartial";
 export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
     public static readonly displayName = "Header Partial";
 
+    public static defaultProps = {
+        showPagination: true,
+        showMenuIcon: true,
+        showAddIcon: true,
+    };
+
     constructor(props: HeaderPartialProps, context: any) {
         super(props, context);
+        console.log("props", props);
         this.state = {};
     }
 
@@ -48,12 +55,14 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
         return (
             <div className={`${COMPONENT_NAME}`}>
                 <div className={`${COMPONENT_NAME}--top`}>
-                    <span
-                        className={`${COMPONENT_NAME}--top--icons`}
-                        onClick={() => this.props.openSidebar()}
-                    >
-                        <FontAwesomeIcon icon={"bars"} />
-                    </span>
+                    {this.props.showMenuIcon ? (
+                        <span
+                            className={`${COMPONENT_NAME}--top--icons`}
+                            onClick={() => this.props.openSidebar()}
+                        >
+                            <FontAwesomeIcon icon={"bars"} />
+                        </span>
+                    ): undefined}
 
                     <Link to={"/admin"}>
                         <div className={"branding"}>
@@ -62,19 +71,21 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
                         </div>
                     </Link>
 
-                    <span
-                        className={`${COMPONENT_NAME}--top--icons HeaderPartial--top--icons--add ${!this.props.onToggleContextPanel ? "hidden" : ""}`}
-                        onClick={() => this.props.openDetails(PanelActionTypes.add)}
-                    >
-                        <FontAwesomeIcon icon={"plus"} />
-                    </span>
+                    {this.props.showAddIcon ? (
+                        <span
+                            className={`${COMPONENT_NAME}--top--icons HeaderPartial--top--icons--add ${!this.props.onToggleContextPanel ? "hidden" : ""}`}
+                            onClick={() => this.props.openDetails(PanelActionTypes.add)}
+                        >
+                            <FontAwesomeIcon icon={"plus"} />
+                        </span>
+                    ): undefined}
                 </div>
 
-                {this.props.showPaginationBar ? (
+                {this.props.showPagination ? (
                     <div className={`${COMPONENT_NAME}--bottom`}>
                         <ConnectedPaginationDisplay />
                     </div>
-                ) : undefined}
+                ): undefined}
 
                 {this.props.onToggleTransactionType ? (
                     <div className={`${COMPONENT_NAME}--bottom sub`}>
@@ -99,12 +110,6 @@ export class HeaderPartial extends React.Component<HeaderPartialProps, State> {
     }
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        showPaginationBar: state.ui.showPaginationBar,
-    };
-};
-
 const mapDispatchToProps = (dispatch: any) => {
     return {
         openSidebar: () => dispatch(toggleSidebar()),
@@ -112,4 +117,4 @@ const mapDispatchToProps = (dispatch: any) => {
     }
 };
 
-export const ConnectedHeaderPartial = connect(mapStateToProps, mapDispatchToProps)(HeaderPartial);
+export const ConnectedHeaderPartial = connect(null, mapDispatchToProps)(HeaderPartial);
