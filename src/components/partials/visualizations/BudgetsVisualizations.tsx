@@ -16,10 +16,9 @@ interface State {
 const COMPONENT_NAME = "BudgetsVisualizations";
 
 const CustomTooltip = ({ active, payload }: any) => {
-    console.log("tooltip", active, payload);
     if(active && payload != null) {
         return (
-            <div className={"custom-tooltip"}>
+            <div className={`custom-tooltip ${payload[0].payload.current < payload[0].payload.limit ? "under" : "danger"}`}>
                 <p className={"label"}>
                     <b>{payload[0].payload.name}</b>
                     <br />
