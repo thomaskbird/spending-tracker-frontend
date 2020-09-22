@@ -15,6 +15,25 @@ interface State {
 
 const COMPONENT_NAME = "BudgetsVisualizations";
 
+const CustomTooltip = ({ active, payload }: any) => {
+    console.log("tooltip", active, payload);
+    if(active && payload != null) {
+        return (
+            <div className={"custom-tooltip"}>
+                <p className={"label"}>
+                    <b>{payload[0].payload.name}</b>
+                    <br />
+                    Current: {payload[0].payload.count}
+                    <br />
+                    Limit: {payload[0].payload.current}
+                </p>
+            </div>
+        );
+    }
+
+    return null;
+};
+
 export class BudgetsVisualizations extends React.Component<BudgetsVisualizationsProps, State> {
     public static readonly displayName = COMPONENT_NAME;
 
@@ -46,7 +65,7 @@ export class BudgetsVisualizations extends React.Component<BudgetsVisualizations
                             <CartesianGrid strokeDasharray="3 3"/>
                             <XAxis dataKey="name"/>
                             <YAxis/>
-                            <Tooltip/>
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Bar dataKey="limit" fill="#3c9e3c" />
                             <Bar dataKey="current" fill="#ba5c5d" />
