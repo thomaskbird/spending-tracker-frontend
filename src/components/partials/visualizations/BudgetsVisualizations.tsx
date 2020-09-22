@@ -23,9 +23,9 @@ const CustomTooltip = ({ active, payload }: any) => {
                 <p className={"label"}>
                     <b>{payload[0].payload.name}</b>
                     <br />
-                    Current: {payload[0].payload.count}
+                    Current: ${payload[0].payload.current.toFixed(2)}
                     <br />
-                    Limit: {payload[0].payload.current}
+                    Limit: ${payload[0].payload.limit.toFixed(2)}
                 </p>
             </div>
         );
