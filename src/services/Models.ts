@@ -27,7 +27,8 @@ export enum PanelActionTypes {
     view = "view",
     edit = "edit",
     add = "add",
-    split = "split"
+    split = "split",
+    bulkTag = "bulkTag",
 }
 
 export enum IntroActionType {

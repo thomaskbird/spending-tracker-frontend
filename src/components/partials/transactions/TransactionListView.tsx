@@ -2,7 +2,7 @@ import * as React from "react";
 import _ from "lodash";
 import "./TransactionListView.scss";
 import {
-    LoadingProps,
+    LoadingProps, PanelActionTypes,
     Transaction,
     TransactionCategory,
     TransactionStatus,
@@ -21,7 +21,7 @@ interface TransactionListViewProps extends LoadingProps {
     end: string;
     onTransactionAction(
         action: string,
-        transaction: TransactionWithRecurring
+        transaction: TransactionWithRecurring | number[]
     ): void;
     onReady(api: TransactionListView.Api): void;
     transactionCategory: TransactionCategory;
@@ -179,6 +179,10 @@ export class TransactionListView extends React.Component<
                     console.log("cancelled removal");
                 }
             } else if(val === "tag") {
+                this.props.onTransactionAction(
+                    PanelActionTypes.bulkTag,
+                    this.state.bulkTransactionIds
+                );
                 this.refreshTransactions();
             }
         }

@@ -7,6 +7,7 @@ import { TransactionWithRecurring } from "../../../services/Models";
 import moment from "moment";
 
 interface TransactionFormProps {
+    uniqueId?: number;
     transaction?: Partial<TransactionWithRecurring>;
     onSubmit?(formData: any): void;
     onReady(api: TransactionForm.Api): void;
@@ -118,7 +119,7 @@ export class TransactionForm extends React.Component<
                     <input
                         type="text"
                         name="title"
-                        id={"title"}
+                        id={this.props.uniqueId ? `title-${this.props.uniqueId}` : `title`}
                         placeholder={"Enter title..."}
                         value={this.state.title}
                         onChange={(e) => {
@@ -136,7 +137,7 @@ export class TransactionForm extends React.Component<
                         <input
                             type="text"
                             name="amount"
-                            id={"amount"}
+                            id={this.props.uniqueId ? `amount-${this.props.uniqueId}` : `amount`}
                             placeholder={"Enter amount..."}
                             value={this.state.amount}
                             onChange={(e) => {
@@ -152,7 +153,7 @@ export class TransactionForm extends React.Component<
                     <label htmlFor={"description"}>Description:</label>
                     <textarea
                         name="description"
-                        id={"description"}
+                        id={this.props.uniqueId ? `description-${this.props.uniqueId}` : `description`}
                         placeholder={"Enter description..."}
                         onChange={(e) => {
                             this.setState({ description: e.target.value });
@@ -273,7 +274,7 @@ export class TransactionForm extends React.Component<
         );
     }
 
-    private handleResetData(): State {console.log("handleResetData()");
+    private handleResetData(): State {
         let isRecurring = false;
         if (this.props.transaction && this.props.transaction.recurring && this.props.transaction !== undefined) {
             isRecurring = true;
@@ -292,15 +293,15 @@ export class TransactionForm extends React.Component<
                 (this.props.transaction &&
                     this.props.transaction.description) ||
                 "",
-            occurred_at: "",
+            occurred_at: this.props.transaction && this.props.transaction.occurred_at || "",
             type:
                 (this.props.transaction &&
                     this.props.transaction.type) ||
                 "expense",
             isRecurring: isRecurring,
-            recurring_type: "",
-            start_at: "",
-            end_at: ""
+            recurring_type: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.recurring_type || "",
+            start_at: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.start_at || "",
+            end_at: this.props.transaction && this.props.transaction.recurring && this.props.transaction.recurring.end_at || ""
         };
     }
 }

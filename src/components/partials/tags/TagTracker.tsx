@@ -5,7 +5,7 @@ import { axiosInstance } from "../../../index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
-    targetId?: number;
+    targetId?: number | number[];
     type: TaggableType;
     onToggleTag(): void;
 }
@@ -196,25 +196,29 @@ export class TagTracker extends React.Component<Props, State> {
      */
     private async refreshData(): Promise<any> {
         this.setState({ tags: [] });
+        let postData = {};
 
         if(this.props.targetId && this.props.type) {
-            this.setState({
-                isLoading: true
-            });
-
-            axiosInstance
-                .post(`/tag/relation`, {
-                    taggable_id: this.props.targetId,
-                    taggable_type: this.props.type
-                })
-                .then((response) => {
-                    console.log("refreshData()", response);
-
-                    this.setState({
-                        isLoading: false,
-                        tags: response.data.data.tags
-                    });
-                });
+            postData = {
+                taggable_id: this.props.targetId,
+                taggable_type: this.props.type,
+            }
         }
+
+        this.setState({
+            isLoading: true
+        });
+
+        axiosInstance
+            .post(`/tag/relation`, postData)
+            .then((response) => {
+                console.log("refreshData()", response);
+
+                this.setState({
+                    tags: response.data.data.tags
+                });
+            })
+            .catch(e => console.log("Error: ", e))
+            .then(() => this.setState({ isLoading: false }));
     }
 }

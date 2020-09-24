@@ -21,7 +21,7 @@ interface State {
     range: DateRange;
     isLoading: boolean;
     isPickerOpen: boolean;
-    transactionToEdit: TransactionWithRecurring | undefined;
+    transactionToEdit: TransactionWithRecurring | number[] | undefined;
     transactionActionType: PanelActionTypes | undefined;
     transactionCategory: TransactionCategory;
 }
@@ -107,7 +107,7 @@ export class TransactionView extends React.Component<
                         onClose={() => {
                             this.closeSlidePanels();
                         }}
-                        transactionActionType={this.state.transactionActionType}
+                        transactionActionType={this.state.transactionActionType!}
                         transactionToEdit={this.state.transactionToEdit}
                         onReady={(api) => {
                             this.formTransactionAddApi = api;
@@ -163,7 +163,7 @@ export class TransactionView extends React.Component<
 
         // Determine if this is an edit action
         if (this.state.transactionToEdit) {
-            apiUrl = `/transactions/edit/${this.state.transactionToEdit.id}`;
+            apiUrl = `/transactions/edit/${(this.state.transactionToEdit as TransactionWithRecurring).id}`;
             formattedData = {
                 ...this.state.transactionToEdit,
                 ...formattedData
@@ -222,7 +222,7 @@ export class TransactionView extends React.Component<
     private toggleTransactionPanel(
         isOpen: boolean,
         actionType: PanelActionTypes | undefined,
-        transaction?: TransactionWithRecurring | undefined
+        transaction?: TransactionWithRecurring | number[] | undefined
     ): void {
         this.setState({
             isSidebarOpen: false,

@@ -125,7 +125,7 @@ export class TagView extends React.Component<Props, State> {
         };
 
         // Determine if this is an edit action
-        if (this.state.tagToEdit) {
+        if (this.state.tagToEdit !== undefined) {
             apiUrl = `/tags/${this.state.tagToEdit.id}`;
             formattedData = {
                 ...this.state.tagToEdit,
@@ -133,23 +133,25 @@ export class TagView extends React.Component<Props, State> {
             };
         }
 
+        delete formattedData.transactions;
+
         axiosInstance
-        .post(apiUrl, {
-            ...formattedData
-        })
-        .then((response) => {
-            console.log("success", response);
-            if (response.status) {
-                this.listApi!.refreshData();
-                this.closeSlidePanels();
-                this.formTagAddApi!.clearData();
-            }
-        })
-        .catch((error) => {
-            console.log("error", error);
-        }).then(() => {
-            this.setState({ isLoading: false });
-        });
+            .post(apiUrl, {
+                ...formattedData
+            })
+            .then((response) => {
+                console.log("success", response);
+                if (response.status) {
+                    this.listApi!.refreshData();
+                    this.closeSlidePanels();
+                    this.formTagAddApi!.clearData();
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            }).then(() => {
+                this.setState({ isLoading: false });
+            });
     }
 
     /**

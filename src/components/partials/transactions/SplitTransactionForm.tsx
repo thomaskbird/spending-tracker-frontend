@@ -63,6 +63,7 @@ export class SplitTransactionForm extends React.Component<
 
                 <div className={`${this.state.splitOpenItem !== "existing" ? `${COMPONENT_NAME}__hidden` : ""}`}>
                     <TransactionForm
+                        uniqueId={1}
                         isSplit={true}
                         transaction={this.props.transaction}
                         onReady={(api) => {
@@ -74,6 +75,7 @@ export class SplitTransactionForm extends React.Component<
 
                 <div className={`${this.state.splitOpenItem !== "new" ? `${COMPONENT_NAME}__hidden` : ""}`}>
                     <TransactionForm
+                        uniqueId={2}
                         isSplit={true}
                         transaction={{
                             title: this.props.transaction && this.props.transaction.title,
