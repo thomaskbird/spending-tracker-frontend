@@ -100,7 +100,7 @@ export class TransactionListView extends React.Component<
                     </div>
                 ): (undefined)}
 
-                <div className={"row"}>
+                <div className={`${COMPONENT_NAME}__bulk-actions row`}>
                     <div className={"column"}>
                         <input
                             checked={this.state.isAllChecked}
@@ -118,8 +118,6 @@ export class TransactionListView extends React.Component<
                                 });
                             }}
                         />
-                    </div>
-                    <div className={"column"}>
                         <select
                             onChange={e => this.triggerBulkAction(e.target.value as "none" | "remove" | "tag")}
                         >

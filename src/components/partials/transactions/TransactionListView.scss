@@ -37,6 +37,10 @@
       & > span {
         flex: 1;
       }
+
+      svg {
+        cursor: pointer;
+      }
     }
 
     &--income {
@@ -45,6 +49,14 @@
 
     &--expense {
       color: $color-red;
+    }
+  }
+
+  &__bulk-actions {
+    .column {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
     }
   }
 }
